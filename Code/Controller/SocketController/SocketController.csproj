@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{194C78A4-B4F2-4523-9973-E6A788D7EA89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SocketController</RootNamespace>
+    <AssemblyName>SocketController</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSockets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\CSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MTFCommand.cs" />
+    <Compile Include="OrmonPlcSocket.cs" />
+    <Compile Include="PanasonicPlcSocket.cs" />
+    <Compile Include="SocketControl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TCPControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\DBCore\Infrastructure.DBCore.csproj">
+      <Project>{38E7BC07-B587-42D9-8B94-D0CB2959850B}</Project>
+      <Name>Infrastructure.DBCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{CDB05CAB-383D-4A38-8C58-7512CC138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Log\Log.csproj">
+      <Project>{76AE59E5-0DF0-40DC-9DC5-10E1639EA8B9}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\BaseModel\BaseModels.csproj">
+      <Project>{ff8d6997-4e68-4ed0-ad0b-857826f52b13}</Project>
+      <Name>BaseModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SequenceModel\SequenceTestModel.csproj">
+      <Project>{42d02b8c-0a33-4bf7-8e83-1baee06a8469}</Project>
+      <Name>SequenceTestModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SocketModel\SocketModel.csproj">
+      <Project>{A21797FF-1276-4A21-83AC-155DD862CD5D}</Project>
+      <Name>SocketModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseController\BaseController.csproj">
+      <Project>{790B07C2-6855-407B-9DD1-4B124F673BE2}</Project>
+      <Name>BaseController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceCollection\ServiceCollection.csproj">
+      <Project>{9a762ef2-d5b3-433b-a15c-5667d3774df4}</Project>
+      <Name>ServiceCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMLController\XMLController.csproj">
+      <Project>{11f71d09-af04-4dcd-ada2-cc43e98279cf}</Project>
+      <Name>XMLController</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

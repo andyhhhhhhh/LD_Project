@@ -1,0 +1,832 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="斑点检测" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\斑点检测.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open_file_32px1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\open_file_32px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="redError" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\redError.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Player_Start" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Player_Start.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="镭射采集" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\镭射采集.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="顶帽处理" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\顶帽处理.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="相机采集" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\相机采集.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="显示数据" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\显示数据.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="读取文本" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\读取文本.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="变量读取" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\变量读取.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="圆心距" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\圆心距.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域高度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域高度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="错误" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\错误.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="获取位置" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\获取位置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点线距离" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点线距离.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数据出队" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数据出队.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PLC通讯" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\PLC通讯.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_32px_1205840_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_32px_1205840_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="统计像素" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\统计像素.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Point_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Point_3.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="形状筛选" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\形状筛选.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="读一维码" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\读一维码.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="条件分支" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\条件分支.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="editclear_128px_42628_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\editclear_128px_42628_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="清空队列" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\清空队列.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域转边" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域转边.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="两线交点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\两线交点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="批量写入" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\批量写入.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PLC写入" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\PLC写入.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="特征检测" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\特征检测.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="光源控制" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\光源控制.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Flow_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Flow_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IO操作" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\IO操作.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="阈值分割" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\阈值分割.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="检测亮度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\检测亮度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="平面度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\平面度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Actions_system_run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Actions_system_run.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open_file_48px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\open_file_48px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域映射" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域映射.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Btn_Video_Scrn2_Disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Btn_Video_Scrn2_Disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="边缘提取" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\边缘提取.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域排序" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域排序.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="两圆交点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\两圆交点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\up2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="延时等待" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\延时等待.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="生成直线" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\生成直线.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="显示图像" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\显示图像.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Stop_red_32px_1186323_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stop_red_32px_1186323_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="error_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SetIco\error_32px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="测量标定" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\测量标定.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="两圆距离" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\两圆距离.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="设置速度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\设置速度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="x_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\x_.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings_128px_1210407_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings_128px_1210407_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="轮廓交点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\轮廓交点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="两线角度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\两线角度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像剪切" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像剪切.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="算表达式" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\算表达式.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域运算" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域运算.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Point_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Point_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="link_" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\link_.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点排序" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点排序.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Folder_Open_32px_1093675_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder_Open_32px_1093675_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="基准面" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\基准面.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="脚本分析" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\脚本分析.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="创建文本" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\创建文本.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start_here_48px_572110_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start_here_48px_572110_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\down1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="批处理" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\批处理.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点圆距离" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点圆距离.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="检测高度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\检测高度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="灰度匹配" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\灰度匹配.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="走偏移量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\走偏移量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点构建" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点构建.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域形状" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域形状.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_32px_1229013_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_32px_1229013_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域填充" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域填充.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Green_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Green_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="时间统计" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\时间统计.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="循环结束" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\循环结束.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="警告" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\警告.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="interface_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\interface_1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="生成十字" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\生成十字.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="仿射变换" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\仿射变换.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="calculator_128px_1227291_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\calculator_128px_1227291_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="交点匹配" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\交点匹配.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Btn_Video_Scrn6_Disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Btn_Video_Scrn6_Disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_as_32px_1186319_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save_as_32px_1186319_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域分割" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域分割.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="stop_Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stop_Done.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="picture_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\picture_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="畸变标定" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\畸变标定.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="调用流程" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\调用流程.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="两线距离" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\两线距离.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="找线" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\找线.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="变量存储" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\变量存储.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Step_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Step_1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="旋转中心" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\旋转中心.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="流程触发" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\流程触发.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="发送消息" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\发送消息.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="判断跳转" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\判断跳转.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Delete_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Delete_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="开闭运算" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\开闭运算.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="多图采集" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\多图采集.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数据运算" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数据运算.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IO检测" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\IO检测.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像相减" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像相减.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点拟合圆" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点拟合圆.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="var_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\var_2.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="N点标定" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\N点标定.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="圆形阵列" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\圆形阵列.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="测清晰度" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\测清晰度.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="脚本编辑" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\脚本编辑.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="圆弧测量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\圆弧测量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像拆分" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像拆分.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="矩形阵列" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\矩形阵列.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open_file_48px1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\open_file_48px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="执行片段" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\执行片段.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="二值图像" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\二值图像.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Camera_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="等待就绪" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\等待就绪.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="颜色转换" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\颜色转换.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Btn_Video_Scrn1_Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Btn_Video_Scrn1_Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="StartButtonImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\StartButtonImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="切换方案" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\切换方案.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像保存" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像保存.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PLC读取" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\PLC读取.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="矩阵变换" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\矩阵变换.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="区域找圆" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\区域找圆.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="发送文本" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\发送文本.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Camera_1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图片处理" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图片处理.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="矩形测量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\矩形测量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="信息" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\信息.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="工站走点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\工站走点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="局部变量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\局部变量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="接收文本" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\接收文本.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Pause_32px_1186203_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Pause_32px_1186203_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="胶路四边" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\胶路四边.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="right" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Connection_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Connection_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="left" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="直线匹配" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\直线匹配.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="camera128x128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\camera128x1281.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="基准图像" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\基准图像.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="预处理图" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\预处理图.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="写入文本" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\写入文本.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="特征匹配" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\特征匹配.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="字符训练" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\字符训练.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="产品选择" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\产品选择.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="流程结果" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\流程结果.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FTP_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\FTP_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="字符识别" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\字符识别.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="等待变量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\等待变量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start_here_32px_572110_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start_here_32px_572110_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="green" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="设置1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\设置1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="COM_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\COM_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="取线轮廓" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\取线轮廓.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="3D_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\3D_1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Camera_3.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="检测正反" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\检测正反.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="系统时间" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\系统时间.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="面积中心" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\面积中心.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="轮廓提取" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\轮廓提取.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="3D" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3D.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="轴回零" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\轴回零.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="斑马打印" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\斑马打印.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="检测点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\检测点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Step_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Step_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="胶路缺陷" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\胶路缺陷.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pause_Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pause_Done.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="坐标映射" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\坐标映射.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TCP_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\TCP_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="一维测量" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\一维测量.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="读螺丝批" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\读螺丝批.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数组设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数组设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像展开" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像展开.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="轮廓筛选" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\轮廓筛选.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="点位修改" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\点位修改.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="结果显示" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\结果显示.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="腐蚀膨胀" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\腐蚀膨胀.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Btn_Video_Scrn9_Disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Btn_Video_Scrn9_Disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="excel_128px_1210199_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\excel_128px_1210199_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="user_offline_128px_1066397_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\user_offline_128px_1066397_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Add_128px_1194719_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Add_128px_1194719_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="up1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\up1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Switch_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SetIco\Switch_32px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit_image_128px_1210732_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit_image_128px_1210732_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Flow_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Flow_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="手绘模板" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\手绘模板.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ftp操作" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\Ftp操作.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Remove_Image_128px_1192339_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Remove_Image_128px_1192339_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="读二维码" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\读二维码.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数组定义" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数组定义.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Red_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Red_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="条件选择" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\条件选择.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PLC_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\PLC_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="图像差分" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\图像差分.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="边转区域" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\边转区域.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Folder_Image_32px_1183702_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder_Image_32px_1183702_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="var_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\var_1.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Help_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Help_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="连接螺批" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\连接螺批.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="创建ROI" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\创建ROI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="弹框提示" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\弹框提示.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="线圆交点" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\线圆交点.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Point_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Point_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="找圆" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\找圆.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Btn_Video_Scrn4_Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemIco\Btn_Video_Scrn4_Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数据入队" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数据入队.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_item" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\copy_item.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Apps_inkscap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Apps_inkscap.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="上传SFC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\上传SFC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="down2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\down2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="轮廓匹配" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\轮廓匹配.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="接收消息" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\接收消息.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="停止片段" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\停止片段.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="数据保存" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\数据保存.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="变量设置" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\变量设置.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open_file_32px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\open_file_32px.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="上传SAP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\上传SAP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DisplayItem_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\DisplayItem_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="算法引擎" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\算法引擎.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="循环开始" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\循环开始.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Flow_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\Flow_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="停止运动" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\停止运动.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="颜色抽取" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\颜色抽取.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh_Done" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\refresh_Done.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="文本分割" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ItemButtonPng\文本分割.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_128px_1186318_easyicon.net" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save_128px_1186318_easyicon.net.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="询问" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NewIco\询问.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>

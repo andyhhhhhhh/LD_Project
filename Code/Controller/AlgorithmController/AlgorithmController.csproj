@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F42EA92-E4C7-4F30-B8F5-7A36899B5CE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlgorithmController</RootNamespace>
+    <AssemblyName>AlgorithmController</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="halcondotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\halcondotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="HFunc\AlgorithmCommHelper.cs" />
+    <Compile Include="HFunc\AlgorithmFor3D.cs" />
+    <Compile Include="HFunc\AlgorithmFunc.cs" />
+    <Compile Include="HOperatorSet_EX\calculate_feature_set.cs" />
+    <Compile Include="HOperatorSet_EX\calculate_lines_gauss_parameters.cs" />
+    <Compile Include="HOperatorSet_EX\convert_decoded_string_code39_to_code32.cs" />
+    <Compile Include="HOperatorSet_EX\dev_display_measure_object.cs" />
+    <Compile Include="HOperatorSet_EX\dev_display_profile_line.cs" />
+    <Compile Include="HOperatorSet_EX\dev_display_profile_points.cs" />
+    <Compile Include="HOperatorSet_EX\dev_display_shape_matching_results.cs" />
+    <Compile Include="HOperatorSet_EX\dev_open_window_fit_image.cs" />
+    <Compile Include="HOperatorSet_EX\dev_open_window_fit_size.cs" />
+    <Compile Include="HOperatorSet_EX\dev_resize_window_fit_image.cs" />
+    <Compile Include="HOperatorSet_EX\dev_resize_window_fit_size.cs" />
+    <Compile Include="HOperatorSet_EX\dev_update_off.cs" />
+    <Compile Include="HOperatorSet_EX\dev_update_on.cs" />
+    <Compile Include="HOperatorSet_EX\disp_3d_coord_system.cs" />
+    <Compile Include="HOperatorSet_EX\disp_continue_message.cs" />
+    <Compile Include="HOperatorSet_EX\disp_end_of_program_message.cs" />
+    <Compile Include="HOperatorSet_EX\disp_message.cs" />
+    <Compile Include="HOperatorSet_EX\draw_rake.cs" />
+    <Compile Include="HOperatorSet_EX\draw_spoke.cs" />
+    <Compile Include="HOperatorSet_EX\gen_arrow_contour_xld.cs" />
+    <Compile Include="HOperatorSet_EX\get_custom_features.cs" />
+    <Compile Include="HOperatorSet_EX\get_line_image_border.cs" />
+    <Compile Include="HOperatorSet_EX\get_rectangle2_points.cs" />
+    <Compile Include="HOperatorSet_EX\get_region_endpoints.cs" />
+    <Compile Include="HOperatorSet_EX\get_shape_model_contour_ref.cs" />
+    <Compile Include="HOperatorSet_EX\halconEx.cs" />
+    <Compile Include="HOperatorSet_EX\init_font.cs" />
+    <Compile Include="HOperatorSet_EX\lineLenEx.cs" />
+    <Compile Include="HOperatorSet_EX\list_image_files.cs" />
+    <Compile Include="HOperatorSet_EX\parse_filename.cs" />
+    <Compile Include="HOperatorSet_EX\peak.cs" />
+    <Compile Include="HOperatorSet_EX\plot_funct_1d.cs" />
+    <Compile Include="HOperatorSet_EX\plot_tuple.cs" />
+    <Compile Include="HOperatorSet_EX\pts_to_best_circle.cs" />
+    <Compile Include="HOperatorSet_EX\pts_to_best_ellipse.cs" />
+    <Compile Include="HOperatorSet_EX\pts_to_best_line.cs" />
+    <Compile Include="HOperatorSet_EX\rake.cs" />
+    <Compile Include="HOperatorSet_EX\rake_edge.cs" />
+    <Compile Include="HOperatorSet_EX\region_to_rake_rectangle2.cs" />
+    <Compile Include="HOperatorSet_EX\region_to_spoke.cs" />
+    <Compile Include="HOperatorSet_EX\remove_blobs_touching_border.cs" />
+    <Compile Include="HOperatorSet_EX\reopen_window_fit.cs" />
+    <Compile Include="HOperatorSet_EX\scale_image_range.cs" />
+    <Compile Include="HOperatorSet_EX\select_max_length_contour.cs" />
+    <Compile Include="HOperatorSet_EX\set_display_font.cs" />
+    <Compile Include="HOperatorSet_EX\sort_pairs.cs" />
+    <Compile Include="HOperatorSet_EX\spoke.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CFunc\CommFunc.cs" />
+    <Compile Include="CFunc\SerializationFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{cdb05cab-383d-4a38-8c58-7512cc138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceCollection\ServiceCollection.csproj">
+      <Project>{9a762ef2-d5b3-433b-a15c-5667d3774df4}</Project>
+      <Name>ServiceCollection</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

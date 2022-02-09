@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GHDInsertData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Sn" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BoxEanCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Weight" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field4" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field5" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field6" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field7" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Field8" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GHDInsertDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GHDInsertDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMachineResult_5678">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Time" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Line" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StationNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Barcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Hi_P_mA" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Volt_V" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Freq_Hz" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="STBYPower_W" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Heat_OFF_Speed_LOW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Speed_ms_Cold_OFF_Speed_LOW_Heat_OFF" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Speed_LOW_Heat_LOW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Speed_LOW_Heat_HI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Temp_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Speed_ms_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_ON_Speed_HI_Heat_HI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_ON_Speed_LOW_Heat_LOW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Power_W_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ION_10x6_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMachineResult_5678Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddMachineResult_5678Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadHighPressureMachineResult">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Barcode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadHighPressureMachineResultResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="Add_Box_Info">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pn" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="boxNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sn" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isbulk" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="SO" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Add_Box_InfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Add_Box_InfoResult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dtResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GHDInsertDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GHDInsertData" />
+  </wsdl:message>
+  <wsdl:message name="GHDInsertDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GHDInsertDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678SoapIn">
+    <wsdl:part name="parameters" element="tns:AddMachineResult_5678" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678SoapOut">
+    <wsdl:part name="parameters" element="tns:AddMachineResult_5678Response" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadHighPressureMachineResult" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadHighPressureMachineResultResponse" />
+  </wsdl:message>
+  <wsdl:message name="Add_Box_InfoSoapIn">
+    <wsdl:part name="parameters" element="tns:Add_Box_Info" />
+  </wsdl:message>
+  <wsdl:message name="Add_Box_InfoSoapOut">
+    <wsdl:part name="parameters" element="tns:Add_Box_InfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GHDInsertDataHttpGetIn">
+    <wsdl:part name="Sn" type="s:string" />
+    <wsdl:part name="BoxEanCode" type="s:string" />
+    <wsdl:part name="Weight" type="s:string" />
+    <wsdl:part name="Field2" type="s:string" />
+    <wsdl:part name="Field3" type="s:string" />
+    <wsdl:part name="Field4" type="s:string" />
+    <wsdl:part name="Field5" type="s:string" />
+    <wsdl:part name="Field6" type="s:string" />
+    <wsdl:part name="Field7" type="s:string" />
+    <wsdl:part name="Field8" type="s:string" />
+    <wsdl:part name="Type" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GHDInsertDataHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678HttpGetIn">
+    <wsdl:part name="Time" type="s:string" />
+    <wsdl:part name="Line" type="s:string" />
+    <wsdl:part name="StationNo" type="s:string" />
+    <wsdl:part name="Barcode" type="s:string" />
+    <wsdl:part name="Result" type="s:string" />
+    <wsdl:part name="Hi_P_mA" type="s:string" />
+    <wsdl:part name="Volt_V" type="s:string" />
+    <wsdl:part name="Freq_Hz" type="s:string" />
+    <wsdl:part name="STBYPower_W" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Heat_OFF_Speed_LOW" type="s:string" />
+    <wsdl:part name="Speed_ms_Cold_OFF_Speed_LOW_Heat_OFF" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_LOW_Heat_LOW" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_LOW_Heat_HI" type="s:string" />
+    <wsdl:part name="Temp_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+    <wsdl:part name="Speed_ms_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+    <wsdl:part name="Power_W_Cold_ON_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_ON_Speed_LOW_Heat_LOW" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+    <wsdl:part name="ION_10x6_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678HttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultHttpGetIn">
+    <wsdl:part name="Barcode" type="s:string" />
+    <wsdl:part name="Result" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultHttpGetOut" />
+  <wsdl:message name="GHDInsertDataHttpPostIn">
+    <wsdl:part name="Sn" type="s:string" />
+    <wsdl:part name="BoxEanCode" type="s:string" />
+    <wsdl:part name="Weight" type="s:string" />
+    <wsdl:part name="Field2" type="s:string" />
+    <wsdl:part name="Field3" type="s:string" />
+    <wsdl:part name="Field4" type="s:string" />
+    <wsdl:part name="Field5" type="s:string" />
+    <wsdl:part name="Field6" type="s:string" />
+    <wsdl:part name="Field7" type="s:string" />
+    <wsdl:part name="Field8" type="s:string" />
+    <wsdl:part name="Type" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GHDInsertDataHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678HttpPostIn">
+    <wsdl:part name="Time" type="s:string" />
+    <wsdl:part name="Line" type="s:string" />
+    <wsdl:part name="StationNo" type="s:string" />
+    <wsdl:part name="Barcode" type="s:string" />
+    <wsdl:part name="Result" type="s:string" />
+    <wsdl:part name="Hi_P_mA" type="s:string" />
+    <wsdl:part name="Volt_V" type="s:string" />
+    <wsdl:part name="Freq_Hz" type="s:string" />
+    <wsdl:part name="STBYPower_W" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Heat_OFF_Speed_LOW" type="s:string" />
+    <wsdl:part name="Speed_ms_Cold_OFF_Speed_LOW_Heat_OFF" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_LOW_Heat_LOW" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_LOW_Heat_HI" type="s:string" />
+    <wsdl:part name="Temp_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+    <wsdl:part name="Speed_ms_Cold_OFF_Speed_HI_Heat_OFF" type="s:string" />
+    <wsdl:part name="Power_W_Cold_ON_Speed_HI_Heat_HI" type="s:string" />
+    <wsdl:part name="Power_W_Cold_ON_Speed_LOW_Heat_LOW" type="s:string" />
+    <wsdl:part name="Power_W_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+    <wsdl:part name="ION_10x6_Cold_OFF_Speed_HI_Heat_LOW" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddMachineResult_5678HttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultHttpPostIn">
+    <wsdl:part name="Barcode" type="s:string" />
+    <wsdl:part name="Result" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="UploadHighPressureMachineResultHttpPostOut" />
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="GHDInsertData">
+      <wsdl:input message="tns:GHDInsertDataSoapIn" />
+      <wsdl:output message="tns:GHDInsertDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <wsdl:input message="tns:AddMachineResult_5678SoapIn" />
+      <wsdl:output message="tns:AddMachineResult_5678SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">上传9734拉线的高压机测试结果</wsdl:documentation>
+      <wsdl:input message="tns:UploadHighPressureMachineResultSoapIn" />
+      <wsdl:output message="tns:UploadHighPressureMachineResultSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Add_Box_Info">
+      <wsdl:input message="tns:Add_Box_InfoSoapIn" />
+      <wsdl:output message="tns:Add_Box_InfoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpGet">
+    <wsdl:operation name="GHDInsertData">
+      <wsdl:input message="tns:GHDInsertDataHttpGetIn" />
+      <wsdl:output message="tns:GHDInsertDataHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <wsdl:input message="tns:AddMachineResult_5678HttpGetIn" />
+      <wsdl:output message="tns:AddMachineResult_5678HttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">上传9734拉线的高压机测试结果</wsdl:documentation>
+      <wsdl:input message="tns:UploadHighPressureMachineResultHttpGetIn" />
+      <wsdl:output message="tns:UploadHighPressureMachineResultHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpPost">
+    <wsdl:operation name="GHDInsertData">
+      <wsdl:input message="tns:GHDInsertDataHttpPostIn" />
+      <wsdl:output message="tns:GHDInsertDataHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <wsdl:input message="tns:AddMachineResult_5678HttpPostIn" />
+      <wsdl:output message="tns:AddMachineResult_5678HttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">上传9734拉线的高压机测试结果</wsdl:documentation>
+      <wsdl:input message="tns:UploadHighPressureMachineResultHttpPostIn" />
+      <wsdl:output message="tns:UploadHighPressureMachineResultHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GHDInsertData">
+      <soap:operation soapAction="http://tempuri.org/GHDInsertData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <soap:operation soapAction="http://tempuri.org/AddMachineResult_5678" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <soap:operation soapAction="http://tempuri.org/UploadHighPressureMachineResult" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add_Box_Info">
+      <soap:operation soapAction="http://tempuri.org/Add_Box_Info" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GHDInsertData">
+      <soap12:operation soapAction="http://tempuri.org/GHDInsertData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <soap12:operation soapAction="http://tempuri.org/AddMachineResult_5678" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <soap12:operation soapAction="http://tempuri.org/UploadHighPressureMachineResult" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Add_Box_Info">
+      <soap12:operation soapAction="http://tempuri.org/Add_Box_Info" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpGet" type="tns:Service1HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GHDInsertData">
+      <http:operation location="/GHDInsertData" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <http:operation location="/AddMachineResult_5678" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <http:operation location="/UploadHighPressureMachineResult" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpPost" type="tns:Service1HttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GHDInsertData">
+      <http:operation location="/GHDInsertData" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMachineResult_5678">
+      <http:operation location="/AddMachineResult_5678" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadHighPressureMachineResult">
+      <http:operation location="/UploadHighPressureMachineResult" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output />
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://10.2.1.113:3699/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://10.2.1.113:3699/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpGet" binding="tns:Service1HttpGet">
+      <http:address location="http://10.2.1.113:3699/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpPost" binding="tns:Service1HttpPost">
+      <http:address location="http://10.2.1.113:3699/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

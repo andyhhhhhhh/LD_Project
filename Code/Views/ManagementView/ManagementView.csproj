@@ -1,0 +1,2064 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BA0368C3-7930-4DD8-9EB1-8F416E384F3B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ManagementView</RootNamespace>
+    <AssemblyName>ManagementView</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\ThirdParty\CameraDLL\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="CSkin, Version=16.1.14.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\CSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="CSockets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\CSockets.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=9.0.0.0, Culture=neutral, PublicKeyToken=e116d99a00eca71b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="halcondotnet, Version=12.0.2.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\OPPO贴合项目\OPPOLogo\bin\halcondotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="hdevenginedotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\hdevenginedotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=4.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MathNet.Numerics.4.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MvCameraControl.Net, Version=3.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\sapnco_utils.dll</HintPath>
+    </Reference>
+    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="SRAPI_CSharp-x64, Version=5.1.0.54, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\SRAPI_CSharp-x64.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CameraView\CalibrationView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\CalibrationView.Designer.cs">
+      <DependentUpon>CalibrationView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraView\Camera2DParamView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\Camera2DParamView.Designer.cs">
+      <DependentUpon>Camera2DParamView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\Communication_View.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\Communication_View.Designer.cs">
+      <DependentUpon>Communication_View.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\ProductSelView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\ProductSelView.Designer.cs">
+      <DependentUpon>ProductSelView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\CommVariableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\CommVariableView.Designer.cs">
+      <DependentUpon>CommVariableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\About3DView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\About3DView.Designer.cs">
+      <DependentUpon>About3DView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\CommFuncView.cs" />
+    <Compile Include="3DViews\Z-SubWindow\CalculteView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\CalculteView.Designer.cs">
+      <DependentUpon>CalculteView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LoadFileView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LoadFileView.Designer.cs">
+      <DependentUpon>LoadFileView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LoadPathView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LoadPathView.Designer.cs">
+      <DependentUpon>LoadPathView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ModelFollowView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ModelFollowView.Designer.cs">
+      <DependentUpon>ModelFollowView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\UnitSetting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\UnitSetting.Designer.cs">
+      <DependentUpon>UnitSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LinkVariableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\LinkVariableView.Designer.cs">
+      <DependentUpon>LinkVariableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ShowManyPic.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ShowManyPic.Designer.cs">
+      <DependentUpon>ShowManyPic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ShowView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CommonView\ShowView.Designer.cs">
+      <DependentUpon>ShowView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\LaserParamView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\LaserParamView.Designer.cs">
+      <DependentUpon>LaserParamView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\SelectSequenceView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\SelectSequenceView.Designer.cs">
+      <DependentUpon>SelectSequenceView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\SetView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-SubWindow\SetView.Designer.cs">
+      <DependentUpon>SetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="3DViews\SRSensor\HiPerfTimer.cs" />
+    <Compile Include="3DViews\SRSensor\PackagedImage.cs" />
+    <Compile Include="3DViews\SRSensor\Sensor.cs" />
+    <Compile Include="3DViews\SRSensor\SensorImageData.cs" />
+    <Compile Include="3DViews\SRSensor\SensorManager.cs" />
+    <Compile Include="3DViews\SRSensor\SensorPointCloud.cs" />
+    <Compile Include="3DViews\SRSensor\SensorState.cs" />
+    <Compile Include="3DViews\SRSensor\SensorTemperature.cs" />
+    <Compile Include="3DViews\SRSensor\TranformPixelsToWorld.cs" />
+    <Compile Include="3DViews\Z-CheckFeature\GlobalVariableView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="3DViews\Z-CheckFeature\GlobalVariableView.Designer.cs">
+      <DependentUpon>GlobalVariableView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraView\FixtureTeachView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\FixtureTeachView.Designer.cs">
+      <DependentUpon>FixtureTeachView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraView\UnloadTeachView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\UnloadTeachView.Designer.cs">
+      <DependentUpon>UnloadTeachView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraView\VisionView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\VisionView.Designer.cs">
+      <DependentUpon>VisionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViews\ChartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartViews\ChartForm.Designer.cs">
+      <DependentUpon>ChartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViews\ChartView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartViews\ChartView.Designer.cs">
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChartViews\DetailChartView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChartViews\DetailChartView.Designer.cs">
+      <DependentUpon>DetailChartView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\AddVarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\AddVarView.Designer.cs">
+      <DependentUpon>AddVarView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\AOSKView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\AOSKView.Designer.cs">
+      <DependentUpon>AOSKView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\BallonView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\BallonView.Designer.cs">
+      <DependentUpon>BallonView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\CalcView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\CalcView.Designer.cs">
+      <DependentUpon>CalcView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\CommHelper.cs" />
+    <Compile Include="Comment\CopyItemView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\CopyItemView.Designer.cs">
+      <DependentUpon>CopyItemView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\DeviceStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\DeviceStatus.Designer.cs">
+      <DependentUpon>DeviceStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\EmbedAppView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\EmbedAppView.Designer.cs">
+      <DependentUpon>EmbedAppView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\ExternalView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\ExternalView.Designer.cs">
+      <DependentUpon>ExternalView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\ItemButtonView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\ItemButtonView.Designer.cs">
+      <DependentUpon>ItemButtonView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\LogView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\LogView.Designer.cs">
+      <DependentUpon>LogView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\RefrencePointView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\RefrencePointView.Designer.cs">
+      <DependentUpon>RefrencePointView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\SAPQueryView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\SAPQueryView.Designer.cs">
+      <DependentUpon>SAPQueryView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\SetLayOutView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\SetLayOutView.Designer.cs">
+      <DependentUpon>SetLayOutView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\TextInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\TextInput.Designer.cs">
+      <DependentUpon>TextInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\OutPutView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\OutPutView.Designer.cs">
+      <DependentUpon>OutPutView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\SetColorView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\SetColorView.Designer.cs">
+      <DependentUpon>SetColorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\ShowControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\ShowControl.Designer.cs">
+      <DependentUpon>ShowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\StatusBarView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\StatusBarView.Designer.cs">
+      <DependentUpon>StatusBarView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\NumInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\NumInput.Designer.cs">
+      <DependentUpon>NumInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\TreeListContorl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Comment\TreeListContorl.Designer.cs">
+      <DependentUpon>TreeListContorl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comment\OskView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comment\OskView.Designer.cs">
+      <DependentUpon>OskView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\AlarmConfigView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\AlarmConfigView.Designer.cs">
+      <DependentUpon>AlarmConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\AlarmView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\AlarmView.Designer.cs">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\BlowingBoxView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\BlowingBoxView.Designer.cs">
+      <DependentUpon>BlowingBoxView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\BoxBtnView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\BoxBtnView.Designer.cs">
+      <DependentUpon>BoxBtnView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\CountView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\CountView.Designer.cs">
+      <DependentUpon>CountView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\EnteringQRView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\EnteringQRView.Designer.cs">
+      <DependentUpon>EnteringQRView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\MapView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\MapView.Designer.cs">
+      <DependentUpon>MapView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\MsgBoxView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LDView\MsgBoxView.Designer.cs">
+      <DependentUpon>MsgBoxView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\OCRConfirmView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LDView\OCRConfirmView.Designer.cs">
+      <DependentUpon>OCRConfirmView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\ParamConfigView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\ParamConfigView.Designer.cs">
+      <DependentUpon>ParamConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\ParamSetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\ParamSetView.Designer.cs">
+      <DependentUpon>ParamSetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\StepView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\StepView.Designer.cs">
+      <DependentUpon>StepView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\UnLoadParamView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\UnLoadParamView.Designer.cs">
+      <DependentUpon>UnLoadParamView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CameraView\AlgorithmView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\AlgorithmView.Designer.cs">
+      <DependentUpon>AlgorithmView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EButton.Designer.cs">
+      <DependentUpon>EButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EButtonPro.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EButtonPro.Designer.cs">
+      <DependentUpon>EButtonPro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ECheck.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ECheck.Designer.cs">
+      <DependentUpon>ECheck.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ECombox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ECombox.Designer.cs">
+      <DependentUpon>ECombox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EGroupBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EGroupBox.Designer.cs">
+      <DependentUpon>EGroupBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ELight.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ELight.Designer.cs">
+      <DependentUpon>ELight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EProduct.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EProduct.Designer.cs">
+      <DependentUpon>EProduct.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EDataOutput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EDataOutput.Designer.cs">
+      <DependentUpon>EDataOutput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EErrorItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EErrorItem.Designer.cs">
+      <DependentUpon>EErrorItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EHWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EHWindow.Designer.cs">
+      <DependentUpon>EHWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EItemResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EItemResult.Designer.cs">
+      <DependentUpon>EItemResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ELblResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ELblResult.Designer.cs">
+      <DependentUpon>ELblResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ELblStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ELblStatus.Designer.cs">
+      <DependentUpon>ELblStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ELog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ELog.Designer.cs">
+      <DependentUpon>ELog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\EProductSel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\EProductSel.Designer.cs">
+      <DependentUpon>EProductSel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ESetText.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ESetText.Designer.cs">
+      <DependentUpon>ESetText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\ETextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditView\ETextBox.Designer.cs">
+      <DependentUpon>ETextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditView\RunView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditView\RunView.Designer.cs">
+      <DependentUpon>RunView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EncyptView\ConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EncyptView\ConfirmForm.Designer.cs">
+      <DependentUpon>ConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EncyptView\EncyptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EncyptView\EncyptForm.Designer.cs">
+      <DependentUpon>EncyptForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EncyptView\ResigterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EncyptView\ResigterForm.Designer.cs">
+      <DependentUpon>ResigterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\AxisIOView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\AxisIOView.Designer.cs">
+      <DependentUpon>AxisIOView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\CardView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\CardView.Designer.cs">
+      <DependentUpon>CardView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\IODebug\IOConfigView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\IODebug\IOConfigView.Designer.cs">
+      <DependentUpon>IOConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\Monitor\AxisMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\Monitor\AxisMonitor.Designer.cs">
+      <DependentUpon>AxisMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\Monitor\IOMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\Monitor\IOMonitor.Designer.cs">
+      <DependentUpon>IOMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\Monitor\IOMonitor2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\Monitor\IOMonitor2.Designer.cs">
+      <DependentUpon>IOMonitor2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\IoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\IoView.Designer.cs">
+      <DependentUpon>IoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\Monitor\MonitorView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\Monitor\MonitorView.Designer.cs">
+      <DependentUpon>MonitorView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\IODebug\OutInPutView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\IODebug\OutInPutView.Designer.cs">
+      <DependentUpon>OutInPutView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\IODebug\OutPutIoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\IODebug\OutPutIoView.Designer.cs">
+      <DependentUpon>OutPutIoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\PointView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\PointView.Designer.cs">
+      <DependentUpon>PointView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\IODebug\InPutIoView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\IODebug\InPutIoView.Designer.cs">
+      <DependentUpon>InPutIoView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorView\AxisOffSetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MotorView\AxisOffSetView.Designer.cs">
+      <DependentUpon>AxisOffSetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\TestLogView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popup\TestLogView.Designer.cs">
+      <DependentUpon>TestLogView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\LoadingView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popup\LoadingView.Designer.cs">
+      <DependentUpon>LoadingView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\SplashView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popup\SplashView.Designer.cs">
+      <DependentUpon>SplashView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserView\SuperUserManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserView\SuperUserManage.Designer.cs">
+      <DependentUpon>SuperUserManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserView\UserLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserView\UserLogin.Designer.cs">
+      <DependentUpon>UserLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WebReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CameraView\CalibrationView.resx">
+      <DependentUpon>CalibrationView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\Camera2DParamView.resx">
+      <DependentUpon>Camera2DParamView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CheckFeature\Communication_View.resx">
+      <DependentUpon>Communication_View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CheckFeature\ProductSelView.resx">
+      <DependentUpon>ProductSelView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-SubWindow\CommVariableView.resx">
+      <DependentUpon>CommVariableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-SubWindow\About3DView.resx">
+      <DependentUpon>About3DView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-SubWindow\CalculteView.resx">
+      <DependentUpon>CalculteView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\LoadFileView.resx">
+      <DependentUpon>LoadFileView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\LoadPathView.resx">
+      <DependentUpon>LoadPathView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\ModelFollowView.resx">
+      <DependentUpon>ModelFollowView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CheckFeature\UnitSetting.resx">
+      <DependentUpon>UnitSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\LinkVariableView.resx">
+      <DependentUpon>LinkVariableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\ShowManyPic.resx">
+      <DependentUpon>ShowManyPic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CommonView\ShowView.resx">
+      <DependentUpon>ShowView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CheckFeature\LaserParamView.resx">
+      <DependentUpon>LaserParamView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-SubWindow\SelectSequenceView.resx">
+      <DependentUpon>SelectSequenceView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-SubWindow\SetView.resx">
+      <DependentUpon>SetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3DViews\Z-CheckFeature\GlobalVariableView.resx">
+      <DependentUpon>GlobalVariableView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\FixtureTeachView.resx">
+      <DependentUpon>FixtureTeachView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\UnloadTeachView.resx">
+      <DependentUpon>UnloadTeachView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\VisionView.resx">
+      <DependentUpon>VisionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartViews\ChartForm.resx">
+      <DependentUpon>ChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartViews\ChartView.resx">
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartViews\DetailChartView.resx">
+      <DependentUpon>DetailChartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\AddVarView.resx">
+      <DependentUpon>AddVarView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\AOSKView.resx">
+      <DependentUpon>AOSKView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\BallonView.resx">
+      <DependentUpon>BallonView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\CalcView.resx">
+      <DependentUpon>CalcView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\CopyItemView.resx">
+      <DependentUpon>CopyItemView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\DeviceStatus.resx">
+      <DependentUpon>DeviceStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\EmbedAppView.resx">
+      <DependentUpon>EmbedAppView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\ExternalView.resx">
+      <DependentUpon>ExternalView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\ItemButtonView.resx">
+      <DependentUpon>ItemButtonView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\LogView.resx">
+      <DependentUpon>LogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\RefrencePointView.resx">
+      <DependentUpon>RefrencePointView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\SAPQueryView.resx">
+      <DependentUpon>SAPQueryView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\SetLayOutView.resx">
+      <DependentUpon>SetLayOutView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\TextInput.resx">
+      <DependentUpon>TextInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\OutPutView.resx">
+      <DependentUpon>OutPutView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\SetColorView.resx">
+      <DependentUpon>SetColorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\ShowControl.resx">
+      <DependentUpon>ShowControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\StatusBarView.resx">
+      <DependentUpon>StatusBarView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\NumInput.resx">
+      <DependentUpon>NumInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\TreeListContorl.resx">
+      <DependentUpon>TreeListContorl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comment\OskView.resx">
+      <DependentUpon>OskView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\AlarmConfigView.resx">
+      <DependentUpon>AlarmConfigView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\AlarmView.resx">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\AlgorithmView.resx">
+      <DependentUpon>AlgorithmView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\BlowingBoxView.resx">
+      <DependentUpon>BlowingBoxView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\BoxBtnView.resx">
+      <DependentUpon>BoxBtnView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\CountView.resx">
+      <DependentUpon>CountView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\EnteringQRView.resx">
+      <DependentUpon>EnteringQRView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\MapView.resx">
+      <DependentUpon>MapView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\MsgBoxView.resx">
+      <DependentUpon>MsgBoxView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\OCRConfirmView.resx">
+      <DependentUpon>OCRConfirmView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\ParamConfigView.resx">
+      <DependentUpon>ParamConfigView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\ParamSetView.resx">
+      <DependentUpon>ParamSetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\StepView.resx">
+      <DependentUpon>StepView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\UnLoadParamView.resx">
+      <DependentUpon>UnLoadParamView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EButton.resx">
+      <DependentUpon>EButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EButtonPro.resx">
+      <DependentUpon>EButtonPro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ECheck.resx">
+      <DependentUpon>ECheck.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ECombox.resx">
+      <DependentUpon>ECombox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EGroupBox.resx">
+      <DependentUpon>EGroupBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ELight.resx">
+      <DependentUpon>ELight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EProduct.resx">
+      <DependentUpon>EProduct.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EDataOutput.resx">
+      <DependentUpon>EDataOutput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EErrorItem.resx">
+      <DependentUpon>EErrorItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EHWindow.resx">
+      <DependentUpon>EHWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EItemResult.resx">
+      <DependentUpon>EItemResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ELblResult.resx">
+      <DependentUpon>ELblResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ELblStatus.resx">
+      <DependentUpon>ELblStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ELog.resx">
+      <DependentUpon>ELog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\EProductSel.resx">
+      <DependentUpon>EProductSel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ESetText.resx">
+      <DependentUpon>ESetText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\ETextBox.resx">
+      <DependentUpon>ETextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditView\RunView.resx">
+      <DependentUpon>RunView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EncyptView\ConfirmForm.resx">
+      <DependentUpon>ConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EncyptView\EncyptForm.resx">
+      <DependentUpon>EncyptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EncyptView\ResigterForm.resx">
+      <DependentUpon>ResigterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\AxisIOView.resx">
+      <DependentUpon>AxisIOView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\AxisOffSetView.resx">
+      <DependentUpon>AxisOffSetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\CardView.resx">
+      <DependentUpon>CardView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\IODebug\InPutIoVIew.resx">
+      <DependentUpon>InPutIoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\IODebug\IOConfigView.resx">
+      <DependentUpon>IOConfigView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\Monitor\AxisMonitor.resx">
+      <DependentUpon>AxisMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\Monitor\IOMonitor.resx">
+      <DependentUpon>IOMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\Monitor\IOMonitor2.resx">
+      <DependentUpon>IOMonitor2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\IoView.resx">
+      <DependentUpon>IoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\Monitor\MonitorView.resx">
+      <DependentUpon>MonitorView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\IODebug\OutInPutView.resx">
+      <DependentUpon>OutInPutView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\IODebug\OutPutIoView.resx">
+      <DependentUpon>OutPutIoView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorView\PointView.resx">
+      <DependentUpon>PointView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popup\TestLogView.resx">
+      <DependentUpon>TestLogView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popup\LoadingView.resx">
+      <DependentUpon>LoadingView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popup\SplashView.resx">
+      <DependentUpon>SplashView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView\SuperUserManage.resx">
+      <DependentUpon>SuperUserManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView\UserLogin.resx">
+      <DependentUpon>UserLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Web References\WebReference\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WebReference\Service1.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Controller\AlgorithmController\AlgorithmController.csproj">
+      <Project>{1f42ea92-e4c7-4f30-b8f5-7a36899b5ce9}</Project>
+      <Name>AlgorithmController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\BaseController\BaseController.csproj">
+      <Project>{790b07c2-6855-407b-9dd1-4b124f673be2}</Project>
+      <Name>BaseController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\CameraContorller\CameraContorller.csproj">
+      <Project>{2b81bdde-434c-4e9b-868a-2ce8b51d157b}</Project>
+      <Name>CameraContorller</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\CommController\EngineController.csproj">
+      <Project>{6e54caa0-969e-4ac2-9aea-0762e896ea40}</Project>
+      <Name>EngineController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\JsonController\JsonController.csproj">
+      <Project>{d359f230-fced-42da-be8a-7c44ad18afc8}</Project>
+      <Name>JsonController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\MotionController\MotionController.csproj">
+      <Project>{a58ebac3-8967-414b-8649-9456a20f0138}</Project>
+      <Name>MotionController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\SerialPortController\SerialPortController.csproj">
+      <Project>{597801B5-0B9A-4B7F-B867-7AFAABF08414}</Project>
+      <Name>SerialPortController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\ServiceCollection\ServiceCollection.csproj">
+      <Project>{9a762ef2-d5b3-433b-a15c-5667d3774df4}</Project>
+      <Name>ServiceCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\ServiceController\ServiceController.csproj">
+      <Project>{d4a5f04a-480b-48a2-9b5e-b639a4116e95}</Project>
+      <Name>ServiceController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\SocketController\SocketController.csproj">
+      <Project>{194c78a4-b4f2-4523-9973-e6a788d7ea89}</Project>
+      <Name>SocketController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\UserSetController\UserSetController.csproj">
+      <Project>{9b74b25e-6f1b-4da9-8983-e16738159700}</Project>
+      <Name>UserSetController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\VisionController\VisionController.csproj">
+      <Project>{8626a161-0eed-40c5-bdc7-1d13bb4addba}</Project>
+      <Name>VisionController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\XMLController\XMLController.csproj">
+      <Project>{11f71d09-af04-4dcd-ada2-cc43e98279cf}</Project>
+      <Name>XMLController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\DBCore\Infrastructure.DBCore.csproj">
+      <Project>{38E7BC07-B587-42D9-8B94-D0CB2959850B}</Project>
+      <Name>Infrastructure.DBCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{CDB05CAB-383D-4A38-8C58-7512CC138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Log\Log.csproj">
+      <Project>{76AE59E5-0DF0-40DC-9DC5-10E1639EA8B9}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\BaseModel\BaseModels.csproj">
+      <Project>{ff8d6997-4e68-4ed0-ad0b-857826f52b13}</Project>
+      <Name>BaseModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SequenceModel\SequenceTestModel.csproj">
+      <Project>{42d02b8c-0a33-4bf7-8e83-1baee06a8469}</Project>
+      <Name>SequenceTestModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SerialPortModel\SerialPortModel.csproj">
+      <Project>{3E0A4C81-DCEF-4214-80EC-73F981BAEE28}</Project>
+      <Name>SerialPortModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SocketModel\SocketModel.csproj">
+      <Project>{a21797ff-1276-4a21-83ac-155dd862cd5d}</Project>
+      <Name>SocketModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\UserSetModel\UserSetModel.csproj">
+      <Project>{babf6815-bca8-42ec-9f36-7820d352d371}</Project>
+      <Name>UserSetModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\ExternDll\ExternDll.csproj">
+      <Project>{a185f4e5-5e4b-4dc4-9235-ec1007dc46f9}</Project>
+      <Name>ExternDll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Plugins\SmileWei.EmbeddedApp\SmileWei.EmbeddedApp.csproj">
+      <Project>{90b74adf-891a-47e2-922c-450be2271164}</Project>
+      <Name>SmileWei.EmbeddedApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HalconView\HalconView.csproj">
+      <Project>{eacc0e2b-07d5-4a33-ba07-42220dff1fc5}</Project>
+      <Name>HalconView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\redError.png" />
+    <None Include="Resources\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_3d_disp_normals.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_3d_plot_axes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_3d_plot_mode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_aspect_window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_aspect_zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_bookmark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_breakpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_clear_window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_export.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_find_again.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_arbitrary_reg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_circular_arc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_ellipse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_elliptical_arc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_nurbs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_nurbs_interp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_rect1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_gen_rect2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_light_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_light_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_line_profile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_lineal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_magnify-glass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_open_event_log_wnd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_open_graphics_wnd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_open_operator_wnd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_pref_procs_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_preferences.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_prog_counter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_redo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_run.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_save_as.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_select_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_step.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_zoom_in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic_zoom_out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_file_48px.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_file_32px.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder_Open_32px_1093675_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_as_32px_1186319_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_here_48px_572110_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_here_32px_572110_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pause_32px_1186203_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop_red_32px_1186323_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_128px_1186318_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add_128px_1194719_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\editclear_128px_42628_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_image_128px_1210732_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Remove_Image_128px_1192339_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder_Image_32px_1183702_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\设置1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_128px_1210407_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excel_128px_1210199_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_offline_128px_1066397_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calculator_128px_1227291_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camera128x128.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_32px_1229013_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Red.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Player_Start.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Actions_system_run.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Apps_inkscap.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pause_Done.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop_Done.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_32px_1205840_easyicon.net.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh_Done.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\link_.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\x_.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Green_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Red_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\picture_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Flow_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Flow_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Flow_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Connection_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Help_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\var_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Camera_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\var_2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Camera_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Camera_3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\interface_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\StartButtonImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\3D_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Step_1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Step_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Point_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Point_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Point_3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\Delete_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\DisplayItem_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetIco\error_32px.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\FTP_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\COM_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\TCP_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\PLC_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://10.2.1.113:3699/Service1.asmx%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WebReference\</RelPath>
+      <UpdateFromURL>http://10.2.1.113:3699/Service1.asmx%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ManagementView_WebReference_Service1</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\copy_item.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetIco\Switch_32px.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\Ftp操作.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\N点标定.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\变量存储.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\变量读取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\变量设置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\测量标定.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\测清晰度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\产品选择.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\创建ROI.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\创建文本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\等待变量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点构建.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点拟合圆.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\读二维码.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\读一维码.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\二值图像.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\发送消息.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\仿射变换.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\光源控制.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\灰度匹配.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\基准面.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\畸变标定.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\检测点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\检测亮度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\交点匹配.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\脚本分析.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\接收消息.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\结果显示.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\矩形阵列.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\镭射采集.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\两线交点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\两线角度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\两圆距离.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\流程触发.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\轮廓交点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\轮廓匹配.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\轮廓提取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\面积中心.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\判断跳转.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域填充.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域形状.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域找圆.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域转边.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\生成十字.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\生成直线.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\时间统计.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\手绘模板.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数据保存.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数据运算.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数组定义.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数组设置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\算表达式.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\算法引擎.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\特征检测.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\特征匹配.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\条件分支.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\调用流程.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\停止片段.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\统计像素.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像保存.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像差分.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像剪切.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\文本分割.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\显示图像.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\线圆交点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\相机采集.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\循环结束.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\循环开始.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\延时等待.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\一维测量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\预处理图.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\阈值分割.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\圆弧测量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\圆心距.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\圆形阵列.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\找线.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\找圆.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\执行片段.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\直线匹配.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\字符识别.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\坐标映射.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\边转区域.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\轮廓筛选.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\边缘提取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点圆距离.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\两线距离.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\形状筛选.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域排序.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域运算.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\开闭运算.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\腐蚀膨胀.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\两圆交点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点线距离.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\局部变量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数据入队.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\清空队列.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\数据出队.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\弹框提示.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\条件选择.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域高度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\取线轮廓.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\胶路四边.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\胶路缺陷.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\基准图像.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\检测高度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\平面度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图片处理.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\写入文本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\读取文本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\发送文本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\接收文本.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\PLC读取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\PLC写入.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\PLC通讯.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\检测正反.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camera128x1281.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\斑点检测.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Btn_Video_Scrn1_Normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Btn_Video_Scrn2_Disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Btn_Video_Scrn4_Normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Btn_Video_Scrn9_Disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemIco\Btn_Video_Scrn6_Disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像展开.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域分割.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\字符训练.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\矩阵变换.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\区域映射.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\脚本编辑.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\切换方案.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\批处理.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\显示数据.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\系统时间.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像相减.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\颜色转换.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\矩形测量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\颜色抽取.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\顶帽处理.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\读螺丝批.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\连接螺丝批.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点排序.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\流程结果.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\批量写入.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\获取位置.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\点位修改.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\等待就绪.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\停止运动.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\设置速度.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\走偏移量.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\工站走点.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\轴回零.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\IO检测.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\IO操作.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\图像拆分.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\上传SFC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\上传SAP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\斑马打印.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\旋转中心.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemButtonPng\多图采集.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\错误.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\警告.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\信息.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewIco\询问.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

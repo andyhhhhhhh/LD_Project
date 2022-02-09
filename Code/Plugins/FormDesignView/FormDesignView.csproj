@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B7146F9-0BE9-4A16-9494-24DBD502401D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FormDesignView</RootNamespace>
+    <AssemblyName>FormDesignView</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSkin, Version=16.1.14.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\CSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2, Version=10.5.0.3, Culture=neutral, PublicKeyToken=c39c3242a43eee2b, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddControlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddControlDialog.Designer.cs">
+      <DependentUpon>AddControlDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlHelper.cs" />
+    <Compile Include="MessageFilter.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Recter.cs" />
+    <Compile Include="DesignerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DesignerControl.Designer.cs">
+      <DependentUpon>DesignerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HostFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HostFrame.Designer.cs">
+      <DependentUpon>HostFrame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyFormDesign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyFormDesign.Designer.cs">
+      <DependentUpon>MyFormDesign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Overlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Overlayer.Designer.cs">
+      <DependentUpon>Overlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunEditView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RunEditView.Designer.cs">
+      <DependentUpon>RunEditView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RunParamView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RunParamView.Designer.cs">
+      <DependentUpon>RunParamView.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HostFrame.resx">
+      <DependentUpon>HostFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyFormDesign.resx">
+      <DependentUpon>MyFormDesign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Overlayer.resx">
+      <DependentUpon>Overlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RunEditView.resx">
+      <DependentUpon>RunEditView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RunParamView.resx">
+      <DependentUpon>RunParamView.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Controller\XMLController\XMLController.csproj">
+      <Project>{11F71D09-AF04-4DCD-ADA2-CC43E98279CF}</Project>
+      <Name>XMLController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{cdb05cab-383d-4a38-8c58-7512cc138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SequenceModel\SequenceTestModel.csproj">
+      <Project>{42d02b8c-0a33-4bf7-8e83-1baee06a8469}</Project>
+      <Name>SequenceTestModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Views\ManagementView\ManagementView.csproj">
+      <Project>{ba0368c3-7930-4dd8-9eb1-8f416e384f3b}</Project>
+      <Name>ManagementView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\block_align_top_1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

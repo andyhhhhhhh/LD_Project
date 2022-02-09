@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2B81BDDE-434C-4E9B-868A-2CE8B51D157B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CameraContorller</RootNamespace>
+    <AssemblyName>CameraContorller</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\ThirdParty\SQLiteDLL\EntityFramework\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="halcondotnet, Version=17.12.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\halcondotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="IKapC.NET, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\IKapC.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net, Version=2.2.1.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="uEyeDotNet, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Bin\uEyeDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Basler\CameraByBaslerControl.cs" />
+    <Compile Include="Halcon\CameraByHalconControl.cs" />
+    <Compile Include="IDS\CameraByIDSControl.cs" />
+    <Compile Include="IDS\MemoryHelper.cs" />
+    <Compile Include="ITek\CameraByITekControl.cs" />
+    <Compile Include="ITek\FrameTrigger.cs" />
+    <Compile Include="ITek\GrabOnce.cs" />
+    <Compile Include="ITek\LineTrigger.cs" />
+    <Compile Include="MVS\CameraByMVSControl.cs" />
+    <Compile Include="MVS\CameraOperator.cs" />
+    <Compile Include="ICameraControl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\DBCore\Infrastructure.DBCore.csproj">
+      <Project>{38E7BC07-B587-42D9-8B94-D0CB2959850B}</Project>
+      <Name>Infrastructure.DBCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{CDB05CAB-383D-4A38-8C58-7512CC138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Log\Log.csproj">
+      <Project>{76ae59e5-0df0-40dc-9dc5-10e1639ea8b9}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\BaseModel\BaseModels.csproj">
+      <Project>{FF8D6997-4E68-4ED0-AD0B-857826F52B13}</Project>
+      <Name>BaseModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\SequenceModel\SequenceTestModel.csproj">
+      <Project>{42d02b8c-0a33-4bf7-8e83-1baee06a8469}</Project>
+      <Name>SequenceTestModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AlgorithmController\AlgorithmController.csproj">
+      <Project>{1F42EA92-E4C7-4F30-B8F5-7A36899B5CE9}</Project>
+      <Name>AlgorithmController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BaseController\BaseController.csproj">
+      <Project>{790B07C2-6855-407B-9DD1-4B124F673BE2}</Project>
+      <Name>BaseController</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

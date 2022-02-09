@@ -1,0 +1,2444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetStationInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStationInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStationInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckRouteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ForwardRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fixture" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jobId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testData" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ForwardRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ForwardRouteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadWriteKeys">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="writeKeys" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadWriteKeysResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadWriteKeysResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadAccData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadAccDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadAccDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadGBAccData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadGBAccDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReadGBAccDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadTestLogFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jsonStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadTestLogFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadTestLogFileResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadTestLogJson">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jsonStr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadTestLogJsonResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadTestLogJsonResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lang" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="site" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bu" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lang" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="site" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bu" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUserTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUserTokenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNextJobID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNextJobIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNextJobIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Service">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cmd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="paramList" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ServiceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductConfig">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductConfigResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProductConfigResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCliffordVersion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="family" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCliffordVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCliffordVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccdata">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAccdataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAccdataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShipAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShipAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetShipAddressResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadKeys">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="keysvalue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadKeysResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadKeysResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAutoData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fixture" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testflag" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="site" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bu" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAutoDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAutoDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckProvisionUnlock">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckProvisionUnlockResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckProvisionUnlockResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGPNdata">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGPNdataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGPNdataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestNamedata">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="testname" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="station" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestNamedataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTestNamedataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccDsnData">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="acctype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccDsnDataResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccDsnDataResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLabParms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLabParmsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLabParmsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCartonLockInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="cartonId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCartonLockInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCartonLockInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSNInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="snType" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSNInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSNInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDSNByKeys">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="keyValue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="keyName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDSNByKeysResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDSNByKeysResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadACCDATA">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accvalue" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupname" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadACCDATAResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadACCDATAResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="COFForwardRoute">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fixture" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jobId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testData" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="COFForwardRouteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="COFForwardRouteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveFAInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveFAInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveFAInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckACC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckACCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckACCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveAcc">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accValue" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveAccResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveAccResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckCOF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckCOFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckCOFResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckSCOF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckSCOFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckSCOFResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGroupName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="stationID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetGroupNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetGroupNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStationMode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="familyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStationModeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStationModeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInStationTime">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="jobId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInStationTimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInStationTimeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ForwardRouteT">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fixture" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="jobId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="testData" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="token" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ForwardRouteTResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ForwardRouteTResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckFailTimes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckFailTimesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckFailTimesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductWaive">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductWaiveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProductWaiveResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckSCOFByFamily">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="familyName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckSCOFByFamilyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckSCOFByFamilyResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDSNAddress">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDSNAddressResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDSNAddressResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWaiveStation">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWaiveStationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetWaiveStationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigCOF">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigCOFResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigCOFResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadWeight">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadWeightResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadWeightResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadAccCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadAccCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadAccCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPidCheckTime">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPidCheckTimeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPidCheckTimeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSFTimeMillis">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="times" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSFTimeMillisResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSFTimeMillisResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendRecvDataSFC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="args" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SendRecvDataSFCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SendRecvDataSFCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadCG">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadCGResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadCGResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStationTestTimes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStationTestTimesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetStationTestTimesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRepairInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetRepairInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetRepairInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccBySection">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="pid" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sectionName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccBySectionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccBySectionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDemoStationInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="project" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="startTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="endTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="groupName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDemoStationInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDemoStationInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSNByStationID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="station_id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="duration" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSNByStationIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSNByStationIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFATestLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="testJson" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UploadFATestLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UploadFATestLogResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetStationInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStationInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetStationInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStationInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckRoute" />
+  </wsdl:message>
+  <wsdl:message name="CheckRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckRouteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ForwardRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:ForwardRoute" />
+  </wsdl:message>
+  <wsdl:message name="ForwardRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:ForwardRouteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadWriteKeysSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadWriteKeys" />
+  </wsdl:message>
+  <wsdl:message name="ReadWriteKeysSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadWriteKeysResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadAccDataSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadAccData" />
+  </wsdl:message>
+  <wsdl:message name="ReadAccDataSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadAccDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadGBAccDataSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadGBAccData" />
+  </wsdl:message>
+  <wsdl:message name="ReadGBAccDataSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadGBAccDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadTestLogFileSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadTestLogFile" />
+  </wsdl:message>
+  <wsdl:message name="UploadTestLogFileSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadTestLogFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadTestLogJsonSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadTestLogJson" />
+  </wsdl:message>
+  <wsdl:message name="UploadTestLogJsonSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadTestLogJsonResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetUserInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUserTokenSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUserToken" />
+  </wsdl:message>
+  <wsdl:message name="GetUserTokenSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUserTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNextJobIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNextJobID" />
+  </wsdl:message>
+  <wsdl:message name="GetNextJobIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNextJobIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:Service" />
+  </wsdl:message>
+  <wsdl:message name="ServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:ServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProductConfigSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProductConfig" />
+  </wsdl:message>
+  <wsdl:message name="GetProductConfigSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProductConfigResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCliffordVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCliffordVersion" />
+  </wsdl:message>
+  <wsdl:message name="GetCliffordVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCliffordVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccdataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAccdata" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAccdataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAccdataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetShipAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:GetShipAddress" />
+  </wsdl:message>
+  <wsdl:message name="GetShipAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:GetShipAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadKeysSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadKeys" />
+  </wsdl:message>
+  <wsdl:message name="UploadKeysSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadKeysResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAutoDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAutoData" />
+  </wsdl:message>
+  <wsdl:message name="GetAutoDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAutoDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckProvisionUnlockSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckProvisionUnlock" />
+  </wsdl:message>
+  <wsdl:message name="CheckProvisionUnlockSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckProvisionUnlockResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGPNdataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGPNdata" />
+  </wsdl:message>
+  <wsdl:message name="GetGPNdataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGPNdataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTestNamedataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTestNamedata" />
+  </wsdl:message>
+  <wsdl:message name="GetTestNamedataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTestNamedataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccDsnDataSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccDsnData" />
+  </wsdl:message>
+  <wsdl:message name="GetAccDsnDataSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccDsnDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLabParmsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLabParms" />
+  </wsdl:message>
+  <wsdl:message name="GetLabParmsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLabParmsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCartonLockInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCartonLockInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetCartonLockInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCartonLockInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSNInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSNInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetSNInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSNInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDSNByKeysSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDSNByKeys" />
+  </wsdl:message>
+  <wsdl:message name="GetDSNByKeysSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDSNByKeysResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadACCDATASoapIn">
+    <wsdl:part name="parameters" element="tns:UploadACCDATA" />
+  </wsdl:message>
+  <wsdl:message name="UploadACCDATASoapOut">
+    <wsdl:part name="parameters" element="tns:UploadACCDATAResponse" />
+  </wsdl:message>
+  <wsdl:message name="COFForwardRouteSoapIn">
+    <wsdl:part name="parameters" element="tns:COFForwardRoute" />
+  </wsdl:message>
+  <wsdl:message name="COFForwardRouteSoapOut">
+    <wsdl:part name="parameters" element="tns:COFForwardRouteResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveFAInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveFAInfo" />
+  </wsdl:message>
+  <wsdl:message name="SaveFAInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveFAInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckACCSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckACC" />
+  </wsdl:message>
+  <wsdl:message name="CheckACCSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckACCResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveAcc" />
+  </wsdl:message>
+  <wsdl:message name="SaveAccSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveAccResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckCOFSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckCOF" />
+  </wsdl:message>
+  <wsdl:message name="CheckCOFSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckCOFResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckSCOFSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckSCOF" />
+  </wsdl:message>
+  <wsdl:message name="CheckSCOFSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckSCOFResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetGroupName" />
+  </wsdl:message>
+  <wsdl:message name="GetGroupNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetGroupNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStationModeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStationMode" />
+  </wsdl:message>
+  <wsdl:message name="GetStationModeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStationModeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetInStationTimeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInStationTime" />
+  </wsdl:message>
+  <wsdl:message name="GetInStationTimeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInStationTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ForwardRouteTSoapIn">
+    <wsdl:part name="parameters" element="tns:ForwardRouteT" />
+  </wsdl:message>
+  <wsdl:message name="ForwardRouteTSoapOut">
+    <wsdl:part name="parameters" element="tns:ForwardRouteTResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckFailTimesSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckFailTimes" />
+  </wsdl:message>
+  <wsdl:message name="CheckFailTimesSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckFailTimesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProductWaiveSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProductWaive" />
+  </wsdl:message>
+  <wsdl:message name="GetProductWaiveSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProductWaiveResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckSCOFByFamilySoapIn">
+    <wsdl:part name="parameters" element="tns:CheckSCOFByFamily" />
+  </wsdl:message>
+  <wsdl:message name="CheckSCOFByFamilySoapOut">
+    <wsdl:part name="parameters" element="tns:CheckSCOFByFamilyResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDSNAddressSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDSNAddress" />
+  </wsdl:message>
+  <wsdl:message name="GetDSNAddressSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDSNAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetWaiveStationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWaiveStation" />
+  </wsdl:message>
+  <wsdl:message name="GetWaiveStationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWaiveStationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigCOFSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigCOF" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigCOFSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigCOFResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadWeightSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadWeight" />
+  </wsdl:message>
+  <wsdl:message name="UploadWeightSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadWeightResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadAccCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadAccCheck" />
+  </wsdl:message>
+  <wsdl:message name="UploadAccCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadAccCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPidCheckTimeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPidCheckTime" />
+  </wsdl:message>
+  <wsdl:message name="GetPidCheckTimeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPidCheckTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSFTimeMillisSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSFTimeMillis" />
+  </wsdl:message>
+  <wsdl:message name="GetSFTimeMillisSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSFTimeMillisResponse" />
+  </wsdl:message>
+  <wsdl:message name="SendRecvDataSFCSoapIn">
+    <wsdl:part name="parameters" element="tns:SendRecvDataSFC" />
+  </wsdl:message>
+  <wsdl:message name="SendRecvDataSFCSoapOut">
+    <wsdl:part name="parameters" element="tns:SendRecvDataSFCResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadCGSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadCG" />
+  </wsdl:message>
+  <wsdl:message name="UploadCGSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadCGResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetStationTestTimesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetStationTestTimes" />
+  </wsdl:message>
+  <wsdl:message name="GetStationTestTimesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetStationTestTimesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetRepairInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetRepairInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetRepairInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetRepairInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccBySectionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccBySection" />
+  </wsdl:message>
+  <wsdl:message name="GetAccBySectionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccBySectionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDemoStationInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDemoStationInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetDemoStationInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDemoStationInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSNByStationIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSNByStationID" />
+  </wsdl:message>
+  <wsdl:message name="GetSNByStationIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSNByStationIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="UploadFATestLogSoapIn">
+    <wsdl:part name="parameters" element="tns:UploadFATestLog" />
+  </wsdl:message>
+  <wsdl:message name="UploadFATestLogSoapOut">
+    <wsdl:part name="parameters" element="tns:UploadFATestLogResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiceFacadeSoap">
+    <wsdl:operation name="GetStationInfo">
+      <wsdl:input message="tns:GetStationInfoSoapIn" />
+      <wsdl:output message="tns:GetStationInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckRoute">
+      <wsdl:input message="tns:CheckRouteSoapIn" />
+      <wsdl:output message="tns:CheckRouteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRoute">
+      <wsdl:input message="tns:ForwardRouteSoapIn" />
+      <wsdl:output message="tns:ForwardRouteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadWriteKeys">
+      <wsdl:input message="tns:ReadWriteKeysSoapIn" />
+      <wsdl:output message="tns:ReadWriteKeysSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccData">
+      <wsdl:input message="tns:ReadAccDataSoapIn" />
+      <wsdl:output message="tns:ReadAccDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadGBAccData">
+      <wsdl:input message="tns:ReadGBAccDataSoapIn" />
+      <wsdl:output message="tns:ReadGBAccDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogFile">
+      <wsdl:input message="tns:UploadTestLogFileSoapIn" />
+      <wsdl:output message="tns:UploadTestLogFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogJson">
+      <wsdl:input message="tns:UploadTestLogJsonSoapIn" />
+      <wsdl:output message="tns:UploadTestLogJsonSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <wsdl:input message="tns:GetUserInfoSoapIn" />
+      <wsdl:output message="tns:GetUserInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserToken">
+      <wsdl:input message="tns:GetUserTokenSoapIn" />
+      <wsdl:output message="tns:GetUserTokenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNextJobID">
+      <wsdl:input message="tns:GetNextJobIDSoapIn" />
+      <wsdl:output message="tns:GetNextJobIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Service">
+      <wsdl:input message="tns:ServiceSoapIn" />
+      <wsdl:output message="tns:ServiceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductConfig">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GET product Config</wsdl:documentation>
+      <wsdl:input message="tns:GetProductConfigSoapIn" />
+      <wsdl:output message="tns:GetProductConfigSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCliffordVersion">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Clifford Version</wsdl:documentation>
+      <wsdl:input message="tns:GetCliffordVersionSoapIn" />
+      <wsdl:output message="tns:GetCliffordVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccdata">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get ALL ACCDATA</wsdl:documentation>
+      <wsdl:input message="tns:GetAllAccdataSoapIn" />
+      <wsdl:output message="tns:GetAllAccdataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShipAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GET ship_to_address</wsdl:documentation>
+      <wsdl:input message="tns:GetShipAddressSoapIn" />
+      <wsdl:output message="tns:GetShipAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">GET SKU INSERT SFC_WIP_SN_EX</wsdl:documentation>
+      <wsdl:input message="tns:UploadKeysSoapIn" />
+      <wsdl:output message="tns:UploadKeysSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAutoData">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">get auto data</wsdl:documentation>
+      <wsdl:input message="tns:GetAutoDataSoapIn" />
+      <wsdl:output message="tns:GetAutoDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckProvisionUnlock">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">CheckProvisionUnlock</wsdl:documentation>
+      <wsdl:input message="tns:CheckProvisionUnlockSoapIn" />
+      <wsdl:output message="tns:CheckProvisionUnlockSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGPNdata">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get GPN FROM SFC_PRODUCT_INFO</wsdl:documentation>
+      <wsdl:input message="tns:GetGPNdataSoapIn" />
+      <wsdl:output message="tns:GetGPNdataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestNamedata">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get TST_WIP_DETAIL_ACTIVE  table data</wsdl:documentation>
+      <wsdl:input message="tns:GetTestNamedataSoapIn" />
+      <wsdl:output message="tns:GetTestNamedataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccDsnData">
+      <wsdl:input message="tns:GetAccDsnDataSoapIn" />
+      <wsdl:output message="tns:GetAccDsnDataSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLabParms">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Label Parameters by DSN</wsdl:documentation>
+      <wsdl:input message="tns:GetLabParmsSoapIn" />
+      <wsdl:output message="tns:GetLabParmsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCartonLockInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SN Lock Info by Carton_Id</wsdl:documentation>
+      <wsdl:input message="tns:GetCartonLockInfoSoapIn" />
+      <wsdl:output message="tns:GetCartonLockInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSNInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Table:SFC_WIP_SN_EX_T BY DSN</wsdl:documentation>
+      <wsdl:input message="tns:GetSNInfoSoapIn" />
+      <wsdl:output message="tns:GetSNInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNByKeys">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get DSN by keys</wsdl:documentation>
+      <wsdl:input message="tns:GetDSNByKeysSoapIn" />
+      <wsdl:output message="tns:GetDSNByKeysSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadACCDATA">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">QT2M GET ACC INSERT SFC_WIP_ACC_DATA</wsdl:documentation>
+      <wsdl:input message="tns:UploadACCDATASoapIn" />
+      <wsdl:output message="tns:UploadACCDATASoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="COFForwardRoute">
+      <wsdl:input message="tns:COFForwardRouteSoapIn" />
+      <wsdl:output message="tns:COFForwardRouteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveFAInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Save FA information</wsdl:documentation>
+      <wsdl:input message="tns:SaveFAInfoSoapIn" />
+      <wsdl:output message="tns:SaveFAInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckACC">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">To Check ACC Validity</wsdl:documentation>
+      <wsdl:input message="tns:CheckACCSoapIn" />
+      <wsdl:output message="tns:CheckACCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveAcc">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">To Save ACC Data</wsdl:documentation>
+      <wsdl:input message="tns:SaveAccSoapIn" />
+      <wsdl:output message="tns:SaveAccSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckCOF">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">To check if COF or not in current station</wsdl:documentation>
+      <wsdl:input message="tns:CheckCOFSoapIn" />
+      <wsdl:output message="tns:CheckCOFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOF">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">To check if SCOF or not in current station</wsdl:documentation>
+      <wsdl:input message="tns:CheckSCOFSoapIn" />
+      <wsdl:output message="tns:CheckSCOFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupName">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Return group_name by station_id</wsdl:documentation>
+      <wsdl:input message="tns:GetGroupNameSoapIn" />
+      <wsdl:output message="tns:GetGroupNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStationMode">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get station test mode</wsdl:documentation>
+      <wsdl:input message="tns:GetStationModeSoapIn" />
+      <wsdl:output message="tns:GetStationModeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInStationTime">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get in_station_time from SFC</wsdl:documentation>
+      <wsdl:input message="tns:GetInStationTimeSoapIn" />
+      <wsdl:output message="tns:GetInStationTimeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRouteT">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Forward route and then get in_station_time from SFC</wsdl:documentation>
+      <wsdl:input message="tns:ForwardRouteTSoapIn" />
+      <wsdl:output message="tns:ForwardRouteTSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckFailTimes">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Check fail times</wsdl:documentation>
+      <wsdl:input message="tns:CheckFailTimesSoapIn" />
+      <wsdl:output message="tns:CheckFailTimesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductWaive">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get waiver station by SN</wsdl:documentation>
+      <wsdl:input message="tns:GetProductWaiveSoapIn" />
+      <wsdl:output message="tns:GetProductWaiveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOFByFamily">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">To check if COF or not in current station</wsdl:documentation>
+      <wsdl:input message="tns:CheckSCOFByFamilySoapIn" />
+      <wsdl:output message="tns:CheckSCOFByFamilySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNAddress">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SHIPPING_ADDRESS FROM GOOGLE_DSN_CONFIG AND GOOGLE_PSN_CONFIG</wsdl:documentation>
+      <wsdl:input message="tns:GetDSNAddressSoapIn" />
+      <wsdl:output message="tns:GetDSNAddressSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWaiveStation">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SN Waived station</wsdl:documentation>
+      <wsdl:input message="tns:GetWaiveStationSoapIn" />
+      <wsdl:output message="tns:GetWaiveStationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigCOF">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get waiver station by SN</wsdl:documentation>
+      <wsdl:input message="tns:GetConfigCOFSoapIn" />
+      <wsdl:output message="tns:GetConfigCOFSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadWeight">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Uploading the weight data to SFC</wsdl:documentation>
+      <wsdl:input message="tns:UploadWeightSoapIn" />
+      <wsdl:output message="tns:UploadWeightSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadAccCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Upload data to SFC_ACC_CHECK</wsdl:documentation>
+      <wsdl:input message="tns:UploadAccCheckSoapIn" />
+      <wsdl:output message="tns:UploadAccCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPidCheckTime">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For FRESET to get updated_date</wsdl:documentation>
+      <wsdl:input message="tns:GetPidCheckTimeSoapIn" />
+      <wsdl:output message="tns:GetPidCheckTimeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSFTimeMillis">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For TESTSTATION to  GetSFTimeMillis</wsdl:documentation>
+      <wsdl:input message="tns:GetSFTimeMillisSoapIn" />
+      <wsdl:output message="tns:GetSFTimeMillisSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SendRecvDataSFC">
+      <wsdl:input message="tns:SendRecvDataSFCSoapIn" />
+      <wsdl:output message="tns:SendRecvDataSFCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadCG">
+      <wsdl:input message="tns:UploadCGSoapIn" />
+      <wsdl:output message="tns:UploadCGSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStationTestTimes">
+      <wsdl:input message="tns:GetStationTestTimesSoapIn" />
+      <wsdl:output message="tns:GetStationTestTimesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRepairInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get SN Repair Info</wsdl:documentation>
+      <wsdl:input message="tns:GetRepairInfoSoapIn" />
+      <wsdl:output message="tns:GetRepairInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccBySection">
+      <wsdl:input message="tns:GetAccBySectionSoapIn" />
+      <wsdl:output message="tns:GetAccBySectionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDemoStationInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">R3 CG Yield Warning</wsdl:documentation>
+      <wsdl:input message="tns:GetDemoStationInfoSoapIn" />
+      <wsdl:output message="tns:GetDemoStationInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSNByStationID">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">For AOI station, get SN by station_id</wsdl:documentation>
+      <wsdl:input message="tns:GetSNByStationIDSoapIn" />
+      <wsdl:output message="tns:GetSNByStationIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFATestLog">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Upload FA(equipment) test log</wsdl:documentation>
+      <wsdl:input message="tns:UploadFATestLogSoapIn" />
+      <wsdl:output message="tns:UploadFATestLogSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiceFacadeSoap" type="tns:ServiceFacadeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetStationInfo">
+      <soap:operation soapAction="http://tempuri.org/GetStationInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckRoute">
+      <soap:operation soapAction="http://tempuri.org/CheckRoute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRoute">
+      <soap:operation soapAction="http://tempuri.org/ForwardRoute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadWriteKeys">
+      <soap:operation soapAction="http://tempuri.org/ReadWriteKeys" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccData">
+      <soap:operation soapAction="http://tempuri.org/ReadAccData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadGBAccData">
+      <soap:operation soapAction="http://tempuri.org/ReadGBAccData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogFile">
+      <soap:operation soapAction="http://tempuri.org/UploadTestLogFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogJson">
+      <soap:operation soapAction="http://tempuri.org/UploadTestLogJson" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <soap:operation soapAction="http://tempuri.org/GetUserInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserToken">
+      <soap:operation soapAction="http://tempuri.org/GetUserToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNextJobID">
+      <soap:operation soapAction="http://tempuri.org/GetNextJobID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Service">
+      <soap:operation soapAction="http://tempuri.org/Service" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductConfig">
+      <soap:operation soapAction="http://tempuri.org/GetProductConfig" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCliffordVersion">
+      <soap:operation soapAction="http://tempuri.org/GetCliffordVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccdata">
+      <soap:operation soapAction="http://tempuri.org/GetAllAccdata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipAddress">
+      <soap:operation soapAction="http://tempuri.org/GetShipAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadKeys">
+      <soap:operation soapAction="http://tempuri.org/UploadKeys" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAutoData">
+      <soap:operation soapAction="http://tempuri.org/GetAutoData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckProvisionUnlock">
+      <soap:operation soapAction="http://tempuri.org/CheckProvisionUnlock" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGPNdata">
+      <soap:operation soapAction="http://tempuri.org/GetGPNdata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestNamedata">
+      <soap:operation soapAction="http://tempuri.org/GetTestNamedata" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccDsnData">
+      <soap:operation soapAction="http://tempuri.org/GetAccDsnData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLabParms">
+      <soap:operation soapAction="http://tempuri.org/GetLabParms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCartonLockInfo">
+      <soap:operation soapAction="http://tempuri.org/GetCartonLockInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSNInfo">
+      <soap:operation soapAction="http://tempuri.org/GetSNInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNByKeys">
+      <soap:operation soapAction="http://tempuri.org/GetDSNByKeys" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadACCDATA">
+      <soap:operation soapAction="http://tempuri.org/UploadACCDATA" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="COFForwardRoute">
+      <soap:operation soapAction="http://tempuri.org/COFForwardRoute" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFAInfo">
+      <soap:operation soapAction="http://tempuri.org/SaveFAInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckACC">
+      <soap:operation soapAction="http://tempuri.org/CheckACC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAcc">
+      <soap:operation soapAction="http://tempuri.org/SaveAcc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCOF">
+      <soap:operation soapAction="http://tempuri.org/CheckCOF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOF">
+      <soap:operation soapAction="http://tempuri.org/CheckSCOF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupName">
+      <soap:operation soapAction="http://tempuri.org/GetGroupName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationMode">
+      <soap:operation soapAction="http://tempuri.org/GetStationMode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInStationTime">
+      <soap:operation soapAction="http://tempuri.org/GetInStationTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRouteT">
+      <soap:operation soapAction="http://tempuri.org/ForwardRouteT" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckFailTimes">
+      <soap:operation soapAction="http://tempuri.org/CheckFailTimes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductWaive">
+      <soap:operation soapAction="http://tempuri.org/GetProductWaive" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOFByFamily">
+      <soap:operation soapAction="http://tempuri.org/CheckSCOFByFamily" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNAddress">
+      <soap:operation soapAction="http://tempuri.org/GetDSNAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWaiveStation">
+      <soap:operation soapAction="http://tempuri.org/GetWaiveStation" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigCOF">
+      <soap:operation soapAction="http://tempuri.org/GetConfigCOF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadWeight">
+      <soap:operation soapAction="http://tempuri.org/UploadWeight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadAccCheck">
+      <soap:operation soapAction="http://tempuri.org/UploadAccCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPidCheckTime">
+      <soap:operation soapAction="http://tempuri.org/GetPidCheckTime" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSFTimeMillis">
+      <soap:operation soapAction="http://tempuri.org/GetSFTimeMillis" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendRecvDataSFC">
+      <soap:operation soapAction="http://tempuri.org/SendRecvDataSFC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadCG">
+      <soap:operation soapAction="http://tempuri.org/UploadCG" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationTestTimes">
+      <soap:operation soapAction="http://tempuri.org/GetStationTestTimes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRepairInfo">
+      <soap:operation soapAction="http://tempuri.org/GetRepairInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccBySection">
+      <soap:operation soapAction="http://tempuri.org/GetAccBySection" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDemoStationInfo">
+      <soap:operation soapAction="http://tempuri.org/GetDemoStationInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSNByStationID">
+      <soap:operation soapAction="http://tempuri.org/GetSNByStationID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFATestLog">
+      <soap:operation soapAction="http://tempuri.org/UploadFATestLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiceFacadeSoap12" type="tns:ServiceFacadeSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetStationInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetStationInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckRoute">
+      <soap12:operation soapAction="http://tempuri.org/CheckRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRoute">
+      <soap12:operation soapAction="http://tempuri.org/ForwardRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadWriteKeys">
+      <soap12:operation soapAction="http://tempuri.org/ReadWriteKeys" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadAccData">
+      <soap12:operation soapAction="http://tempuri.org/ReadAccData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadGBAccData">
+      <soap12:operation soapAction="http://tempuri.org/ReadGBAccData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogFile">
+      <soap12:operation soapAction="http://tempuri.org/UploadTestLogFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadTestLogJson">
+      <soap12:operation soapAction="http://tempuri.org/UploadTestLogJson" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetUserInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserToken">
+      <soap12:operation soapAction="http://tempuri.org/GetUserToken" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNextJobID">
+      <soap12:operation soapAction="http://tempuri.org/GetNextJobID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Service">
+      <soap12:operation soapAction="http://tempuri.org/Service" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductConfig">
+      <soap12:operation soapAction="http://tempuri.org/GetProductConfig" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCliffordVersion">
+      <soap12:operation soapAction="http://tempuri.org/GetCliffordVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAccdata">
+      <soap12:operation soapAction="http://tempuri.org/GetAllAccdata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipAddress">
+      <soap12:operation soapAction="http://tempuri.org/GetShipAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadKeys">
+      <soap12:operation soapAction="http://tempuri.org/UploadKeys" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAutoData">
+      <soap12:operation soapAction="http://tempuri.org/GetAutoData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckProvisionUnlock">
+      <soap12:operation soapAction="http://tempuri.org/CheckProvisionUnlock" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGPNdata">
+      <soap12:operation soapAction="http://tempuri.org/GetGPNdata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestNamedata">
+      <soap12:operation soapAction="http://tempuri.org/GetTestNamedata" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccDsnData">
+      <soap12:operation soapAction="http://tempuri.org/GetAccDsnData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLabParms">
+      <soap12:operation soapAction="http://tempuri.org/GetLabParms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCartonLockInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetCartonLockInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSNInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetSNInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNByKeys">
+      <soap12:operation soapAction="http://tempuri.org/GetDSNByKeys" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadACCDATA">
+      <soap12:operation soapAction="http://tempuri.org/UploadACCDATA" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="COFForwardRoute">
+      <soap12:operation soapAction="http://tempuri.org/COFForwardRoute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveFAInfo">
+      <soap12:operation soapAction="http://tempuri.org/SaveFAInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckACC">
+      <soap12:operation soapAction="http://tempuri.org/CheckACC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveAcc">
+      <soap12:operation soapAction="http://tempuri.org/SaveAcc" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCOF">
+      <soap12:operation soapAction="http://tempuri.org/CheckCOF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOF">
+      <soap12:operation soapAction="http://tempuri.org/CheckSCOF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetGroupName">
+      <soap12:operation soapAction="http://tempuri.org/GetGroupName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationMode">
+      <soap12:operation soapAction="http://tempuri.org/GetStationMode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInStationTime">
+      <soap12:operation soapAction="http://tempuri.org/GetInStationTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ForwardRouteT">
+      <soap12:operation soapAction="http://tempuri.org/ForwardRouteT" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckFailTimes">
+      <soap12:operation soapAction="http://tempuri.org/CheckFailTimes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductWaive">
+      <soap12:operation soapAction="http://tempuri.org/GetProductWaive" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckSCOFByFamily">
+      <soap12:operation soapAction="http://tempuri.org/CheckSCOFByFamily" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDSNAddress">
+      <soap12:operation soapAction="http://tempuri.org/GetDSNAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWaiveStation">
+      <soap12:operation soapAction="http://tempuri.org/GetWaiveStation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigCOF">
+      <soap12:operation soapAction="http://tempuri.org/GetConfigCOF" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadWeight">
+      <soap12:operation soapAction="http://tempuri.org/UploadWeight" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadAccCheck">
+      <soap12:operation soapAction="http://tempuri.org/UploadAccCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPidCheckTime">
+      <soap12:operation soapAction="http://tempuri.org/GetPidCheckTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSFTimeMillis">
+      <soap12:operation soapAction="http://tempuri.org/GetSFTimeMillis" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendRecvDataSFC">
+      <soap12:operation soapAction="http://tempuri.org/SendRecvDataSFC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadCG">
+      <soap12:operation soapAction="http://tempuri.org/UploadCG" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationTestTimes">
+      <soap12:operation soapAction="http://tempuri.org/GetStationTestTimes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRepairInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetRepairInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccBySection">
+      <soap12:operation soapAction="http://tempuri.org/GetAccBySection" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDemoStationInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetDemoStationInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSNByStationID">
+      <soap12:operation soapAction="http://tempuri.org/GetSNByStationID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFATestLog">
+      <soap12:operation soapAction="http://tempuri.org/UploadFATestLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceFacade">
+    <wsdl:port name="ServiceFacadeSoap" binding="tns:ServiceFacadeSoap">
+      <soap:address location="http://10.162.80.110:8088/FuseService/Services/ServiceFacade.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiceFacadeSoap12" binding="tns:ServiceFacadeSoap12">
+      <soap12:address location="http://10.162.80.110:8088/FuseService/Services/ServiceFacade.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
