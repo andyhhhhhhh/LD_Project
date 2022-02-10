@@ -447,6 +447,8 @@ namespace ProcessController
                     m_pauseWatch.Reset();
                 }
 
+
+
                 return bInit;
             }
             catch (Exception ex)
