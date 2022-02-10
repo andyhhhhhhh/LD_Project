@@ -3581,14 +3581,9 @@ namespace MainView3D
         {
             try
             {
-                //m_ProcessControl.WriteProductData();
-                double d = 92.4 + 0.5;
-                int i = (int)d;
-
-                // PanelToBmp.OutTheControllerToPic(panel1);
-                return;
-                //bool bresult = m_ProcessControl.HttpAction();
-                //return;
+                ExcelController.ExcelView view = new ExcelController.ExcelView();
+                view.ShowDialog();
+                return; 
                 //About3DView view = new About3DView();
                 //view.ShowDialog();
             }

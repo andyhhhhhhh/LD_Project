@@ -50,6 +50,7 @@
     <Compile Include="ExcelView.Designer.cs">
       <DependentUpon>ExcelView.cs</DependentUpon>
     </Compile>
+    <Compile Include="OleExcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

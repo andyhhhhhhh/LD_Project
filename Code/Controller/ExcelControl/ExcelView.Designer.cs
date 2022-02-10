@@ -93,7 +93,7 @@
             this.txtPath.Name = "txtPath";
             this.txtPath.Size = new System.Drawing.Size(366, 26);
             this.txtPath.TabIndex = 3;
-            this.txtPath.Text = "F:\\1.xlsx";
+            this.txtPath.Text = "E:\\1.xlsx";
             // 
             // label2
             // 
@@ -112,7 +112,7 @@
             this.txtWafer.Name = "txtWafer";
             this.txtWafer.Size = new System.Drawing.Size(100, 26);
             this.txtWafer.TabIndex = 3;
-            this.txtWafer.Text = "A5945-12";
+            this.txtWafer.Text = "A8330-12";
             // 
             // btnLoadPath
             // 
