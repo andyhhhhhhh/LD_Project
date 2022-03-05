@@ -23,7 +23,7 @@ namespace MotionController
 
         public override int Motor_axis_disable(ushort cardIndex, ushort axisIndex)
         {
-            bool breturn = SoftPlcService.Instance().AxisDisable(axisIndex);
+            bool breturn = SoftPlcService.Instance().AxisDisable(cardIndex, axisIndex);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -36,7 +36,7 @@ namespace MotionController
 
         public override int Motor_axis_enable(ushort cardIndex, ushort axisIndex)
         {
-            bool breturn = SoftPlcService.Instance().AxisEnable(axisIndex);
+            bool breturn = SoftPlcService.Instance().AxisEnable(cardIndex, axisIndex);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -47,9 +47,9 @@ namespace MotionController
             }
         }
 
-        public override int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed)
+        public override int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed, int homeType, int limitType)
         {
-            bool breturn = SoftPlcService.Instance().AxisHome(axisIndex, homeIo, speed, secondSpeed);
+            bool breturn = SoftPlcService.Instance().AxisHome(cardIndex, axisIndex, homeIo, speed, secondSpeed, homeType, limitType);
             if(breturn)
             { 
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -63,7 +63,7 @@ namespace MotionController
         public override int Motor_axis_home_finished(ushort cardIndex, ushort axisIndex)
         {
             bool bok;
-            var axisStatus = SoftPlcService.Instance().GetAxisStatus(axisIndex, out bok);
+            var axisStatus = SoftPlcService.Instance().GetAxisStatus(cardIndex, axisIndex, out bok);
             if(!bok)
             {
                 return -1;
@@ -75,7 +75,7 @@ namespace MotionController
         public override int Motor_axis_is_moving(ushort cardIndex, ushort axisIndex)
         {
             bool bok;
-            var axisStatus = SoftPlcService.Instance().GetAxisStatus(axisIndex, out bok);
+            var axisStatus = SoftPlcService.Instance().GetAxisStatus(cardIndex, axisIndex, out bok);
             if (!bok)
             {
                 return -1;
@@ -93,7 +93,7 @@ namespace MotionController
 
         public override int Motor_axis_move_offset(ushort cardIndex, ushort axisIndex, double offset, TSpeed pspeed, int basePos)
         {
-            bool breturn = SoftPlcService.Instance().AxisMoveRelPos(axisIndex, offset, pspeed);
+            bool breturn = SoftPlcService.Instance().AxisMoveRelPos(cardIndex, axisIndex, offset, pspeed);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -106,7 +106,7 @@ namespace MotionController
 
         public override int Motor_axis_move_pos(ushort cardIndex, ushort axisIndex, double pos, TSpeed pspeed)
         {
-            bool breturn = SoftPlcService.Instance().AxisMovePos(axisIndex, pos, pspeed);
+            bool breturn = SoftPlcService.Instance().AxisMovePos(cardIndex, axisIndex, pos, pspeed);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -119,7 +119,7 @@ namespace MotionController
 
         public override int Motor_axis_reset(ushort cardIndex, ushort axisIndex)
         {
-            bool breturn = SoftPlcService.Instance().AxisReset(axisIndex);
+            bool breturn = SoftPlcService.Instance().AxisReset(cardIndex, axisIndex);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -132,7 +132,7 @@ namespace MotionController
 
         public override int Motor_axis_stop(ushort cardIndex, ushort axisIndex, int type)
         {
-            bool breturn = SoftPlcService.Instance().AxisStop(axisIndex);
+            bool breturn = SoftPlcService.Instance().AxisStop(cardIndex, axisIndex);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -145,7 +145,7 @@ namespace MotionController
 
         public override int Motor_axis_vmove(ushort cardIndex, ushort axisIndex, int dir, TSpeed pspeed)
         {
-            bool breturn = SoftPlcService.Instance().AxisMoveJog(axisIndex, dir, pspeed);
+            bool breturn = SoftPlcService.Instance().AxisMoveJog(cardIndex, axisIndex, dir, pspeed);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -211,13 +211,26 @@ namespace MotionController
             bool breturn;
             if (type == 0)
             {
-                breturn = SoftPlcService.Instance().AxisGetPos(axisIndex, out pval);
+                breturn = SoftPlcService.Instance().AxisGetPos(cardIndex, axisIndex, out pval);
             }
             else
             {
-                breturn = SoftPlcService.Instance().AxisGetEncodePos(axisIndex, out pval);
+                breturn = SoftPlcService.Instance().AxisGetEncodePos(cardIndex, axisIndex, out pval);
             }
             
+            if (breturn)
+            {
+                return (int)EM_ERRCODE.RETURN_OK;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public override int Motor_group_move(List<ushort> cardIndex, List<ushort> listAxisIndex, List<float> listpos, TSpeed speed, int stationIndex)
+        {
+            bool breturn = SoftPlcService.Instance().GroupMovePos(listAxisIndex, listpos, speed, stationIndex);
             if (breturn)
             {
                 return (int)EM_ERRCODE.RETURN_OK;
@@ -267,7 +280,7 @@ namespace MotionController
 
         public override bool Motor_set_axis_zero_pos(ushort cardIndex, ushort axisIndex)
         {
-            bool breturn = SoftPlcService.Instance().AxisSetHome(axisIndex);
+            bool breturn = SoftPlcService.Instance().AxisSetHome(cardIndex, axisIndex);
             if (breturn)
             {
                 return true;
@@ -290,6 +303,8 @@ namespace MotionController
                 return -1;
             }
         }
+
+
 
     }
 }

@@ -21,11 +21,11 @@ namespace ManagementView
             InitializeComponent();
         }
 
-        private EnumCosResult _enumCosResult;
+        private EnumLDResult _enumCosResult;
         /// <summary>
         /// 按钮代表的结果类型
         /// </summary>
-        public EnumCosResult enumCosResult
+        public EnumLDResult enumCosResult
         {
             get { return _enumCosResult; }
             set
@@ -57,15 +57,15 @@ namespace ManagementView
                     {
                         switch (enumCosResult)
                         {
-                            case EnumCosResult.Enum_Pass:
+                            case EnumLDResult.Enum_Pass:
                                 btnBoxType.Text = "测试OK";
                                 btnBoxType.BackColor = Color.DarkSeaGreen;
                                 break;
-                            case EnumCosResult.Enum_Fail:
+                            case EnumLDResult.Enum_Fail:
                                 btnBoxType.Text = "测试NG";
                                 btnBoxType.BackColor = Color.LightPink;
                                 break;
-                            case EnumCosResult.Enum_SeemNG:
+                            case EnumLDResult.Enum_SeemNG:
                                 btnBoxType.Text = "疑似NG";
                                 btnBoxType.BackColor = Color.Gold;
                                 break;
@@ -81,15 +81,15 @@ namespace ManagementView
                 {
                     switch (enumCosResult)
                     {
-                        case EnumCosResult.Enum_Pass:
+                        case EnumLDResult.Enum_Pass:
                             btnBoxType.Text = "测试OK";
                             btnBoxType.BackColor = Color.DarkSeaGreen;
                             break;
-                        case EnumCosResult.Enum_Fail:
+                        case EnumLDResult.Enum_Fail:
                             btnBoxType.Text = "测试NG";
                             btnBoxType.BackColor = Color.LightPink;
                             break;
-                        case EnumCosResult.Enum_SeemNG:
+                        case EnumLDResult.Enum_SeemNG:
                             btnBoxType.Text = "疑似NG";
                             btnBoxType.BackColor = Color.Gold;
                             break;
@@ -111,7 +111,7 @@ namespace ManagementView
         {
             try
             {
-                enumCosResult = EnumCosResult.Enum_Pass;
+                enumCosResult = EnumLDResult.Enum_Pass;
             }
             catch (Exception ex)
             {
@@ -123,7 +123,7 @@ namespace ManagementView
         {
             try
             {
-                enumCosResult = EnumCosResult.Enum_Fail;
+                enumCosResult = EnumLDResult.Enum_Fail;
             }
             catch (Exception ex)
             {
@@ -135,7 +135,7 @@ namespace ManagementView
         {
             try
             {
-                enumCosResult = EnumCosResult.Enum_SeemNG;
+                enumCosResult = EnumLDResult.Enum_SeemNG;
             }
             catch (Exception ex)
             {

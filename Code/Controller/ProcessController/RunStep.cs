@@ -18,15 +18,15 @@ namespace ProcessController
     public enum AutoRunStep
     {
         
-        [Description("Z移动到安全位置")]
-        StepZMoveSafePos,
+        [Description("上料Z移动到安全位置")]
+        StepLoadZMoveSafePos,
+
+        [Description("上料X移动到安全位置")]
+        StepLoadXMoveSafePos,
 
         [Description("移XYR动到接料盘位置")]
         StepXYRMoveGetTrayPos,
-
-        [Description("移动到接料盘位置")]
-        StepTakeTrayMoveGetTrayPos,
-
+        
         [Description("取产品位气缸松开")]
         StepGetCylinderUnClamp,
         
@@ -60,14 +60,20 @@ namespace ProcessController
     /// </summary>
     public enum LoadRunStep
     {
+        [Description("上料模组Z移动到安全位置")]
+        StepLoadZMoveSafePos,
+
         [Description("上料模组移动到等待位置")]
-        StepLoadMoveWaitPos,
+        StepLoadXMoveWaitPos,
         
         [Description("等待是否可以取料")]
         StepWaitReadLoad,
 
-        [Description("上料模组移动到上料位置")]
-        StepLoadMoveTakePos,
+        [Description("上料模组X移动到上料位置")]
+        StepLoadXMoveTakePos,
+
+        [Description("上料模组Z移动到上料位置")]
+        StepLoadZMoveTakePos,
 
         [Description("顶针上升")]
         StepThimbleRisePos,
@@ -78,8 +84,11 @@ namespace ProcessController
         [Description("顶针下降")]
         StepThimbleDownPos,
 
-        [Description("上料模组移动N面拍照位")]
-        StepLoadMoveNSnapPos,
+        [Description("上料模组Z移动N面拍照位")]
+        StepLoadZMoveNSnapPos,
+
+        [Description("上料模组X移动N面拍照位")]
+        StepLoadXMoveNSnapPos,
 
         [Description("N面拍照执行算法")]
         StepNSnap,
@@ -90,14 +99,21 @@ namespace ProcessController
         [Description("等待是否放产品到检测位")]
         StepWaitReadyCheck,
 
-        [Description("移动到DDR马达")]
-        StepLoadMoveDDR,
+        [Description("上料模组X移动到DDR马达")]
+        StepLoadXMoveDDR,
+
+        [Description("上料模组Z移动到DDR马达")]
+        StepLoadZMoveDDR,
 
         [Description("上料吸嘴破真空")]
         StepLoadBreakVaccum,
 
-        [Description("移动到上料等待位2")]
-        StepLoadMoveWaitPos_2,
+        [Description("上料Z移动到上料等待位2")]
+        StepLoadZMoveSafePos_2,
+
+        [Description("上料X移动到上料等待位2")]
+        StepLoadXMoveWaitPos_2,
+
     }
     
     /// <summary>
@@ -105,8 +121,11 @@ namespace ProcessController
     /// </summary>
     public enum CheckRunStep
     {
+        [Description("下料Z移动到下料安全位")]
+        StepUnLoadZMoveSafePos,
+
         [Description("移动到下料安全位")]
-        StepMoveUnLoadSafePos,
+        StepUnLoadXYMoveSafePos,
 
         [Description("等待DDR开始检测产品")]
         StepWaitReadyDDRCheck,
@@ -114,8 +133,8 @@ namespace ProcessController
         [Description("检测模组移动到上料校正位置1")]
         StepMoveCorrect1Pos,
 
-        [Description("下料模组移动到AR定位位置")]
-        StepUnLoadMoveARPos, 
+        //[Description("下料模组移动到AR定位位置")]
+        //StepUnLoadMoveARPos, 
 
         [Description("校正位置1拍照执行算法")]
         StepCorrect1Snap,
@@ -129,8 +148,8 @@ namespace ProcessController
         [Description("检测模组移动到上料校正位置2")]
         StepMoveCorrect2Pos,
 
-        [Description("下料模组移动到HR定位位置")]
-        StepUnLoadMoveHRPos,
+        //[Description("下料模组移动到HR定位位置")]
+        //StepCheckMoveHRPos,
 
         [Description("校正位置2拍照执行算法")]
         StepCorrect2Snap,
@@ -147,12 +166,21 @@ namespace ProcessController
         [Description("下料模组移动到上料位")]
         StepUnLoadMoveLoadPos,
 
+        [Description("下料模组Z移动到上料位")]
+        StepUnLoadZMoveLoadPos,
+
         [Description("下料吸嘴吸真空")]
         StepUnLoadSuctionVaccum, 
 
         [Description("下料模组移动到放料位")]
         StepUnLoadMovePutPos,
-        
+
+        [Description("下料模组Z移动到放料位")]
+        StepUnLoadZMovePutPos,
+
+        [Description("下料模组移动到换料位")]
+        StepChangeUnLoadTray,
+
         [Description("下料吸嘴破真空")]
         StepUnLoadBreakVaccum,
     }
@@ -187,7 +215,10 @@ namespace ProcessController
         StepWaitLoadDone,
 
         [Description("小视野相机定位产品OCR")]
-        StepSmallCameraSnapOCR,
+        StepSmallCameraSnapOCR, 
+
+        [Description("XYR移动到顶针上方位置")]
+        StepXYRMoveSuckPos,
 
     }
 

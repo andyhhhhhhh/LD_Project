@@ -70,7 +70,7 @@ namespace MotionController
         /// <param name="cardIndex">卡号</param>
         /// <param name="axisIndex">轴号</param>
         /// <returns>参考EM_ERR_CODE</returns>
-        public abstract int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed);
+        public abstract int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed, int homeType, int limitType);
 
         /// <summary>
         /// 单轴回原完成
@@ -304,6 +304,14 @@ namespace MotionController
         /// <returns>参考EM_ERR_CODE</returns>
         public abstract int Motor_ext_write_out_bit(ushort cardIndex, short exindex, ushort ioindex, ushort val);
 
+        /// <summary>
+        /// 插补运动
+        /// </summary>
+        /// <param name="cardIndex"></param>
+        /// <param name="listAxisIndex">轴集合</param>
+        /// <param name="speed">速度</param>
+        /// <returns></returns>
+        public abstract int Motor_group_move(List<ushort> cardIndex, List<ushort> listAxisIndex, List<float> listpos, TSpeed speed, int stationIndex);
     }
 
     public struct TSpeed
@@ -312,6 +320,7 @@ namespace MotionController
         public double vel;
         public double acc;
         public double dec;
+        public double aacc;
     }
 
     public struct AxisParam

@@ -46,6 +46,13 @@ namespace ManagementView.MotorView
         {
             try
             {
+                bool bEnable = !Global.Run || Global.Pause || Global.Stop;
+                if(!bEnable)
+                {
+                    MessageBoxEx.Show("设备在运行中！");
+                    return;
+                }
+
                 if (btnIo.BackColor != Color.LightGreen)
                 {
                     IoModel.val = 1;

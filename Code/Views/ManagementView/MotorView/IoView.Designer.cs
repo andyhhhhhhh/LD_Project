@@ -29,31 +29,31 @@
         private void InitializeComponent()
         {
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.superTabControl1 = new DevComponents.DotNetBar.SuperTabControl();
             this.superTabControlPanel1 = new DevComponents.DotNetBar.SuperTabControlPanel();
             this.panelInPut = new DevComponents.DotNetBar.PanelEx();
             this.superTabItem1 = new DevComponents.DotNetBar.SuperTabItem();
+            this.superTabControl2 = new DevComponents.DotNetBar.SuperTabControl();
+            this.superTabControlPanel6 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.panelInOutPut = new DevComponents.DotNetBar.PanelEx();
+            this.superTabItem6 = new DevComponents.DotNetBar.SuperTabItem();
+            this.superTabControlPanel4 = new DevComponents.DotNetBar.SuperTabControlPanel();
+            this.panelOutPut = new DevComponents.DotNetBar.PanelEx();
+            this.superTabItem4 = new DevComponents.DotNetBar.SuperTabItem();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.btnIOConfig = new DevComponents.DotNetBar.ButtonX();
             this.btnMonitor = new DevComponents.DotNetBar.ButtonX();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.superTabControl2 = new DevComponents.DotNetBar.SuperTabControl();
-            this.superTabControlPanel4 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.superTabItem4 = new DevComponents.DotNetBar.SuperTabItem();
-            this.superTabControlPanel6 = new DevComponents.DotNetBar.SuperTabControlPanel();
-            this.superTabItem6 = new DevComponents.DotNetBar.SuperTabItem();
-            this.panelOutPut = new DevComponents.DotNetBar.PanelEx();
-            this.panelInOutPut = new DevComponents.DotNetBar.PanelEx();
             this.panelEx1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).BeginInit();
             this.superTabControl1.SuspendLayout();
             this.superTabControlPanel1.SuspendLayout();
-            this.groupPanel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl2)).BeginInit();
             this.superTabControl2.SuspendLayout();
-            this.superTabControlPanel4.SuspendLayout();
             this.superTabControlPanel6.SuspendLayout();
+            this.superTabControlPanel4.SuspendLayout();
+            this.groupPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelEx1
@@ -75,6 +75,21 @@
             this.panelEx1.Style.GradientAngle = 90;
             this.panelEx1.TabIndex = 0;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.superTabControl1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.superTabControl2, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(205, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1075, 728);
+            this.tableLayoutPanel1.TabIndex = 2;
+            // 
             // superTabControl1
             // 
             // 
@@ -94,13 +109,13 @@
             this.superTabControl1.ControlBox.CloseBox});
             this.superTabControl1.Controls.Add(this.superTabControlPanel1);
             this.superTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControl1.Location = new System.Drawing.Point(3, 3);
+            this.superTabControl1.Location = new System.Drawing.Point(1, 1);
             this.superTabControl1.Margin = new System.Windows.Forms.Padding(1);
             this.superTabControl1.Name = "superTabControl1";
             this.superTabControl1.ReorderTabsEnabled = true;
             this.superTabControl1.SelectedTabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
             this.superTabControl1.SelectedTabIndex = 2;
-            this.superTabControl1.Size = new System.Drawing.Size(531, 722);
+            this.superTabControl1.Size = new System.Drawing.Size(535, 726);
             this.superTabControl1.TabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.superTabControl1.TabIndex = 1;
             this.superTabControl1.Tabs.AddRange(new DevComponents.DotNetBar.BaseItem[] {
@@ -113,7 +128,7 @@
             this.superTabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.superTabControlPanel1.Location = new System.Drawing.Point(0, 28);
             this.superTabControlPanel1.Name = "superTabControlPanel1";
-            this.superTabControlPanel1.Size = new System.Drawing.Size(531, 694);
+            this.superTabControlPanel1.Size = new System.Drawing.Size(535, 698);
             this.superTabControlPanel1.TabIndex = 1;
             this.superTabControlPanel1.TabItem = this.superTabItem1;
             // 
@@ -124,7 +139,7 @@
             this.panelInPut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelInPut.Location = new System.Drawing.Point(0, 0);
             this.panelInPut.Name = "panelInPut";
-            this.panelInPut.Size = new System.Drawing.Size(531, 694);
+            this.panelInPut.Size = new System.Drawing.Size(535, 698);
             this.panelInPut.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelInPut.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.panelInPut.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
@@ -140,6 +155,108 @@
             this.superTabItem1.GlobalItem = false;
             this.superTabItem1.Name = "superTabItem1";
             this.superTabItem1.Text = "通用输入";
+            // 
+            // superTabControl2
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            // 
+            this.superTabControl2.ControlBox.CloseBox.Name = "";
+            // 
+            // 
+            // 
+            this.superTabControl2.ControlBox.MenuBox.Name = "";
+            this.superTabControl2.ControlBox.Name = "";
+            this.superTabControl2.ControlBox.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.superTabControl2.ControlBox.MenuBox,
+            this.superTabControl2.ControlBox.CloseBox});
+            this.superTabControl2.Controls.Add(this.superTabControlPanel4);
+            this.superTabControl2.Controls.Add(this.superTabControlPanel6);
+            this.superTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControl2.Location = new System.Drawing.Point(538, 1);
+            this.superTabControl2.Margin = new System.Windows.Forms.Padding(1);
+            this.superTabControl2.Name = "superTabControl2";
+            this.superTabControl2.ReorderTabsEnabled = true;
+            this.superTabControl2.SelectedTabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
+            this.superTabControl2.SelectedTabIndex = 2;
+            this.superTabControl2.Size = new System.Drawing.Size(536, 726);
+            this.superTabControl2.TabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.superTabControl2.TabIndex = 2;
+            this.superTabControl2.Tabs.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.superTabItem4,
+            this.superTabItem6});
+            this.superTabControl2.Text = "superTabControl2";
+            // 
+            // superTabControlPanel6
+            // 
+            this.superTabControlPanel6.Controls.Add(this.panelInOutPut);
+            this.superTabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControlPanel6.Location = new System.Drawing.Point(0, 28);
+            this.superTabControlPanel6.Name = "superTabControlPanel6";
+            this.superTabControlPanel6.Size = new System.Drawing.Size(536, 698);
+            this.superTabControlPanel6.TabIndex = 3;
+            this.superTabControlPanel6.TabItem = this.superTabItem6;
+            // 
+            // panelInOutPut
+            // 
+            this.panelInOutPut.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelInOutPut.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelInOutPut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInOutPut.Location = new System.Drawing.Point(0, 0);
+            this.panelInOutPut.Name = "panelInOutPut";
+            this.panelInOutPut.Size = new System.Drawing.Size(536, 698);
+            this.panelInOutPut.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelInOutPut.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.panelInOutPut.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.panelInOutPut.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelInOutPut.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelInOutPut.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelInOutPut.Style.GradientAngle = 90;
+            this.panelInOutPut.TabIndex = 2;
+            // 
+            // superTabItem6
+            // 
+            this.superTabItem6.AttachedControl = this.superTabControlPanel6;
+            this.superTabItem6.GlobalItem = false;
+            this.superTabItem6.Name = "superTabItem6";
+            this.superTabItem6.Text = "输入输出关联";
+            // 
+            // superTabControlPanel4
+            // 
+            this.superTabControlPanel4.Controls.Add(this.panelOutPut);
+            this.superTabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.superTabControlPanel4.Location = new System.Drawing.Point(0, 28);
+            this.superTabControlPanel4.Name = "superTabControlPanel4";
+            this.superTabControlPanel4.Size = new System.Drawing.Size(536, 698);
+            this.superTabControlPanel4.TabIndex = 2;
+            this.superTabControlPanel4.TabItem = this.superTabItem4;
+            // 
+            // panelOutPut
+            // 
+            this.panelOutPut.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelOutPut.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelOutPut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelOutPut.Location = new System.Drawing.Point(0, 0);
+            this.panelOutPut.Name = "panelOutPut";
+            this.panelOutPut.Size = new System.Drawing.Size(536, 698);
+            this.panelOutPut.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelOutPut.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.panelOutPut.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.panelOutPut.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.panelOutPut.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelOutPut.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelOutPut.Style.GradientAngle = 90;
+            this.panelOutPut.TabIndex = 2;
+            // 
+            // superTabItem4
+            // 
+            this.superTabItem4.AttachedControl = this.superTabControlPanel4;
+            this.superTabItem4.GlobalItem = false;
+            this.superTabItem4.Name = "superTabItem4";
+            this.superTabItem4.Text = "通用输出";
             // 
             // groupPanel1
             // 
@@ -210,123 +327,6 @@
             this.btnMonitor.TextColor = System.Drawing.Color.Black;
             this.btnMonitor.Click += new System.EventHandler(this.btnMonitor_Click);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.superTabControl1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.superTabControl2, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(205, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1075, 728);
-            this.tableLayoutPanel1.TabIndex = 2;
-            // 
-            // superTabControl2
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            // 
-            this.superTabControl2.ControlBox.CloseBox.Name = "";
-            // 
-            // 
-            // 
-            this.superTabControl2.ControlBox.MenuBox.Name = "";
-            this.superTabControl2.ControlBox.Name = "";
-            this.superTabControl2.ControlBox.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.superTabControl2.ControlBox.MenuBox,
-            this.superTabControl2.ControlBox.CloseBox});
-            this.superTabControl2.Controls.Add(this.superTabControlPanel6);
-            this.superTabControl2.Controls.Add(this.superTabControlPanel4);
-            this.superTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControl2.Location = new System.Drawing.Point(540, 3);
-            this.superTabControl2.Margin = new System.Windows.Forms.Padding(1);
-            this.superTabControl2.Name = "superTabControl2";
-            this.superTabControl2.ReorderTabsEnabled = true;
-            this.superTabControl2.SelectedTabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
-            this.superTabControl2.SelectedTabIndex = 2;
-            this.superTabControl2.Size = new System.Drawing.Size(532, 722);
-            this.superTabControl2.TabFont = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.superTabControl2.TabIndex = 2;
-            this.superTabControl2.Tabs.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.superTabItem4,
-            this.superTabItem6});
-            this.superTabControl2.Text = "superTabControl2";
-            // 
-            // superTabControlPanel4
-            // 
-            this.superTabControlPanel4.Controls.Add(this.panelOutPut);
-            this.superTabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControlPanel4.Location = new System.Drawing.Point(0, 28);
-            this.superTabControlPanel4.Name = "superTabControlPanel4";
-            this.superTabControlPanel4.Size = new System.Drawing.Size(532, 694);
-            this.superTabControlPanel4.TabIndex = 2;
-            this.superTabControlPanel4.TabItem = this.superTabItem4;
-            // 
-            // superTabItem4
-            // 
-            this.superTabItem4.AttachedControl = this.superTabControlPanel4;
-            this.superTabItem4.GlobalItem = false;
-            this.superTabItem4.Name = "superTabItem4";
-            this.superTabItem4.Text = "通用输出";
-            // 
-            // superTabControlPanel6
-            // 
-            this.superTabControlPanel6.Controls.Add(this.panelInOutPut);
-            this.superTabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.superTabControlPanel6.Location = new System.Drawing.Point(0, 28);
-            this.superTabControlPanel6.Name = "superTabControlPanel6";
-            this.superTabControlPanel6.Size = new System.Drawing.Size(532, 694);
-            this.superTabControlPanel6.TabIndex = 3;
-            this.superTabControlPanel6.TabItem = this.superTabItem6;
-            // 
-            // superTabItem6
-            // 
-            this.superTabItem6.AttachedControl = this.superTabControlPanel6;
-            this.superTabItem6.GlobalItem = false;
-            this.superTabItem6.Name = "superTabItem6";
-            this.superTabItem6.Text = "输入输出关联";
-            // 
-            // panelOutPut
-            // 
-            this.panelOutPut.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelOutPut.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelOutPut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelOutPut.Location = new System.Drawing.Point(0, 0);
-            this.panelOutPut.Name = "panelOutPut";
-            this.panelOutPut.Size = new System.Drawing.Size(532, 694);
-            this.panelOutPut.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelOutPut.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.panelOutPut.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.panelOutPut.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelOutPut.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelOutPut.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelOutPut.Style.GradientAngle = 90;
-            this.panelOutPut.TabIndex = 2;
-            // 
-            // panelInOutPut
-            // 
-            this.panelInOutPut.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelInOutPut.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelInOutPut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelInOutPut.Location = new System.Drawing.Point(0, 0);
-            this.panelInOutPut.Name = "panelInOutPut";
-            this.panelInOutPut.Size = new System.Drawing.Size(532, 694);
-            this.panelInOutPut.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelInOutPut.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.panelInOutPut.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.panelInOutPut.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.panelInOutPut.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelInOutPut.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelInOutPut.Style.GradientAngle = 90;
-            this.panelInOutPut.TabIndex = 2;
-            // 
             // IoView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -336,15 +336,15 @@
             this.Size = new System.Drawing.Size(1280, 728);
             this.Load += new System.EventHandler(this.IoView_Load);
             this.panelEx1.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl1)).EndInit();
             this.superTabControl1.ResumeLayout(false);
             this.superTabControlPanel1.ResumeLayout(false);
-            this.groupPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.superTabControl2)).EndInit();
             this.superTabControl2.ResumeLayout(false);
-            this.superTabControlPanel4.ResumeLayout(false);
             this.superTabControlPanel6.ResumeLayout(false);
+            this.superTabControlPanel4.ResumeLayout(false);
+            this.groupPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

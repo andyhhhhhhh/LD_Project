@@ -64,6 +64,8 @@ namespace ManagementView.MotorView
                 for (int i = 0; i < m_axisMonitor.Count(); i++)
                 {
                     m_axisMonitor[i] = new AxisMonitor();
+                    m_axisMonitor[i].Index = i;
+                    m_axisMonitor[i].m_DelAxisServo += SingleAxisServo;
                 }
                 CommHelper.LayoutChildFillView(panel_X, m_axisMonitor[0]);
                 CommHelper.LayoutChildFillView(panel_Y, m_axisMonitor[1]);
@@ -138,11 +140,11 @@ namespace ManagementView.MotorView
             dataPoint.Columns["Pos_U"].Visible = model.AxisNum > 3;
             dataPoint.Columns["pos_Y_Min"].Visible = model.AxisNum > 1;
             dataPoint.Columns["pos_Y_Max"].Visible = model.AxisNum > 1;
-            dataPoint.Columns["pos_Z_Min"].Visible = model.AxisNum > 2;
-            dataPoint.Columns["pos_Z_Max"].Visible = model.AxisNum > 2;
+            dataPoint.Columns["pos_Z_Min"].Visible = model.AxisNum > 3;
+            dataPoint.Columns["pos_Z_Max"].Visible = model.AxisNum > 3;
             dataPoint.Columns["pos_U_Min"].Visible = model.AxisNum > 3;
             dataPoint.Columns["pos_U_Max"].Visible = model.AxisNum > 3;
-
+            
             dataPoint.Columns["Pos_X"].HeaderText = "X";
             dataPoint.Columns["Pos_Y"].HeaderText = "Y";
             dataPoint.Columns["Pos_Z"].HeaderText = "Z";
@@ -202,6 +204,12 @@ namespace ManagementView.MotorView
             dataPoint.Columns[14].ReadOnly = Global.UserName != Global.EngineerName;
             //ID不能修改
             dataPoint.Columns[13].ReadOnly = true;
+
+            toolInPutData.Enabled = Global.UserName == Global.EngineerName;
+            toolOutPutData.Enabled = Global.UserName == Global.EngineerName;
+            设置偏移ToolStripMenuItem.Enabled = Global.UserName == Global.EngineerName;
+            清空数据ToolStripMenuItem.Enabled = Global.UserName == Global.EngineerName;
+            DeletetoolStripMenuItem1.Enabled = Global.UserName == Global.EngineerName;
 
             slider1.Value = Int32.Parse((m_StationModel.PercentSpeed * 100).ToString());
         }
@@ -303,12 +311,12 @@ namespace ManagementView.MotorView
         {
             try
             {
+                SingleAxisMove(false);
+
                 if (dataPoint.SelectedRows.Count == 0)
                 {
                     return;
                 }
-
-                bool isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_PrePare) || cmbStation.Text.Contains(MotionParam.Station_TakeTray);//是否需要判断Z轴             
 
                 var selModel = dataPoint.SelectedRows[0].DataBoundItem as PointModel;
 
@@ -319,13 +327,9 @@ namespace ManagementView.MotorView
                     return;
                 }
 
-                if (isJudgeSafe)
+                if(!JudgeSafe())
                 {
-                    if (!JudgeZSafe())
-                    {
-                        MessageBoxEx.Show("Z轴未在安全位!");
-                        return;
-                    }
+                    return;
                 }
 
                 var resultModel = m_MotroContorl.Run(selModel, MotorControlType.AxisMoveNotWait);
@@ -344,11 +348,12 @@ namespace ManagementView.MotorView
         {
             try
             {
+                SingleAxisMove(true);
+
                 if (dataPoint.SelectedRows.Count == 0)
                 {
                     return;
-                }
-                bool isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_Up) || cmbStation.Text.Contains(MotionParam.Station_UnLoad);//是否需要判断Z轴    
+                } 
 
                 var selModel = dataPoint.SelectedRows[0].DataBoundItem as PointModel;
 
@@ -359,13 +364,9 @@ namespace ManagementView.MotorView
                     return;
                 }
 
-                if (isJudgeSafe)
+                if (!JudgeSafe())
                 {
-                    if (!JudgeZSafe())
-                    {
-                        MessageBoxEx.Show("Z轴未在安全位!");
-                        return;
-                    }
+                    return;
                 }
 
                 var resultModel = m_MotroContorl.Run(selModel, MotorControlType.AxisMove);
@@ -377,6 +378,78 @@ namespace ManagementView.MotorView
             catch (Exception ex)
             {
 
+            }
+        }
+
+        private void SingleAxisMove(bool bwait)
+        {
+            try
+            {
+                if (dataPoint.SelectedCells.Count != 1)
+                {
+                    return;
+                }
+
+                int rowIndex = dataPoint.SelectedCells[0].RowIndex;
+                int colIndex = dataPoint.SelectedCells[0].ColumnIndex;
+                AxisParamModel axis = null;
+                switch (colIndex)
+                {
+                    case 0:
+                        axis = m_StationModel.Axis_X;
+                        break;
+                    case 1:
+                        axis = m_StationModel.Axis_Y;
+                        break;
+                    case 2:
+                        axis = m_StationModel.Axis_Z;
+                        break;
+                    case 3:
+                        axis = m_StationModel.Axis_U;
+                        break;
+                    default:
+                        break;
+                }
+
+                if(axis == null)
+                {
+                    return;
+                }
+
+                axis.pos = double.Parse(dataPoint.SelectedCells[0].Value.ToString());
+
+                var result = MessageBoxEx.Show(this, string.Format("[{0}]确定走位置[{1}]?", axis.aliasName, axis.pos), "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
+                {
+                    MessageBoxEx.Show("取消操作!");
+                    return;
+                }
+
+                if (!JudgeSafe())
+                {
+                    return;
+                }
+
+                if(bwait)
+                {
+                    var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisMove);
+                    if (!resultModel.RunResult)
+                    {
+                        MessageBoxEx.Show(resultModel.ErrorMessage);
+                    }
+                }
+                else
+                {
+                    var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisMoveNotWait);
+                    if (!resultModel.RunResult)
+                    {
+                        MessageBoxEx.Show(resultModel.ErrorMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                 
             }
         }
 
@@ -613,10 +686,10 @@ namespace ManagementView.MotorView
         {
             try
             {
-                txtX_Distance.Text = "0.1";
-                txtY_Distance.Text = "0.1";
-                txtZ_Distance.Text = "0.1";
-                txtU_Distance.Text = "0.1";
+                txtX_Distance.Text = "10";
+                txtY_Distance.Text = "10";
+                txtZ_Distance.Text = "10";
+                txtU_Distance.Text = "10";
 
                 txtX_Distance.Enabled = true;
                 txtY_Distance.Enabled = true;
@@ -632,10 +705,10 @@ namespace ManagementView.MotorView
         {
             try
             {
-                txtX_Distance.Text = "10";
-                txtY_Distance.Text = "10";
-                txtZ_Distance.Text = "10";
-                txtU_Distance.Text = "10";
+                txtX_Distance.Text = "1000";
+                txtY_Distance.Text = "1000";
+                txtZ_Distance.Text = "1000";
+                txtU_Distance.Text = "1000";
 
                 txtX_Distance.Enabled = true;
                 txtY_Distance.Enabled = true;
@@ -652,10 +725,10 @@ namespace ManagementView.MotorView
         {
             try
             {
-                txtX_Distance.Text = "1";
-                txtY_Distance.Text = "1";
-                txtZ_Distance.Text = "1";
-                txtU_Distance.Text = "1";
+                txtX_Distance.Text = "100";
+                txtY_Distance.Text = "100";
+                txtZ_Distance.Text = "100";
+                txtU_Distance.Text = "100";
 
                 txtX_Distance.Enabled = true;
                 txtY_Distance.Enabled = true;
@@ -695,21 +768,17 @@ namespace ManagementView.MotorView
             高速
         }
         #endregion
-         
+        
         #region 回原 
         private void btnX_Home_Click(object sender, EventArgs e)
         {
             try
             {
-                bool isJudgeSafe = cmbStation.Text.Contains("XY");//是否需要判断Z轴 
-                if (isJudgeSafe)
+                if (!JudgeSafe())
                 {
-                    if (!JudgeZSafe())
-                    {
-                        MessageBoxEx.Show("Z轴未在安全位!");
-                        return;
-                    }
+                    return;
                 }
+
                 //工站X回零
                 var resultModel = m_MotroContorl.Run(m_StationModel.Axis_X, MotorControlType.AxisGoHome);
                 if (resultModel.RunResult)
@@ -731,15 +800,11 @@ namespace ManagementView.MotorView
         {
             try
             {
-                bool isJudgeSafe = cmbStation.Text.Contains("XY");//是否需要判断Z轴 
-                if (isJudgeSafe)
+                if (!JudgeSafe())
                 {
-                    if (!JudgeZSafe())
-                    {
-                        MessageBoxEx.Show("Z轴未在安全位!");
-                        return;
-                    }
+                    return;
                 }
+
                 //工站Y回零
                 var resultModel = m_MotroContorl.Run(m_StationModel.Axis_Y, MotorControlType.AxisGoHome);
                 if (resultModel.RunResult)
@@ -803,15 +868,11 @@ namespace ManagementView.MotorView
         {
             try
             {
-                bool isJudgeSafe = cmbStation.Text.Contains("XY");//是否需要判断Z轴 
-                if (isJudgeSafe)
+                if (!JudgeSafe())
                 {
-                    if (!JudgeZSafe())
-                    {
-                        MessageBoxEx.Show("Z轴未在安全位!");
-                        return;
-                    }
+                    return;
                 }
+
                 //工站回零
                 var resultModel = m_MotroContorl.Run(m_StationModel, MotorControlType.AxisGoHome);
                 if(resultModel.RunResult)
@@ -1399,23 +1460,28 @@ namespace ManagementView.MotorView
 
                             //获取X位置
                             if (m_StationModel.Axis_X != null)
-                            { 
+                            {
                                 var resultModel = m_MotroContorl.Run(m_StationModel.Axis_X, MotorControlType.AxisStatus);
                                 if (resultModel.RunResult)
                                 {
                                     AxisStatus status = resultModel.ObjectResult as AxisStatus;
-                                    if (status == null)
+                                    if (status != null)
                                     {
-                                        return;
+                                        BeginInvoke(new Action(() =>
+                                        {
+                                            txtX_Pos.Text = (status.Acs / m_StationModel.Axis_X.stepvalue).ToString("0.000"); 
+                                            SetStatus(status);
+                                        }));
+                                        m_axisMonitor[0].SetStatus(status);
                                     }
-                                    
-                                    BeginInvoke(new Action(() =>
+                                    else
                                     {
-                                        txtX_Pos.Text = status.Acs.ToString();
-                                        SetStatus(status);
-                                    }));
-                                    m_axisMonitor[0].SetStatus(status);
-                                } 
+                                        BeginInvoke(new Action(() =>
+                                        {
+                                            txtX_Pos.Text = "NONE";
+                                        }));
+                                    }
+                                }
                             }
 
                             //获取Y位置
@@ -1425,16 +1491,22 @@ namespace ManagementView.MotorView
                                 if (resultModel.RunResult)
                                 {
                                     AxisStatus status = resultModel.ObjectResult as AxisStatus;
-                                    if (status == null)
+                                    if (status != null)
                                     {
-                                        return;
+                                        txtY_Pos.Invoke(new Action(() =>
+                                        {
+                                            txtY_Pos.Text = (status.Acs / m_StationModel.Axis_Y.stepvalue).ToString("0.000"); 
+                                            SetStatus(status);
+                                        }));
+                                        m_axisMonitor[1].SetStatus(status);
                                     }
-                                    txtY_Pos.Invoke(new Action(() =>
+                                    else
                                     {
-                                        txtY_Pos.Text = status.Acs.ToString();
-                                        SetStatus(status);
-                                    }));
-                                    m_axisMonitor[1].SetStatus(status);
+                                        BeginInvoke(new Action(() =>
+                                        {
+                                            txtY_Pos.Text = "NONE";
+                                        }));
+                                    }
                                 }
                             }
 
@@ -1445,16 +1517,22 @@ namespace ManagementView.MotorView
                                 if (resultModel.RunResult)
                                 {
                                     AxisStatus status = resultModel.ObjectResult as AxisStatus;
-                                    if (status == null)
+                                    if (status != null)
                                     {
-                                        return;
+                                        txtZ_Pos.Invoke(new Action(() =>
+                                        {
+                                            txtZ_Pos.Text = (status.Acs / m_StationModel.Axis_Z.stepvalue).ToString("0.000");
+                                            SetStatus(status);
+                                        }));
+                                        m_axisMonitor[2].SetStatus(status);
                                     }
-                                    txtZ_Pos.Invoke(new Action(() =>
+                                    else
                                     {
-                                        txtZ_Pos.Text = status.Acs.ToString();
-                                        SetStatus(status);
-                                    }));
-                                    m_axisMonitor[2].SetStatus(status);
+                                        BeginInvoke(new Action(() =>
+                                        {
+                                            txtZ_Pos.Text = "NONE";
+                                        }));
+                                    }
                                 }
                             }
 
@@ -1465,16 +1543,22 @@ namespace ManagementView.MotorView
                                 if (resultModel.RunResult)
                                 {
                                     AxisStatus status = resultModel.ObjectResult as AxisStatus;
-                                    if (status == null)
+                                    if (status != null)
                                     {
-                                        return;
+                                        txtU_Pos.Invoke(new Action(() =>
+                                        {
+                                            txtU_Pos.Text = (status.Acs / m_StationModel.Axis_U.stepvalue).ToString("0.000");
+                                            SetStatus(status);
+                                        }));
+                                        m_axisMonitor[3].SetStatus(status);
                                     }
-                                    txtU_Pos.Invoke(new Action(() =>
+                                    else
                                     {
-                                        txtU_Pos.Text = status.Acs.ToString();
-                                        SetStatus(status);
-                                    }));
-                                    m_axisMonitor[3].SetStatus(status);
+                                        BeginInvoke(new Action(() =>
+                                        {
+                                            txtU_Pos.Text = "NONE";
+                                        }));
+                                    }
                                 }
                             }
 
@@ -1613,8 +1697,158 @@ namespace ManagementView.MotorView
                 
             }
         }
+        
+        private void 设置偏移ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowControl view = new ShowControl(new AxisOffSetView(m_StationModel), "偏移设置");
+                view.ShowDialog();
 
-        private bool JudgeZSafe()
+                UpdateData(m_StationModel);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 单轴使能委托
+        /// </summary>
+        /// <param name="index">轴Index</param>
+        /// <param name="bservo">true-使能 false-禁能</param>
+        private void SingleAxisServo(int index, bool bservo)
+        {
+            try
+            {
+                AxisParamModel axis = new AxisParamModel();
+                switch (index)
+                {
+                    case 0:
+                        axis = m_StationModel.Axis_X;
+                        break;
+                    case 1:
+                        axis = m_StationModel.Axis_Y;
+                        break;
+                    case 2:
+                        axis = m_StationModel.Axis_Z;
+                        break;
+                    case 3:
+                        axis = m_StationModel.Axis_U;
+                        break;
+
+                    default:
+                        axis = m_StationModel.Axis_X;
+                        break;
+                }
+
+                if (bservo)
+                {
+                    var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisEnable);
+                    if (!resultModel.RunResult)
+                    {
+                        MessageBoxEx.Show(axis.aliasName + " 使能失败!");
+                    }
+                }
+                else
+                {
+                    var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisDisable);
+                    if (!resultModel.RunResult)
+                    {
+                        MessageBoxEx.Show(axis.aliasName + " 断使能失败!");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+            }
+        }
+
+        #region 判断位置安全
+        /// <summary>
+        /// 判断位置安全
+        /// </summary>
+        /// <returns></returns>
+        private bool JudgeSafe()
+        {
+            try
+            {
+                bool isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_PrePare);//是否需要判断Z轴  
+                if (isJudgeSafe)
+                {
+                    if (!JudgeUpZSafe())
+                    {
+                        MessageBoxEx.Show("顶针模组Z轴未在安全位!");
+                        return false;
+                    }
+                }
+
+                isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_Camera);//是否需要判断Z轴    
+                if (isJudgeSafe)
+                {
+                    if (!JudgeLoadXSafe())
+                    {
+                        MessageBoxEx.Show("上料模组X未在安全位!");
+                        return false;
+                    }
+                }
+
+                isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_LoadX);//是否需要判断Z轴    
+                if (isJudgeSafe)
+                {
+                    if (!JudgeCameraSafe())
+                    {
+                        MessageBoxEx.Show("双目相机未在安全位!");
+                        return false;
+                    }
+
+                    if (!JudgeUnLoadXSafe())
+                    {
+                        MessageBoxEx.Show("下料模组X未在安全位!");
+                        return false;
+                    }
+
+                    if (!JudgeLoadZSafe())
+                    {
+                        MessageBoxEx.Show("上料模组Z未在安全位!");
+                        return false;
+                    }
+                }
+
+                isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_UnLoad);//是否需要判断Z轴    
+                if (isJudgeSafe)
+                {
+                    if (!JudgeLoadXSafe(false))
+                    {
+                        MessageBoxEx.Show("上料模组X未在安全位!");
+                        return false;
+                    }
+
+                    if (!JudgeUnLoadZSafe())
+                    {
+                        MessageBoxEx.Show("下料模组Z未在安全位!");
+                        return false;
+                    }
+                }
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断顶升模组是否在安全位
+        /// </summary>
+        /// <returns></returns>
+        private bool JudgeUpZSafe()
         {
             try
             {
@@ -1622,6 +1856,140 @@ namespace ManagementView.MotorView
                 PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
 
                 var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+
+                if (dvalue > pointModel.Pos_X - 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断上料模组X是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeLoadXSafe(bool bLeft = true)
+        {
+            try
+            {
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadX);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (bLeft)
+                {
+                    if (dvalue < pointModel.Pos_X - 0.5)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (dvalue > pointModel.Pos_X + 0.5)
+                    {
+                        return false;
+                    }
+                }
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断双目相机是否在安全位置
+        /// </summary>
+        /// <returns></returns>
+        public bool JudgeCameraSafe()
+        {
+            try
+            {
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Camera);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (dvalue > pointModel.Pos_X + 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断下料模组X是否在安全位置
+        /// </summary>
+        /// <returns></returns>
+        public bool JudgeUnLoadXSafe()
+        {
+            try
+            {
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoad);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (dvalue < pointModel.Pos_X - 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断下料模组Z是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeUnLoadZSafe()
+        {
+            try
+            {
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoadZ);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
 
                 if (dvalue < pointModel.Pos_X - 0.5)
@@ -1637,19 +2005,259 @@ namespace ManagementView.MotorView
             }
         }
 
-        private void 设置偏移ToolStripMenuItem_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 判断上料模组Z是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeLoadZSafe()
         {
             try
             {
-                ShowControl view = new ShowControl( new AxisOffSetView(m_StationModel), "偏移设置");
-                view.ShowDialog();
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadZ);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
 
-                UpdateData(m_StationModel);
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+
+                if (dvalue < pointModel.Pos_X - 0.5)
+                {
+                    return false;
+                }
+
+                return true;
             }
             catch (Exception ex)
             {
-                
+                return false;
             }
         }
+
+        #endregion
+        
+        #region 导入导出数据
+        //导出数据
+        private void toolOutPutData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string strPath = folderDialog.SelectedPath + "//" + m_StationModel.Name + ".csv";
+
+                    DataSet ds = GetDataSetFromDataGridView(dataPoint, m_StationModel.Name);
+                    Export2CSV(ds, m_StationModel.Name, true, strPath);
+
+                    MessageBoxEx.Show("导出成功到文件：" + strPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+            }
+        }
+
+        //导入数据
+        private void toolInPutData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    List<PointModel> listPoint = new List<PointModel>();
+                    string filePath = openFileDialog.FileName;
+
+                    using (var sr = new StreamReader(filePath, Encoding.Default))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            string strline = sr.ReadLine();
+                            if (string.IsNullOrEmpty(strline))
+                            {
+                                continue;
+                            }
+
+                            string[] strArr = strline.Split(',');
+                            if (strArr.Length < 15 || strArr[2].Contains("X"))
+                            {
+                                continue;
+                            }
+
+                            PointModel pointModel = new PointModel();
+
+                            pointModel.Id = int.Parse(strArr[0]);
+                            pointModel.Name = strArr[1];
+                            pointModel.Pos_X = double.Parse(strArr[2]);
+                            pointModel.Pos_Y = double.Parse(strArr[3]);
+                            pointModel.Pos_Z = double.Parse(strArr[4]);
+                            pointModel.Pos_U = double.Parse(strArr[5]);
+                            pointModel.pos_X_Min = double.Parse(strArr[6]);
+                            pointModel.pos_X_Max = double.Parse(strArr[7]);
+                            pointModel.pos_Y_Min = double.Parse(strArr[8]);
+                            pointModel.pos_Y_Max = double.Parse(strArr[9]);
+                            pointModel.pos_Z_Min = double.Parse(strArr[10]);
+                            pointModel.pos_Z_Max = double.Parse(strArr[11]);
+                            pointModel.pos_U_Min = double.Parse(strArr[12]);
+                            pointModel.pos_U_Max = double.Parse(strArr[13]);
+                            pointModel.StationName = strArr[14];
+
+                            listPoint.Add(pointModel);
+                        }
+                    }
+
+                    m_StationModel.PointModels = listPoint;
+                    UpdateData(m_StationModel);
+
+                    MessageBoxEx.Show("导入成功");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+            }
+        }
+
+        public static DataSet GetDataSetFromDataGridView(DataGridView datagridview, string name)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+
+            //为了把Id与Name显示在最开头
+            int index = 13;
+            for (int j = index; j < datagridview.Columns.Count; j++)
+            {
+                dt.Columns.Add(datagridview.Columns[j].HeaderCell.Value.ToString());
+            }
+            for (int j = 0; j < index; j++)
+            {
+                dt.Columns.Add(datagridview.Columns[j].HeaderCell.Value.ToString());
+            }
+
+            for (int j = 0; j < datagridview.Rows.Count; j++)
+            {
+                DataRow dr = dt.NewRow();
+                //先把不是ID和Name的赋值
+                for (int i = 0; i < datagridview.Columns.Count - 2; i++)
+                {
+                    if (datagridview.Rows[j].Cells[i].Value != null)
+                    {
+                        dr[i + 2] = datagridview.Rows[j].Cells[i].Value.ToString();
+                    }
+                    else
+                    {
+                        dr[i + 2] = "";
+                    }
+                }
+                //再把ID与Name赋值
+                for (int i = index; i < datagridview.Columns.Count; i++)
+                {
+                    if (datagridview.Rows[j].Cells[i].Value != null)
+                    {
+                        dr[i - index] = datagridview.Rows[j].Cells[i].Value.ToString();
+                    }
+                    else
+                    {
+                        dr[i - index] = "";
+                    }
+                }
+
+                dt.Rows.Add(dr);
+            }
+            dt.TableName = name;
+            ds.Tables.Add(dt);
+
+            return ds;
+        }
+
+        //将DataSet转换成CSV文件
+        public static void Export2CSV(DataSet ds, string tableName, bool containColumName, string fileName)
+        {
+            string csvStr = ConverDataSet2CSV(ds, tableName, containColumName);
+            if (csvStr == "")
+                return;
+
+            OutPutCSV(fileName, csvStr);
+        }
+
+        public static void OutPutCSV(string filePath, string dataStr)
+        {
+            try
+            {
+                //目录不存在则创建
+                string path = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                StreamWriter fileWriter;
+                fileWriter = new StreamWriter(filePath, false, Encoding.GetEncoding("gb2312"));
+
+                if ("" != dataStr)
+                {
+                    fileWriter.Write(dataStr);
+                }
+
+                fileWriter.Flush();
+                fileWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        /// <summary>
+        /// 将指定的数据集中指定的表转换成CSV字符串
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        private static string ConverDataSet2CSV(DataSet ds, string tableName, bool containColumName)
+        {
+            //首先判断数据集中是否包含指定的表
+            if (ds == null || !ds.Tables.Contains(tableName))
+            {
+                MessageBox.Show("指定的数据集为空或不包含要写出的数据表！", "系统提示：", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return "";
+            }
+            string csvStr = "";
+            //下面写出数据
+            DataTable tb = ds.Tables[tableName];
+
+            //第一步：写出列名
+            if (containColumName)
+            {
+                foreach (DataColumn column in tb.Columns)
+                {
+                    csvStr += column.ColumnName+ ",";
+                }
+                //去掉最后一个","
+                csvStr = csvStr.Remove(csvStr.LastIndexOf(","), 1);
+                csvStr += "\n";
+            }
+
+            //第二步：写出数据
+            foreach (DataRow row in tb.Rows)
+            {
+                foreach (DataColumn column in tb.Columns)
+                {
+                    csvStr += row[column].ToString()+ ",";
+                }
+                csvStr = csvStr.Remove(csvStr.LastIndexOf(","), 1);
+                csvStr += "\n";
+            }
+            return csvStr;
+        }
+
+        #endregion
+
     }
 }

@@ -58,10 +58,17 @@
   <ItemGroup>
     <Compile Include="AlgorithmControl.cs" />
     <Compile Include="AlgorithmResultModel.cs" />
+    <Compile Include="HKOcr.cs" />
     <Compile Include="IAlgorithmControl.cs" />
+    <Compile Include="LDAlgorithmControl.cs" />
+    <Compile Include="LHFOcr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\Global\Global.Core.csproj">
+      <Project>{cdb05cab-383d-4a38-8c58-7512cc138052}</Project>
+      <Name>Global.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Models\BaseModel\BaseModels.csproj">
       <Project>{ff8d6997-4e68-4ed0-ad0b-857826f52b13}</Project>
       <Name>BaseModels</Name>

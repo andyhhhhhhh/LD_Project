@@ -195,12 +195,12 @@ namespace ManagementView
             UnLoadTrayModel unLoadTray = cosModel.unLoadTrayModel;
             if (unLoadTray != null)
             {
-                List<EnumCosResult> listCosResult = new List<EnumCosResult>();
+                List<EnumLDResult> listCosResult = new List<EnumLDResult>();
 
                 listCosResult = cosModel.listBlowType1;
 
 
-                int index = listCosResult.FindIndex(x => x == EnumCosResult.Enum_Pass);
+                int index = listCosResult.FindIndex(x => x == EnumLDResult.Enum_Pass);
                 if (index != -1)
                 {
                     unLoadTray.PassModel.TrayCurrentNum = index + 1;
@@ -214,7 +214,7 @@ namespace ManagementView
                     unLoadTray.PassModel.ProductCurrentCol = 0;
                 }
 
-                index = listCosResult.FindIndex(x => x == EnumCosResult.Enum_Fail);
+                index = listCosResult.FindIndex(x => x == EnumLDResult.Enum_Fail);
                 if (index != -1)
                 {
                     unLoadTray.FailModel.TrayCurrentNum = index + 1;
@@ -222,7 +222,7 @@ namespace ManagementView
                     unLoadTray.FailModel.ProductCurrentCol = 1;
                 }
                 
-                index = listCosResult.FindIndex(x => x == EnumCosResult.Enum_SeemNG);
+                index = listCosResult.FindIndex(x => x == EnumLDResult.Enum_SeemNG);
                 if (index != -1)
                 {
                     unLoadTray.SeemNGModel.TrayCurrentNum = index + 1;

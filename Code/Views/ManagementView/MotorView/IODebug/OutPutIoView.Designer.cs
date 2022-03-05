@@ -43,7 +43,7 @@
             this.panelEx1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEx1.Location = new System.Drawing.Point(0, 0);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(160, 30);
+            this.panelEx1.Size = new System.Drawing.Size(212, 31);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.panelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
@@ -61,7 +61,7 @@
             this.btnIo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnIo.Location = new System.Drawing.Point(0, 0);
             this.btnIo.Name = "btnIo";
-            this.btnIo.Size = new System.Drawing.Size(160, 30);
+            this.btnIo.Size = new System.Drawing.Size(212, 31);
             this.btnIo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btnIo.TabIndex = 0;
             this.btnIo.Text = "Io名称";
@@ -78,7 +78,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelEx1);
             this.Name = "OutPutIoView";
-            this.Size = new System.Drawing.Size(160, 30);
+            this.Size = new System.Drawing.Size(212, 31);
             this.Load += new System.EventHandler(this.OutPutIoView_Load);
             this.panelEx1.ResumeLayout(false);
             this.ResumeLayout(false);

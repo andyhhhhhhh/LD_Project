@@ -13,6 +13,7 @@ using System.IO;
 using DevComponents.AdvTree;
 using DevComponents.DotNetBar;
 using DevComponents.DotNetBar.Controls;
+using GlobalCore;
 
 namespace ManagementView.MotorView
 {
@@ -59,7 +60,10 @@ namespace ManagementView.MotorView
 
                 cmbhomeType.DataSource = Enum.GetNames(typeof(EnumHomeType));
                 cmblimitType.DataSource = Enum.GetNames(typeof(EnumLimitType));
-                cmbmotorType.DataSource = Enum.GetNames(typeof(EnumMotorType));  
+                cmbmotorType.DataSource = Enum.GetNames(typeof(EnumMotorType));
+                
+                OutPuttoolStripMenuItem1.Enabled = Global.UserName == Global.EngineerName;
+                InPuttoolStripMenuItem2.Enabled = Global.UserName == Global.EngineerName;
             }
             catch (Exception ex)
             {
@@ -523,10 +527,11 @@ namespace ManagementView.MotorView
                 m_selAxisModel.maxVel = double.Parse(txtmaxVel.Text);
                 m_selAxisModel.maxAcc = double.Parse(txtmaxAcc.Text);
                 m_selAxisModel.maxDec = double.Parse(txtmaxDec.Text);
-                m_selAxisModel.vel = double.Parse(txtvel.Text);
+                m_selAxisModel.maxAacc = double.Parse(txtAAcc.Text);
                 m_selAxisModel.homeVel = double.Parse(txthomeVel.Text);
                 m_selAxisModel.iInHomeOffset = long.Parse(txtiInHomeOffset.Text);
-                m_selAxisModel.homeIo = UInt32.Parse(txtHomeIO.Text); 
+                m_selAxisModel.homeIo = UInt32.Parse(txtHomeIO.Text);
+                m_selAxisModel.InPlaceOffSet = double.Parse(txtinplaceOffSet.Text);
             }
             catch (Exception ex)
             {
@@ -549,10 +554,11 @@ namespace ManagementView.MotorView
                 txtmaxVel.Text = model.maxVel.ToString();
                 txtmaxAcc.Text = model.maxAcc.ToString();
                 txtmaxDec.Text = model.maxDec.ToString();
-                txtvel.Text = model.vel.ToString();
+                txtAAcc.Text = model.maxAacc.ToString();
                 txthomeVel.Text = model.homeVel.ToString();
                 txtiInHomeOffset.Text = model.iInHomeOffset.ToString();
                 txtHomeIO.Text = model.homeIo.ToString();
+                txtinplaceOffSet.Text = model.InPlaceOffSet.ToString();
             }
             catch (Exception ex)
             {
@@ -753,6 +759,7 @@ namespace ManagementView.MotorView
                 model.PointModels = pointModelArr.ToList();
                 
                 m_CardModel.StationModels.Add(model);
+                m_CardModel.StationModels = m_CardModel.StationModels.OrderBy(x => x.Id).ToList();
                 InitStation();
                 AxisVisible(model.AxisNum);
             }
@@ -1181,7 +1188,217 @@ namespace ManagementView.MotorView
             }
         }
 
-        #endregion
+        #endregion        
 
+        #region 导入导出数据
+
+        //导出数据
+        private void OutPuttoolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FolderBrowserDialog folderDialog = new FolderBrowserDialog();
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string strPath = folderDialog.SelectedPath + "//" + "IO.csv";
+
+                    DataSet ds = GetDataSetFromDataGridView(dataIO, "IO");
+                    Export2CSV(ds, "IO", true, strPath);
+
+                    MessageBoxEx.Show("导出成功到文件：" + strPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+            }
+        }
+
+        //导入数据
+        private void InPuttoolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    List<IOModel> listIo = new List<IOModel>();
+                    string filePath = openFileDialog.FileName;
+
+                    using (var sr = new StreamReader(filePath, Encoding.Default))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            string strline = sr.ReadLine();
+                            if (string.IsNullOrEmpty(strline))
+                            {
+                                continue;
+                            }
+
+                            string[] strArr = strline.Split(',');
+                            if (strArr.Length < 8 || strArr[0].Contains("Id"))
+                            {
+                                continue;
+                            }
+
+                            IOModel ioModel = new IOModel();
+
+                            ioModel.Id = int.Parse(strArr[0]);
+                            ioModel.Name = strArr[1];
+                            ioModel.cardIndex = Int32.Parse(strArr[2]);
+                            ioModel.extIndex = Int32.Parse(strArr[3]);
+                            ioModel.index = Int32.Parse(strArr[4]);
+                            ioModel.enumIo = (EnumIO)Enum.Parse(typeof(EnumIO), strArr[5]);
+                            ioModel.enumIoType = (EnumIOType)Enum.Parse(typeof(EnumIOType), strArr[6]);
+                            ioModel.bReverse = bool.Parse(strArr[7]);
+
+                            listIo.Add(ioModel);
+                            
+                        }
+                    }
+
+                    m_CardModel.IOModels = listIo;
+
+                    MessageBoxEx.Show("导入成功");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxEx.Show(ex.Message);
+            }
+        }
+
+        //DataGridView数据转成DataSet
+        public static DataSet GetDataSetFromDataGridView(DataGridView datagridview, string name)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+
+            //为了把Id与Name显示在最开头
+            int index = 6;
+            for (int j = index; j < datagridview.Columns.Count; j++)
+            {
+                dt.Columns.Add(datagridview.Columns[j].HeaderCell.Value.ToString());
+            }
+            for (int j = 0; j < index; j++)
+            {
+                dt.Columns.Add(datagridview.Columns[j].HeaderCell.Value.ToString());
+            }
+
+            for (int j = 0; j < datagridview.Rows.Count; j++)
+            {
+                DataRow dr = dt.NewRow();
+                //先把不是ID和Name的赋值
+                for (int i = 0; i < datagridview.Columns.Count - 2; i++)
+                {
+                    if (datagridview.Rows[j].Cells[i].Value != null)
+                    {
+                        dr[i + 2] = datagridview.Rows[j].Cells[i].Value.ToString();
+                    }
+                    else
+                    {
+                        dr[i + 2] = "";
+                    }
+                }
+                //再把ID与Name赋值
+                for (int i = index; i < datagridview.Columns.Count; i++)
+                {
+                    if (datagridview.Rows[j].Cells[i].Value != null)
+                    {
+                        dr[i - index] = datagridview.Rows[j].Cells[i].Value.ToString();
+                    }
+                    else
+                    {
+                        dr[i - index] = "";
+                    }
+                }
+
+                dt.Rows.Add(dr);
+            }
+            dt.TableName = name;
+            ds.Tables.Add(dt);
+
+            return ds;
+        }
+
+        //将DataSet转换成CSV文件
+        public static void Export2CSV(DataSet ds, string tableName, bool containColumName, string fileName)
+        {
+            string csvStr = ConverDataSet2CSV(ds, tableName, containColumName);
+            if (csvStr == "")
+                return;
+
+            OutPutCSV(fileName, csvStr);
+        }
+
+        //数据保存到CSV
+        public static void OutPutCSV(string filePath, string dataStr)
+        {
+            try
+            {
+                //目录不存在则创建
+                string path = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                StreamWriter fileWriter;
+                fileWriter = new StreamWriter(filePath, false, Encoding.GetEncoding("gb2312"));
+
+                if ("" != dataStr)
+                {
+                    fileWriter.Write(dataStr);
+                }
+
+                fileWriter.Flush();
+                fileWriter.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        //将指定的数据集中指定的表转换成CSV字符串
+        private static string ConverDataSet2CSV(DataSet ds, string tableName, bool containColumName)
+        {
+            //首先判断数据集中是否包含指定的表
+            if (ds == null || !ds.Tables.Contains(tableName))
+            {
+                MessageBox.Show("指定的数据集为空或不包含要写出的数据表！", "系统提示：", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return "";
+            }
+            string csvStr = "";
+            //下面写出数据
+            DataTable tb = ds.Tables[tableName];
+
+            //第一步：写出列名
+            if (containColumName)
+            {
+                foreach (DataColumn column in tb.Columns)
+                {
+                    csvStr += column.ColumnName + ",";
+                }
+                //去掉最后一个","
+                csvStr = csvStr.Remove(csvStr.LastIndexOf(","), 1);
+                csvStr += "\n";
+            }
+
+            //第二步：写出数据
+            foreach (DataRow row in tb.Rows)
+            {
+                foreach (DataColumn column in tb.Columns)
+                {
+                    csvStr += row[column].ToString() + ",";
+                }
+                csvStr = csvStr.Remove(csvStr.LastIndexOf(","), 1);
+                csvStr += "\n";
+            }
+            return csvStr;
+        }
+
+        #endregion
     }
 }

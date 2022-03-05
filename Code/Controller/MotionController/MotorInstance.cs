@@ -34,6 +34,10 @@ namespace MotionController
                 return null;
             }
         }
+        /// <summary>
+        /// 控制卡名称
+        /// </summary>
+        string m_cardName = "";
 
         /// <summary>
         /// 运动中间类
@@ -48,13 +52,15 @@ namespace MotionController
             try
             {
                 m_motorControl = MotorControl.GetInstance();
-                m_motorControl.Init(parameter);
+                bool bvalue = m_motorControl.Init(parameter);
 
-                return true;
+                m_cardName = parameter.ToString();
+                
+                return bvalue;
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 
@@ -115,7 +121,7 @@ namespace MotionController
                 }
 
                 #endregion
-                 
+                
                 resultModel.RunResult = true;
                 string strerrorMsg = "";
                 switch (controlType)
@@ -154,7 +160,7 @@ namespace MotionController
                         {
                             if (axisModel != null)//单轴回零
                             {
-                                ireturn = m_motorControl.Motor_axis_home(axisModel.cardIndex, axisModel.axisIndex, axisModel.homeIo, (float)axisModel.homeVel, (float)axisModel.homeSecondVel);
+                                ireturn = m_motorControl.Motor_axis_home(axisModel.cardIndex, axisModel.axisIndex, axisModel.homeIo, (float)axisModel.homeVel, (float)axisModel.homeSecondVel, (int)axisModel.homeType, (int)axisModel.limitType);
                             }
                             else if (stationModel != null)//多轴回零
                             {
@@ -183,19 +189,103 @@ namespace MotionController
                                 {
                                     vel = axisModel.vel,
                                     acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
                                 };
-                                ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos, pspeed);
-                                string str = WaitMoveFinish(axisModel);
-                                if(!string.IsNullOrEmpty(str))
+
+                                string strError = "";
+                                if(!JudgeLimitPos(axisModel, ref strError))
+                                {
+                                    resultModel.ErrorMessage = strError;
+                                    ireturn = -1;
+                                }
+                                else
+                                {
+                                    ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos * axisModel.stepvalue, pspeed);
+                                    string str = WaitMoveFinish(axisModel);
+                                    if (!string.IsNullOrEmpty(str))
+                                    {
+                                        resultModel.ErrorMessage = str;
+                                        ireturn = -1;
+                                    }
+                                }
+                            }
+                            else if (stationModel != null)//模组移动
+                            {
+                                string str = StationMove(stationModel, true);
+                                //string str = GroupMove(stationModel, true);
+                                if (!string.IsNullOrEmpty(str))
                                 {
                                     resultModel.ErrorMessage = str;
                                     ireturn = -1;
                                 }
                             }
+                        }
+                        break;
+                    case MotorControlType.AxisMoveGroup:
+                        {
+                            if (axisModel != null)//单轴移动
+                            {
+                                TSpeed pspeed = new TSpeed()
+                                {
+                                    vel = axisModel.vel,
+                                    acc = axisModel.maxAcc,
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
+                                };
+                                string strError = "";
+                                if (!JudgeLimitPos(axisModel, ref strError))
+                                {
+                                    resultModel.ErrorMessage = strError;
+                                    ireturn = -1;
+                                }
+                                else
+                                {
+                                    ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos * axisModel.stepvalue, pspeed);
+                                    string str = WaitMoveFinish(axisModel);
+                                    if (!string.IsNullOrEmpty(str))
+                                    {
+                                        resultModel.ErrorMessage = str;
+                                        ireturn = -1;
+                                    }
+                                }
+                            }
                             else if (stationModel != null)//模组移动
                             {
-                               string str = StationMove(stationModel, true);
+                                string str = GroupMove(stationModel, true);
+                                if (!string.IsNullOrEmpty(str))
+                                {
+                                    resultModel.ErrorMessage = str;
+                                    ireturn = -1;
+                                }
+                            }
+                        }
+                        break;
+                    case MotorControlType.AxisMoveGroupNotWait:
+                        {
+                            if (axisModel != null)//单轴移动
+                            {
+                                TSpeed pspeed = new TSpeed()
+                                {
+                                    vel = axisModel.vel,
+                                    acc = axisModel.maxAcc,
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
+                                };
+                                string strError = "";
+                                if (!JudgeLimitPos(axisModel, ref strError))
+                                {
+                                    resultModel.ErrorMessage = strError;
+                                    ireturn = -1;
+                                }
+                                else
+                                {
+                                    ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos * axisModel.stepvalue, pspeed);
+                                }
+                            }
+                            else if (stationModel != null)//模组移动
+                            {
+                                string str = GroupMove(stationModel, false);
                                 if (!string.IsNullOrEmpty(str))
                                 {
                                     resultModel.ErrorMessage = str;
@@ -212,9 +302,10 @@ namespace MotionController
                                 {
                                     vel = axisModel.vel,
                                     acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
                                 };
-                                ireturn = m_motorControl.Motor_axis_move_offset(axisModel.cardIndex, axisModel.axisIndex, axisModel.relPos, pspeed, 0);
+                                ireturn = m_motorControl.Motor_axis_move_offset(axisModel.cardIndex, axisModel.axisIndex, axisModel.relPos * axisModel.stepvalue, pspeed, 0);
                             } 
                         }
                         break;
@@ -226,7 +317,8 @@ namespace MotionController
                                 {
                                     vel = axisModel.vel,
                                     acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
                                 };
 
                                 ireturn = m_motorControl.Motor_axis_vmove(axisModel.cardIndex, axisModel.axisIndex, axisModel.dir, pspeed);
@@ -272,13 +364,25 @@ namespace MotionController
                                 {
                                     vel = axisModel.vel,
                                     acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec
+                                    dec = axisModel.maxDec,
+                                    aacc = axisModel.maxAacc
                                 };
-                                ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos, pspeed);
+
+                                string strError = "";
+                                if (!JudgeLimitPos(axisModel, ref strError))
+                                {
+                                    resultModel.ErrorMessage = strError;
+                                    ireturn = -1;
+                                }
+                                else
+                                {
+                                    ireturn = m_motorControl.Motor_axis_move_pos(axisModel.cardIndex, axisModel.axisIndex, axisModel.pos * axisModel.stepvalue, pspeed);
+                                }
                             }
                             else if (stationModel != null)//模组移动
                             {
                                 string str = StationMove(stationModel, false);
+                                //string str = GroupMove(stationModel, false);
                                 if (!string.IsNullOrEmpty(str))
                                 {
                                     resultModel.ErrorMessage = str;
@@ -370,7 +474,7 @@ namespace MotionController
                             if (axisModel != null)
                             {
                                 bool bok = true;
-                                resultModel.ObjectResult = m_motorControl.GetStatus(axisModel.axisIndex, out bok);
+                                resultModel.ObjectResult = m_motorControl.GetStatus(axisModel.cardIndex, axisModel.axisIndex, out bok);
                                 ireturn = bok ? 0 : -1;
                             }
                         }
@@ -381,7 +485,7 @@ namespace MotionController
                             {
                                 double dpval = 0;
                                 ireturn = m_motorControl.Motor_get_current_pos(axisModel.cardIndex, axisModel.axisIndex, out dpval, 0);
-                                resultModel.ObjectResult = dpval;
+                                resultModel.ObjectResult = dpval / axisModel.stepvalue;
                             }
                         }
                         break;
@@ -391,7 +495,7 @@ namespace MotionController
                             {
                                 double dpval = 0;
                                 ireturn = m_motorControl.Motor_get_current_pos(axisModel.cardIndex, axisModel.axisIndex, out dpval, 1);
-                                resultModel.ObjectResult = dpval;
+                                resultModel.ObjectResult = dpval / axisModel.stepvalue;
                             }
                         }
                         break;
@@ -456,7 +560,13 @@ namespace MotionController
                         break;
                     case MotorControlType.Close:
                         {
-
+                            foreach (var item in XmlControl.controlCardModel.CardModels)
+                            {
+                                foreach (var axis in item.AxisParamModels)
+                                {
+                                    ireturn = m_motorControl.Motor_axis_disable(axis.cardIndex, axis.axisIndex);
+                                }
+                            } 
                         }
                         break;
 
@@ -651,11 +761,13 @@ namespace MotionController
             try
             {
                 List<AxisParamModel> listAxis = new List<AxisParamModel>();
+                resultModel.RunResult = true;
 
                 //先回零带Z轴的模组
                 //List<StationModel> listModel = new List<StationModel>();
-                //StationModel stationZ = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Load);
-                //StationModel stationSphere1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoad);
+                //StationModel stationZ = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Z);
+                //StationModel stationSphere1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Sphere1);
+                //StationModel stationSphere2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Sphere2);
                 //listModel.Add(stationZ);
                 //listModel.Add(stationSphere1);
                 //listModel.Add(stationSphere1);
@@ -669,22 +781,29 @@ namespace MotionController
                 //}
 
                 //再回零不带Z轴的模组
-                //StationModel stationXY = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
-                ////StationModel stationChange = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Change);
+                //StationModel stationXY = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_XY);
                 //StationModel stationR1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R1);
                 //StationModel stationR2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R2);
                 //StationModel stationR3 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R3);
+                //StationModel stationHorAng1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_HorAngle1);
+                //StationModel stationVelAng1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_VelAngle1);
+                //StationModel stationHorAng2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_HorAngle2);
+                //StationModel stationVelAng2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_VelAngle2);
 
-                List<StationModel> listModel2 = new List<StationModel>();
+                //List<StationModel> listModel2 = new List<StationModel>();
                 //listModel2.Add(stationXY);
-                ////listModel2.Add(stationChange);
                 //listModel2.Add(stationR1);
                 //listModel2.Add(stationR2);
                 //listModel2.Add(stationR3);
+                ////listModel2.Add(stationHorAng1);
+                ////listModel2.Add(stationVelAng1);
+                ////listModel2.Add(stationHorAng2);
+                ////listModel2.Add(stationVelAng2);
 
-                listAxis = GetStationAxis(listModel2);
+                //listAxis = GetStationAxis(listModel2);
 
-                resultModel = AllAxisGoHome(listAxis); 
+                //resultModel = AllAxisGoHome(listAxis);
+                 
 
                 return resultModel;
             }
@@ -694,7 +813,7 @@ namespace MotionController
                 resultModel.RunResult = false;
                 return resultModel;
             }
-        }
+        }         
 
         /// <summary>
         /// 工站回零
@@ -733,14 +852,14 @@ namespace MotionController
                 int ivalue = 0;
                 Parallel.ForEach(listAxis, new Action<AxisParamModel>(axis =>
                 { 
-                    int ireturn = m_motorControl.Motor_axis_home(axis.cardIndex, (ushort)axis.Id, axis.homeIo, (float)axis.homeVel, (float)axis.homeSecondVel);
+                    int ireturn = m_motorControl.Motor_axis_home(axis.cardIndex, (ushort)axis.Id, axis.homeIo, (float)axis.homeVel, (float)axis.homeSecondVel, (int)axis.homeType, (int)axis.limitType);
                     if (ireturn != 0)
                     {
                         ivalue = ireturn;
                     }
 
                     if (ireturn != 0)
-                        error += "轴" + axis.Id + "回零失败";
+                        error += axis.aliasName + "回零失败";
 
                     //查询轴是否在忙
                     error += WaitMoveFinish(axis);
@@ -779,6 +898,17 @@ namespace MotionController
 
                 List<AxisParamModel> axisList = GetStationAxis(stationModel);
 
+                //判断是否超过软限位
+                foreach (var item in axisList)
+                {
+                    string strErr = "";
+                    if (!JudgeLimitPos(item, ref strErr))
+                    {
+                        errorMessageTotal += strErr;
+                        return errorMessageTotal;
+                    }
+                }
+
                 Parallel.ForEach(axisList, new Action<AxisParamModel>((o) =>
                 {
                     string error = "";
@@ -793,16 +923,17 @@ namespace MotionController
 
                         TSpeed tspeed = new TSpeed()
                         {
-                            dec = p.maxDec,
-                            acc = p.maxAcc,
+                            dec = p.maxDec * stationModel.PercentSpeed,
+                            acc = p.maxAcc * stationModel.PercentSpeed,
+                            aacc = p.maxAacc * stationModel.PercentSpeed,
                             vel = p.maxVel * stationModel.PercentSpeed,
                         };
-                        if (m_motorControl.Motor_axis_move_pos(p.cardIndex, p.axisIndex, p.pos, tspeed) != 0)
+                        if (m_motorControl.Motor_axis_move_pos(p.cardIndex, p.axisIndex, p.pos * p.stepvalue, tspeed) != 0)
                         {
                             //移动失败再移动一次
-                            if (m_motorControl.Motor_axis_move_pos(p.cardIndex, p.axisIndex, p.pos, tspeed) != 0)
+                            if (m_motorControl.Motor_axis_move_pos(p.cardIndex, p.axisIndex, p.pos * p.stepvalue, tspeed) != 0)
                             {
-                                error += p.Name + "运动失败"; 
+                                error += p.aliasName + "运动失败"; 
                             }
                         }
                         
@@ -815,9 +946,19 @@ namespace MotionController
                             int ivalue = m_motorControl.Motor_get_current_pos(p.cardIndex, p.axisIndex, out pcurrentpos);
                             if (ivalue == 0)
                             {
-                                if(Math.Abs(pcurrentpos - p.pos) > 0.2)
+                                pcurrentpos = pcurrentpos / p.stepvalue;
+                                double inplaceOffset = p.InPlaceOffSet == 0 ? 0.1 : p.InPlaceOffSet;
+                                if (Math.Abs(pcurrentpos - p.pos) > inplaceOffset && m_cardName != EnumCard.虚拟卡.ToString())
                                 {
-                                    error += p.Name + ":未走到位";
+                                    //轴未到位则再等待确认位置
+                                    Thread.Sleep(300);
+                                    ivalue = m_motorControl.Motor_get_current_pos(p.cardIndex, p.axisIndex, out pcurrentpos);
+                                    pcurrentpos = pcurrentpos / p.stepvalue;
+                                    if (Math.Abs(pcurrentpos - p.pos) > inplaceOffset && m_cardName != EnumCard.虚拟卡.ToString())
+                                    {
+                                        string strError = string.Format("{0}:未走到位 规划位置:{1} 当前位置:{2}", p.aliasName, p.pos, pcurrentpos);
+                                        error += strError;
+                                    }
                                 }
                             }
                         }
@@ -830,8 +971,109 @@ namespace MotionController
                     {
                         errorMessageTotal += error;
                     }
-                }));
-                 
+                }));                 
+
+                errorMessage = errorMessageTotal;
+
+                return errorMessage;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// 插补运动
+        /// </summary>
+        /// <param name="stationModel">输入工站</param>
+        /// <param name="bwait">是否等待运动完成</param>
+        /// <returns></returns>
+        private string GroupMove(StationModel stationModel, bool bwait)
+        {
+            try
+            {
+                string errorMessage = "";
+                string errorMessageTotal = "";
+
+                List<AxisParamModel> axisList = GetStationAxis(stationModel);
+
+                //判断是否超过软限位
+                foreach (var item in axisList)
+                {
+                    string strErr = "";
+                    if (!JudgeLimitPos(item, ref strErr))
+                    {
+                        errorMessageTotal += strErr;
+                        return errorMessageTotal;
+                    }
+                }
+
+                string error = "";
+                try
+                {
+                    TSpeed tspeed = new TSpeed()
+                    {
+                        dec = axisList[0].maxDec * stationModel.PercentSpeed,
+                        acc = axisList[0].maxAcc * stationModel.PercentSpeed,
+                        aacc = axisList[0].maxAacc * stationModel.PercentSpeed,
+                        vel = axisList[0].maxVel * stationModel.PercentSpeed,
+                    };
+
+                    List<ushort> listIndex = new List<ushort>();
+                    List<float> listPos = new List<float>();
+                    foreach (var axis in axisList)
+                    {
+                        listIndex.Add(axis.axisIndex);
+                        listPos.Add((float)axis.pos * (float)axis.stepvalue);
+                    }
+
+                    if (m_motorControl.Motor_group_move(null, listIndex, listPos, tspeed, stationModel.Id) != 0)
+                    {
+                        error += stationModel.Name + "运动失败";
+                    }
+
+                    //查询轴是否在忙
+                    if (bwait)
+                    {
+                        foreach (var p in axisList)
+                        {
+                            error += WaitMoveFinish(p);
+                            Thread.Sleep(80);
+                            double pcurrentpos = 0;
+                            int ivalue = m_motorControl.Motor_get_current_pos(p.cardIndex, p.axisIndex, out pcurrentpos);
+                            if (ivalue == 0)
+                            {
+                                pcurrentpos /= p.stepvalue;
+                                double inplaceOffset = p.InPlaceOffSet == 0 ? 0.1 : p.InPlaceOffSet;
+                                if (Math.Abs(pcurrentpos - p.pos) > inplaceOffset && m_cardName != EnumCard.虚拟卡.ToString())
+                                {
+                                    //轴未到位则再等待确认位置
+                                    Thread.Sleep(300);
+                                    ivalue = m_motorControl.Motor_get_current_pos(p.cardIndex, p.axisIndex, out pcurrentpos);
+                                    pcurrentpos /= p.stepvalue;
+                                    if (Math.Abs(pcurrentpos - p.pos) > inplaceOffset && m_cardName != EnumCard.虚拟卡.ToString())
+                                    {
+                                        string strError = string.Format("{0}:未走到位 规划位置:{1} 当前位置:{2}", p.aliasName, p.pos, pcurrentpos);
+                                        error += strError;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Thread.Sleep(5);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error += ex.Message;
+                }
+                finally
+                {
+                    errorMessageTotal += error;
+                }
 
                 errorMessage = errorMessageTotal;
 
@@ -889,7 +1131,7 @@ namespace MotionController
             {
                 if (sp.ElapsedMilliseconds > 20000)
                 {
-                    error = "等待轴到位超时";
+                    error = string.Format(p.aliasName + "等待到位超时");
                     break;
                 }
                 Thread.Sleep(30);
@@ -983,6 +1225,43 @@ namespace MotionController
             catch (Exception ex)
             {
                 return -1;
+            }
+        }
+
+        /// <summary>
+        /// 判断轴是否超过设定限位
+        /// </summary>
+        /// <param name="axisModel"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        private bool JudgeLimitPos(AxisParamModel axisModel, ref string error)
+        {
+            try
+            {
+                if(axisModel.limitN != 0)
+                {
+                    if(axisModel.pos < axisModel.limitN)
+                    {
+                        error = string.Format("{0} 运动位置{1} 超过设定负限位{2}", axisModel.aliasName, axisModel.pos, axisModel.limitN);
+                        return false;
+                    }
+                }
+                
+                if(axisModel.limitP != 0)
+                {
+                    if (axisModel.pos > axisModel.limitP)
+                    {
+                        error = string.Format("{0} 运动位置{1} 超过设定正限位{2}", axisModel.aliasName, axisModel.pos, axisModel.limitP);
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+                return false;
             }
         }
         

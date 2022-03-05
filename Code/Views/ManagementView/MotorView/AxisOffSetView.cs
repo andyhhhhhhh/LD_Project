@@ -50,24 +50,35 @@ namespace ManagementView.MotorView
             dataView.Columns["Pos_U"].Visible = model.AxisNum > 3;
             txtOffSetU.Enabled = model.AxisNum > 3;
             
-            dataView.Columns["pos_X_Min"].Visible = false;
-            dataView.Columns["pos_X_Max"].Visible = false;
-            dataView.Columns["pos_Y_Min"].Visible = false;
-            dataView.Columns["pos_Y_Max"].Visible = false;
-            dataView.Columns["pos_Z_Min"].Visible = false;
-            dataView.Columns["pos_Z_Max"].Visible = false;
-            dataView.Columns["pos_U_Min"].Visible = false;
-            dataView.Columns["pos_U_Max"].Visible = false;
+            dataView.Columns["pos_X_Min"].Visible = true;
+            dataView.Columns["pos_X_Max"].Visible = true;
+            dataView.Columns["pos_Y_Min"].Visible = model.AxisNum > 1;
+            dataView.Columns["pos_Y_Max"].Visible = model.AxisNum > 1;
+            dataView.Columns["pos_Z_Min"].Visible = model.AxisNum > 2;
+            dataView.Columns["pos_Z_Max"].Visible = model.AxisNum > 2;
+            dataView.Columns["pos_U_Min"].Visible = model.AxisNum > 3;
+            dataView.Columns["pos_U_Max"].Visible = model.AxisNum > 3;
+
+            groupY.Visible = model.AxisNum > 1;
+            groupZ.Visible = model.AxisNum > 2;
+            groupU.Visible = model.AxisNum > 3;
 
             dataView.Columns["Pos_X"].HeaderText = "X";
             dataView.Columns["Pos_Y"].HeaderText = "Y";
             dataView.Columns["Pos_Z"].HeaderText = "Z";
             dataView.Columns["Pos_U"].HeaderText = "U";
-            
+            dataView.Columns["pos_X_Min"].HeaderText = "X最小值";
+            dataView.Columns["pos_X_Max"].HeaderText = "X最大值";
+            dataView.Columns["pos_Y_Min"].HeaderText = "Y最小值";
+            dataView.Columns["pos_Y_Max"].HeaderText = "Y最大值";
+            dataView.Columns["pos_Z_Min"].HeaderText = "Z最小值";
+            dataView.Columns["pos_Z_Max"].HeaderText = "Z最大值";
+            dataView.Columns["pos_U_Min"].HeaderText = "U最小值";
+            dataView.Columns["pos_U_Max"].HeaderText = "U最大值";
+
             dataView.Columns["StationName"].HeaderText = "工站";
             dataView.Columns["StationName"].ReadOnly = true;
             
-
             dataView.Columns["Pos_X"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataView.Columns["Pos_Y"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             dataView.Columns["Pos_Z"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -96,8 +107,7 @@ namespace ManagementView.MotorView
             dataView.Columns[13].ReadOnly = true;
             
         }
-
-
+        
         private void btnSet_Click(object sender, EventArgs e)
         {
             try
@@ -121,21 +131,29 @@ namespace ManagementView.MotorView
                     if(m_stationModel.Axis_X != null)
                     {
                         item.Pos_X += double.Parse(txtOffSetX.Text);
+                        item.pos_X_Min += double.Parse(txtXMin.Text);
+                        item.pos_X_Max += double.Parse(txtXMax.Text);
                     }
 
                     if (m_stationModel.Axis_Y != null)
                     {
                         item.Pos_Y += double.Parse(txtOffSetY.Text);
+                        item.pos_Y_Min += double.Parse(txtYMin.Text);
+                        item.pos_Y_Max += double.Parse(txtYMax.Text);
                     }
 
                     if (m_stationModel.Axis_Z != null)
                     {
                         item.Pos_Z += double.Parse(txtOffSetZ.Text);
+                        item.pos_Z_Min += double.Parse(txtZMin.Text);
+                        item.pos_Z_Max += double.Parse(txtZMax.Text);
                     }
 
                     if (m_stationModel.Axis_U != null)
                     {
                         item.Pos_U += double.Parse(txtOffSetU.Text);
+                        item.pos_U_Min += double.Parse(txtUMin.Text);
+                        item.pos_U_Max += double.Parse(txtUMax.Text);
                     }
                 }
 
@@ -146,6 +164,6 @@ namespace ManagementView.MotorView
                 MessageBox.Show(ex.Message);
             }
         }
-
+        
     }
 }

@@ -46,7 +46,7 @@
             this.panelEx1.Location = new System.Drawing.Point(0, 0);
             this.panelEx1.Margin = new System.Windows.Forms.Padding(0);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(183, 31);
+            this.panelEx1.Size = new System.Drawing.Size(212, 31);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.panelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
@@ -79,7 +79,7 @@
             this.lblIOName.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblIOName.Location = new System.Drawing.Point(36, 4);
             this.lblIOName.Name = "lblIOName";
-            this.lblIOName.Size = new System.Drawing.Size(143, 23);
+            this.lblIOName.Size = new System.Drawing.Size(172, 23);
             this.lblIOName.TabIndex = 1;
             this.lblIOName.Text = "IO名称";
             // 
@@ -95,7 +95,7 @@
             this.Controls.Add(this.panelEx1);
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "InPutIoView";
-            this.Size = new System.Drawing.Size(183, 31);
+            this.Size = new System.Drawing.Size(212, 31);
             this.panelEx1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -23,6 +23,7 @@ using System.Diagnostics;
 using JsonController;
 using VisionController;
 using ServiceController;
+using ExcelController;
 
 namespace ProcessController
 {
@@ -278,7 +279,7 @@ namespace ProcessController
         /// <summary>
         /// 当前放料料盘结果排列
         /// </summary>
-        List<EnumCosResult> m_listCosResult = new List<EnumCosResult>();
+        List<EnumLDResult> m_listCosResult = new List<EnumLDResult>();
 
         /// <summary>
         /// Tray盘参数的Model
@@ -309,6 +310,7 @@ namespace ProcessController
         /// 执行算法实例
         /// </summary>
         IAlgorithmControl m_algorithmControll = new AlgorithmControl();
+        IAlgorithmControl m_algorithmControl = new LDAlgorithmControl();
 
         ParamRangeModel m_paramRangeModel = new ParamRangeModel();
 
@@ -356,6 +358,29 @@ namespace ProcessController
         /// 当前行需取料总数
         /// </summary>
         int m_NeedGetCount = 0;
+        
+        public Dictionary<int, List<Bar>> m_DicBar = new Dictionary<int, List<Bar>>();
+        OleExcel m_oleExcel = new OleExcel();
+
+        /// <summary>
+        /// 小视野入料中心点位
+        /// </summary>
+        public List<PointClass> m_ListPoint = new List<PointClass>();
+
+        /// <summary>
+        /// 当前行需要取的料
+        /// </summary>
+        public List<Product> m_listProduct = new List<Product>();
+
+        /// <summary>
+        /// 产品相隔的间距
+        /// </summary>
+        double m_proDistance = 0;
+
+        /// <summary>
+        /// LD测试结果
+        /// </summary>
+        EnumLDResult m_LdResult = EnumLDResult.Enum_Fail;
         #endregion
 
         #region 自动流程控制
@@ -385,6 +410,13 @@ namespace ProcessController
                 {
                     m_sequenceModel = parameter as SequenceModel;
                     LoadData(m_sequenceModel);
+                }
+
+                //检查Map表
+                if(!JudgeMap())
+                {
+                    m_DelOutPutLog("请录入Map表", LogLevel.Error);
+                    return false;
                 }
                 
                 //所有轴回零
@@ -446,8 +478,6 @@ namespace ProcessController
                     m_pauseWatch.Stop();
                     m_pauseWatch.Reset();
                 }
-
-
 
                 return bInit;
             }
@@ -563,7 +593,7 @@ namespace ProcessController
             try
             {
                 BaseResultModel resultModel;
-                Autostep = AutoRunStep.StepZMoveSafePos;
+                Autostep = AutoRunStep.StepLoadZMoveSafePos;
 
                 PointModel pointModel;
                 RelatIoModel relatIoModel;
@@ -580,13 +610,29 @@ namespace ProcessController
                         preStep = Autostep;
                         switch (Autostep)
                         {
-                            case AutoRunStep.StepZMoveSafePos://Z移动到安全位置
+                            case AutoRunStep.StepLoadZMoveSafePos://上料Z移动到安全位置
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_Safe);
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_Safe);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        Autostep = AutoRunStep.StepLoadXMoveSafePos;
+                                    }
+                                    break;
+                                }
+
+                            case AutoRunStep.StepLoadXMoveSafePos://上料X移动到安全位置
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_Safe);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -598,27 +644,17 @@ namespace ProcessController
 
                             case AutoRunStep.StepXYRMoveGetTrayPos://移动XYR到接料盘位置
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_GetTray);
-                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                                    if (!resultModel.RunResult)
+                                    if(!JudgeUpZSafe())
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40001);
+                                        break;
                                     }
-                                    else
-                                    {
-                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
-                                        Autostep = AutoRunStep.StepTakeTrayMoveGetTrayPos;
-                                    }
-                                    break;
-                                }
 
-                            case AutoRunStep.StepTakeTrayMoveGetTrayPos://移动到接料盘位置
-                                {
-                                    pointModel = GetPointModel(MotionParam.Station_TakeTray, MotionParam.Pos_GetTray);
+                                    pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_GetTray);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -634,14 +670,14 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10002);
                                         break;
                                     }
                                     ioModel = GetIOModel(MotionParam.DO_GetCylinderUnClamp, 1);
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10002);
                                     }
                                     else
                                     {
@@ -664,14 +700,14 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10002);
                                         break;
                                     }
                                     ioModel = GetIOModel(MotionParam.DO_GetCylinderClamp, 1);
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10002);
                                     }
                                     else
                                     {
@@ -682,11 +718,17 @@ namespace ProcessController
 
                             case AutoRunStep.StepXYMoveBigCameraPos://XY移动到大视野拍照位置
                                 {
+                                    if (!JudgeUpZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40001);
+                                        break;
+                                    }
+
                                     pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_BigCamera);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -698,11 +740,17 @@ namespace ProcessController
 
                             case AutoRunStep.StepMoveBigCameraPos://双目相机移动到大视野拍照位置
                                 {
+                                    if (!JudgeLoadXSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40002);
+                                        break;
+                                    }
+
                                     pointModel = GetPointModel(MotionParam.Station_Camera, MotionParam.Pos_BigCamera);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -714,10 +762,10 @@ namespace ProcessController
 
                             case AutoRunStep.StepBigCameraSnap://大视野相机拍照执行算法
                                 {
-                                    resultModel = AlgrithmRun(0, ESuck.吸嘴1);
+                                    resultModel = AlgorithmRun(0, 0);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20001);
                                     }
                                     else
                                     {
@@ -728,11 +776,17 @@ namespace ProcessController
                               
                             case AutoRunStep.StepXYMoveBigOffSetPos://XYR移动大视野补偿位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Camera, MotionParam.Pos_BigCameraOffSet);
+                                    if (!JudgeUpZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40001);
+                                        break;
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_BigCameraOffSet);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -744,16 +798,16 @@ namespace ProcessController
 
                             case AutoRunStep.StepBigCameraSnapSecond://大视野相机第二次拍照
                                 {
-                                    resultModel = AlgrithmRun(0, ESuck.吸嘴1);
+                                    resultModel = AlgorithmRun(0, 1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20002);
                                     }
                                     else
                                     {
                                         m_ReadySmall = true;
                                         m_SmallGetDone = false;
-                                        m_ProductRowCount = 6;
+                                        m_ProductRowCount = m_ListPoint.Count;
                                         Autostep = AutoRunStep.StepWaitSmallDone;
                                     }
                                     break;
@@ -767,7 +821,7 @@ namespace ProcessController
                                     }
                                     else
                                     {
-                                        Autostep = AutoRunStep.StepZMoveSafePos;
+                                        Autostep = AutoRunStep.StepLoadZMoveSafePos;
                                     }
                                     break;
                                 }
@@ -971,11 +1025,21 @@ namespace ProcessController
 
                             case SmallRunStep.StepXYMoveSmallCenterPos://XYR移动小视野中心位置
                                 {
+                                    if (!JudgeUpZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40001);
+                                        break;
+                                    }
+
                                     pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_SmallCameraCenter);
+                                    pointModel.Pos_X = m_ListPoint[0].X;
+                                    pointModel.Pos_Y = m_ListPoint[0].Y;
+                                    pointModel.Pos_U = m_ListPoint[0].U;
+                                    m_ListPoint.RemoveAt(0);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -988,11 +1052,17 @@ namespace ProcessController
 
                             case SmallRunStep.StepMoveSmallCameraPos://双目相机移动到小视野拍照位置
                                 {
+                                    if (!JudgeLoadXSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40002);
+                                        break;
+                                    }
+
                                     pointModel = GetPointModel(MotionParam.Station_Camera, MotionParam.Pos_SmallCamera);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1010,7 +1080,7 @@ namespace ProcessController
                                         resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                         if (!resultModel.RunResult)
                                         {
-                                            AutoRunNG(resultModel, strStepDesc, 10001);
+                                            AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                         }
                                         else
                                         {
@@ -1031,7 +1101,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_30001);
                                     }
                                     else
                                     {
@@ -1042,16 +1112,16 @@ namespace ProcessController
 
                             case SmallRunStep.StepSmallCameraSnapBar://小视野相机拍照推算Bar条号
                                 {
-                                    resultModel = AlgrithmRun(1, ESuck.吸嘴1);
-                                    if (!resultModel.RunResult)
+                                    resultModel = AlgorithmRun(1, 3);
+                                    SmallFixedPosResultModel fixedResult = resultModel as SmallFixedPosResultModel;
+                                    if (!fixedResult.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20003);
                                     }
                                     else
                                     {
                                         SmallStep = SmallRunStep.StepWaitLoadDone;
                                     }
-                                    m_NeedGetCount = 6;
 
                                     break;
                                 }
@@ -1063,7 +1133,7 @@ namespace ProcessController
                                         Thread.Sleep(50);
                                     }
                                     else
-                                    { 
+                                    {
                                         SmallStep = SmallRunStep.StepXYMoveSmallGetPos;
                                     }
                                     break;
@@ -1072,10 +1142,11 @@ namespace ProcessController
                             case SmallRunStep.StepXYMoveSmallGetPos://XYR移动到拍照抓取位置
                                 {
                                     pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_SmallGet);
+                                    
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1087,10 +1158,25 @@ namespace ProcessController
 
                             case SmallRunStep.StepSmallCameraSnapOCR://小视野相机定位产品OCR
                                 {
-                                    resultModel = AlgrithmRun(1, ESuck.吸嘴1);
+                                    resultModel = AlgorithmRun(1, 4);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20004);
+                                    }
+                                    else
+                                    {
+                                        SmallStep = SmallRunStep.StepXYRMoveSuckPos;
+                                    }
+                                    break;
+                                }
+
+                            case SmallRunStep.StepXYRMoveSuckPos://XYR移动到顶针上方位置
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_ProFixed); 
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1145,7 +1231,7 @@ namespace ProcessController
             try
             {
                 BaseResultModel resultModel;
-                LoadStep = LoadRunStep.StepLoadMoveWaitPos;
+                LoadStep = LoadRunStep.StepLoadZMoveSafePos;
                 PointModel pointModel;
                 RelatIoModel relatIoModel;
                 IOModel ioModel;
@@ -1158,13 +1244,34 @@ namespace ProcessController
                         m_DelShowStep(2, "上料模组", (int)LoadStep, strStepDesc);
                         switch (LoadStep)
                         {
-                            case LoadRunStep.StepLoadMoveWaitPos://上料模组移动到等待位置
+                            case LoadRunStep.StepLoadZMoveSafePos://上料模组Z移动到安全位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_LoadWait);
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_Safe);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove); 
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        LoadStep = LoadRunStep.StepLoadXMoveWaitPos;
+                                    }
+                                    break;
+                                }
+
+                            case LoadRunStep.StepLoadXMoveWaitPos://上料模组X移动到等待位置
+                                {
+                                    if (!JudgeLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40005);
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_Safe);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1184,18 +1291,47 @@ namespace ProcessController
                                     else
                                     {
                                         m_ReadyLoad = false;
-                                        LoadStep = LoadRunStep.StepLoadMoveTakePos;
+                                        LoadStep = LoadRunStep.StepLoadXMoveTakePos;
                                     }
                                     break;
                                 }
 
-                            case LoadRunStep.StepLoadMoveTakePos://上料模组移动到上料位置
+                            case LoadRunStep.StepLoadXMoveTakePos://上料模组X移动到上料位置
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_Load);
+                                    if (!JudgeCameraSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40003);
+                                        break;
+                                    }
+
+                                    if (!JudgeLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40005);
+                                        break;
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_Load);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        LoadStep = LoadRunStep.StepLoadZMoveTakePos;
+                                    }
+
+                                    break;
+                                }
+
+                            case LoadRunStep.StepLoadZMoveTakePos://上料模组Z移动到上料位置
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_Load);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1212,7 +1348,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1228,7 +1364,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_30002);
                                     }
                                     else
                                     {
@@ -1244,24 +1380,45 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
                                         Thread.Sleep(m_CosModel.AxisInPlaceDelay);
-                                        LoadStep = LoadRunStep.StepLoadMoveNSnapPos;
+                                        LoadStep = LoadRunStep.StepLoadZMoveNSnapPos;
                                         m_LoadCount++;
                                     }
                                     break;
                                 }
 
-                            case LoadRunStep.StepLoadMoveNSnapPos://上料模组移动N面拍照位
+                            case LoadRunStep.StepLoadZMoveNSnapPos://上料模组Z移动N面拍照位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_NSnap);
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_NSnap);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        LoadStep = LoadRunStep.StepLoadXMoveNSnapPos;
+                                    }
+                                    break;
+                                }
+
+                            case LoadRunStep.StepLoadXMoveNSnapPos://上料模组X移动N面拍照位
+                                {
+                                    if (!JudgeLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40005);
+                                        break;
+                                    }
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_NSnap);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1276,7 +1433,7 @@ namespace ProcessController
                                     resultModel = AlgrithmRun(2, ESuck.吸嘴1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20005);
                                     }
                                     else
                                     {
@@ -1287,11 +1444,11 @@ namespace ProcessController
 
                             case LoadRunStep.StepMoveUnLoadWaitPos://移动到下料等待位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_UnLoadWait);
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_Safe);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1310,18 +1467,46 @@ namespace ProcessController
                                     else
                                     {
                                         m_IsCanPutCheck = false;
-                                        LoadStep = LoadRunStep.StepLoadMoveDDR;
+                                        LoadStep = LoadRunStep.StepLoadXMoveDDR;
                                     }
                                     break;
                                 }
 
-                            case LoadRunStep.StepLoadMoveDDR://移动到DDR马达
+                            case LoadRunStep.StepLoadXMoveDDR://上料模组X移动到DDR马达
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_UnLoad);
+                                    if (!JudgeUnLoadXSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40004);
+                                        break;
+                                    }
+
+                                    if (!JudgeLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40005);
+                                        break;
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_UnLoad);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        LoadStep = LoadRunStep.StepLoadZMoveDDR;
+                                    }
+                                    break;
+                                }
+
+                            case LoadRunStep.StepLoadZMoveDDR://上料模组Z移动到DDR马达
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_UnLoad);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1337,28 +1522,49 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10003);
                                     }
                                     else
                                     {
                                         Thread.Sleep(m_CosModel.VacuumBreakDelay);
-                                        LoadStep = LoadRunStep.StepLoadMoveWaitPos_2;
+                                        LoadStep = LoadRunStep.StepLoadZMoveSafePos_2;
                                     }
                                     break;
                                 }
 
-                            case LoadRunStep.StepLoadMoveWaitPos_2://移动到上料等待位2
+                            case LoadRunStep.StepLoadZMoveSafePos_2://上料模组Z移动到安全位2
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_Load, MotionParam.Pos_LoadWait);
+                                    pointModel = GetPointModel(MotionParam.Station_LoadZ, MotionParam.Pos_Safe);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
                                         Thread.Sleep(m_CosModel.AxisInPlaceDelay);
-                                        LoadStep = LoadRunStep.StepLoadMoveWaitPos;
+                                        LoadStep = LoadRunStep.StepLoadXMoveWaitPos_2;
+                                    }
+                                    break;
+                                } 
+
+                            case LoadRunStep.StepLoadXMoveWaitPos_2://移动到上料等待位2
+                                {
+                                    if (!JudgeLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40005);
+                                        break;
+                                    }
+                                    pointModel = GetPointModel(MotionParam.Station_LoadX, MotionParam.Pos_Safe);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        LoadStep = LoadRunStep.StepLoadZMoveSafePos;
                                         m_ReadyDDRCheck = true;//可以来取DDR物料
                                     }
                                     break;
@@ -1398,7 +1604,7 @@ namespace ProcessController
             try
             {
                 BaseResultModel resultModel;
-                CheckStep = CheckRunStep.StepMoveUnLoadSafePos;
+                CheckStep = CheckRunStep.StepUnLoadZMoveSafePos;
                 PointModel pointModel;
                 RelatIoModel relatIoModel;
                 IOModel ioModel;
@@ -1408,17 +1614,39 @@ namespace ProcessController
                     if (!Global.Pause)
                     {
                         string strStepDesc = CommFunc.GetEnumDescription<CheckRunStep>(CheckStep);//获取当前步骤的描述 
-                        m_DelShowStep(3, "检测模组", (int)CheckStep, strStepDesc);
+                        m_DelShowStep(3, "检测下料模组", (int)CheckStep, strStepDesc);
 
                         switch (CheckStep)
                         {
-                            case CheckRunStep.StepMoveUnLoadSafePos://移动到下料安全位
+                            case CheckRunStep.StepUnLoadZMoveSafePos://下料Z移动到下料安全位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_UnLoadWait);
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoadZ, MotionParam.Pos_Safe);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        CheckStep = CheckRunStep.StepUnLoadXYMoveSafePos;
+                                    }
+                                    break;
+                                }
+
+                            case CheckRunStep.StepUnLoadXYMoveSafePos://下料X移动到下料安全位
+                                {
+                                    if(!JudgeUnLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40006);
+                                        break;
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_Safe);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1449,23 +1677,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
-                                        CheckStep = CheckRunStep.StepUnLoadMoveARPos;
-                                    }
-                                    break;
-                                }
-
-                            case CheckRunStep.StepUnLoadMoveARPos://下料模组移动到AR定位位置
-                                {
-                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_ARLocation);
-                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                                    if (!resultModel.RunResult)
-                                    {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1480,7 +1692,7 @@ namespace ProcessController
                                     resultModel = AlgrithmRun(3, ESuck.吸嘴1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20006);
                                     }
                                     else
                                     {
@@ -1495,7 +1707,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1510,7 +1722,7 @@ namespace ProcessController
                                     resultModel = AlgrithmRun(4, ESuck.吸嘴1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20007);
                                     }
                                     else
                                     {
@@ -1525,23 +1737,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
-                                    }
-                                    else
-                                    {
-                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
-                                        CheckStep = CheckRunStep.StepUnLoadMoveHRPos;
-                                    }
-                                    break;
-                                }
-                                
-                            case CheckRunStep.StepUnLoadMoveHRPos://下料模组移动到HR定位位置
-                                {
-                                    pointModel = GetPointModel(MotionParam.Station_Check, MotionParam.Pos_HRLocation);
-                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                                    if (!resultModel.RunResult)
-                                    {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1549,14 +1745,14 @@ namespace ProcessController
                                         CheckStep = CheckRunStep.StepCorrect2Snap;
                                     }
                                     break;
-                                }
+                                } 
 
                             case CheckRunStep.StepCorrect2Snap://校正位置2拍照执行算法
                                 {
                                     resultModel = AlgrithmRun(3, ESuck.吸嘴1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20008);
                                     }
                                     else
                                     {
@@ -1571,7 +1767,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1586,7 +1782,7 @@ namespace ProcessController
                                     resultModel = AlgrithmRun(5, ESuck.吸嘴1);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_20009);
                                     }
                                     else
                                     {
@@ -1597,11 +1793,17 @@ namespace ProcessController
 
                             case CheckRunStep.StepCheckMoveUnLoadPos://检测模组移动到下料位
                                 {
+                                    if (!GetUnLoadTrayPos(EnumLDResult.Enum_Fail))
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_10004);
+                                        break;
+                                    }
+
                                     pointModel = GetPointModel(MotionParam.Station_Check, MotionParam.Pos_UnLoad);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1611,13 +1813,41 @@ namespace ProcessController
                                     break;
                                 }
 
-                            case CheckRunStep.StepUnLoadMoveLoadPos://下料模组移动到上料位
+                            case CheckRunStep.StepUnLoadMoveLoadPos://下料模组移动到取料位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_UnLoad);
+                                    if (!JudgeLoadXSafe(false))
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40002);
+                                        break;
+                                    }
+
+                                    if (!JudgeUnLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40006);
+                                        break;
+                                    }
+
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_Take);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay);
+                                        CheckStep = CheckRunStep.StepUnLoadZMoveLoadPos;
+                                    }
+                                    break;
+                                }
+
+                            case CheckRunStep.StepUnLoadZMoveLoadPos://下料模组Z移动到取料位
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoadZ, MotionParam.Pos_Take);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1633,7 +1863,7 @@ namespace ProcessController
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_30003);
                                     }
                                     else
                                     {
@@ -1643,13 +1873,56 @@ namespace ProcessController
                                     break;
                                 }
 
-                            case CheckRunStep.StepUnLoadMovePutPos://下料模组移动到放料位
+                            case CheckRunStep.StepUnLoadMovePutPos://下料模组移动到下料位
                                 {
-                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_PutTray);
+                                    if (m_UnLoadProductDone)//检查料盘是否已放满
+                                    {
+                                        AutoRunNG(null, "下料料盘换料");
+
+                                        m_DelMessageBox(m_unLoadDoneModel.Name + " 下料盘已满，请更换料盘，点击确认运动到换料位置！", 3);
+
+                                        //执行更换上料盘动作
+                                        pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_Safe);
+                                        resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                        if (!resultModel.RunResult)
+                                        {
+                                            AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            CheckStep = CheckRunStep.StepChangeUnLoadTray;
+                                        }
+
+                                        continue;
+                                    }
+
+                                    if (!JudgeUnLoadZSafe())
+                                    {
+                                        AutoRunNG(null, strStepDesc, (int)EAlarm.A_40006);
+                                        break;
+                                    }
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_UnLoad);
                                     resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 10001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
+                                    }
+                                    else
+                                    {
+                                        Thread.Sleep(m_CosModel.AxisInPlaceDelay); 
+                                        CheckStep = CheckRunStep.StepUnLoadZMovePutPos;
+                                    }
+                                    break;
+                                }
+
+                            case CheckRunStep.StepUnLoadZMovePutPos://下料模组Z移动到下料位
+                                {
+                                    pointModel = GetPointModel(MotionParam.Station_UnLoadZ, MotionParam.Pos_UnLoad);
+                                    resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                                    if (!resultModel.RunResult)
+                                    {
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_10001);
                                     }
                                     else
                                     {
@@ -1659,18 +1932,30 @@ namespace ProcessController
                                     break;
                                 }
 
+                            case CheckRunStep.StepChangeUnLoadTray://下料模组移动到换料位
+                                {
+                                    //更换完成请点击确认
+                                    m_DelMessageBox(m_unLoadDoneModel.Name + " 下料盘请更换，更换完成后请点击确认！", 3);
+
+                                    m_UnLoadProductDone = false;
+                                    CheckStep = CheckRunStep.StepUnLoadMovePutPos;
+                                    break;
+                                }
+
                             case CheckRunStep.StepUnLoadBreakVaccum://下料吸嘴破真空
                                 {
                                     ioModel = GetIOModel(MotionParam.DO_UnLoadBreakVacuum, 1);
                                     resultModel = m_MotroContorl.Run(ioModel, MotorControlType.IOTrigger);
                                     if (!resultModel.RunResult)
                                     {
-                                        AutoRunNG(resultModel, strStepDesc, 20001);
+                                        AutoRunNG(resultModel, strStepDesc, (int)EAlarm.A_30004);
                                     }
                                     else
                                     {
                                         Thread.Sleep(m_CosModel.VacuumDelayTime);
-                                        CheckStep = CheckRunStep.StepMoveUnLoadSafePos;
+                                        CheckStep = CheckRunStep.StepUnLoadZMoveSafePos;
+
+                                        SetUnLoadStatus(m_LdResult);
                                         m_OKCount++;
                                         m_UnLoadCount++;
                                     }
@@ -2017,19 +2302,19 @@ namespace ProcessController
                 {
                     var resultModel = m_MotroContorl.Run(item, MotorControlType.AxisStop);
                     Thread.Sleep(50);
-                    resultModel = m_MotroContorl.Run(item, MotorControlType.AxisReset);
-                    if (!resultModel.RunResult)
-                    {
-                        m_DelOutPutLog(item.Name + "复位失败", LogLevel.Error);
-                        bresult = false;
-                    }
-                    Thread.Sleep(100);
-                    resultModel = m_MotroContorl.Run(item, MotorControlType.AxisEnable);
-                    if (!resultModel.RunResult)
-                    {
-                        m_DelOutPutLog(item.Name + "使能失败", LogLevel.Error);
-                        bresult = false;
-                    }
+                    //resultModel = m_MotroContorl.Run(item, MotorControlType.AxisReset);
+                    //if (!resultModel.RunResult)
+                    //{
+                    //    m_DelOutPutLog(item.Name + "复位失败", LogLevel.Error);
+                    //    bresult = false;
+                    //}
+                    //Thread.Sleep(100);
+                    //resultModel = m_MotroContorl.Run(item, MotorControlType.AxisEnable);
+                    //if (!resultModel.RunResult)
+                    //{
+                    //    m_DelOutPutLog(item.Name + "使能失败", LogLevel.Error);
+                    //    bresult = false;
+                    //}
                     Thread.Sleep(100);
                 }
 
@@ -2199,13 +2484,17 @@ namespace ProcessController
         #region 位置判断
 
         /// <summary>
-        /// 判断上升Z轴是否在安全位置
+        /// 判断顶升模组是否在安全位置
         /// </summary>
         /// <returns></returns>
-        public bool JudgeZSafe()
+        public bool JudgeUpZSafe()
         {
             try
             {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
                 StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Up);
                 PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
 
@@ -2215,17 +2504,101 @@ namespace ProcessController
                     return false;
                 }
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
-                if (dvalue < pointModel.Pos_X - 0.5)
+                if (dvalue > pointModel.Pos_X + 0.5)
                 {
                     return false;
                 }
 
-                resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetEncodePosition);
+                resultModel = m_MotroContorl.Run(stationModel.Axis_Y, MotorControlType.AxisGetPosition);
                 if (!resultModel.RunResult)
                 {
                     return false;
                 }
                 dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (dvalue > pointModel.Pos_X + 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断上料模组X是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeLoadXSafe(bool bLeft = true)
+        {
+            try
+            {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadX);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if(bLeft)
+                {
+                    if (dvalue < pointModel.Pos_X - 0.5)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (dvalue > pointModel.Pos_X + 0.5)
+                    {
+                        return false;
+                    }
+                }
+              
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// 判断上料模组Z是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeLoadZSafe()
+        {
+            try
+            {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadZ);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+
                 if (dvalue < pointModel.Pos_X - 0.5)
                 {
                     return false;
@@ -2239,10 +2612,117 @@ namespace ProcessController
                 return false;
             }
         }
-        
+
+        /// <summary>
+        /// 判断双目相机是否在安全位置
+        /// </summary>
+        /// <returns></returns>
+        public bool JudgeCameraSafe()
+        {
+            try
+            {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Camera);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (dvalue > pointModel.Pos_X + 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断下料模组X是否在安全位置
+        /// </summary>
+        /// <returns></returns>
+        public bool JudgeUnLoadXSafe()
+        {
+            try
+            {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoad);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+                if (dvalue < pointModel.Pos_X - 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断下料模组Z是否在安全位置
+        /// </summary>
+        /// <param name="bLeft">是否在左边</param>
+        /// <returns></returns>
+        public bool JudgeUnLoadZSafe()
+        {
+            try
+            {
+                if (m_parameter.MotionCard == EnumCard.虚拟卡.ToString())
+                {
+                    return true;
+                }
+                StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoadZ);
+                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == MotionParam.Pos_Safe);
+
+                var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                if (!resultModel.RunResult)
+                {
+                    return false;
+                }
+                double dvalue = double.Parse(resultModel.ObjectResult.ToString());
+
+                if (dvalue < pointModel.Pos_X - 0.5)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
         #endregion
 
-        #region 相机流程
+        #region 相机计算流程
 
         /// <summary>
         /// 相机 算法 计算
@@ -2357,46 +2837,6 @@ namespace ProcessController
                 algorithmResult.RunResult = true;
                 return algorithmResult;
 
-                var algorithmModel = m_sequenceModel.algorithmModels.FirstOrDefault(x => x.Name == model.Name);
-                algorithmModel.Image = cameraResult.Image as HObject;
-                algorithmModel.IsShieldOcr = m_CosModel.IsShieldOCR;
-                algorithmResult = m_algorithmControll.Run(algorithmModel, AlgorithmControlType.AlgorithmRun) as AlgorithmResultModel;
-
-
-                //显示结果信息
-                HObject ho_Contour;
-                HOperatorSet.ConcatObj(algorithmResult.ProXLDTrans, algorithmResult.CenterCross, out ho_Contour);
-                if (algorithmResult.bFindCenter && !algorithmResult.bImageRotate)
-                {
-                    algorithmResult.RunResult = true;
-
-                    //Log显示
-                    string strlog = string.Format("Row:{0},Col:{1},Angle:{2},OCR:{3}", Math.Round(algorithmResult.CenterRow.D, 1),
-                        Math.Round(algorithmResult.CenterColumn.D, 1), Math.Round(algorithmResult.CenterPhi.D, 1), algorithmResult.OcrResult ? algorithmResult.strOCR : "");
-                    m_DelOutPutLog(strlog);
-                    cameraResult.ResultLabel = strlog;
-
-                    //判断读取OCR是否错误--位数与设定值不符
-                    if(algorithmResult.OcrResult)
-                    {
-                        if(algorithmResult.strOCR.Length != m_paramRangeModel.OcrNum && !m_CosModel.IsShieldOCR)
-                        {
-                            algorithmResult.OcrResult = false;
-                        }
-                    } 
-                }
-                else
-                {
-                    algorithmResult.RunResult = false;
-                    HOperatorSet.ConcatObj(ho_Contour, algorithmResult.ObjectResult as HObject, out ho_Contour); 
-                }
-
-                cameraResult.DispObj = ho_Contour;
-                OnDispPicEvent(cameraResult); 
-
-                //保存图片
-                WriteImage(model.Name, algorithmResult.RunResult, algorithmResult.OcrResult, algorithmResult.strOCR, cameraResult.Image as HObject, algorithmResult.ImageRotateText as HObject);
-                
                 //OCR识别错误弹框
                 if (algorithmResult.RunResult && !algorithmResult.OcrResult && index == 0)
                 {
@@ -2434,13 +2874,166 @@ namespace ProcessController
         }
 
         /// <summary>
+        /// 执行算法
+        /// </summary>
+        /// <param name="cameraIndex">相机Id</param>
+        /// <param name="algorithmIndex">0--大视野入料 1--大视野定位 2--小视野入料补正 3--小视野定位</param>
+        /// <returns></returns>
+        private BaseResultModel AlgorithmRun(int cameraIndex, int algorithmIndex)
+        {
+            BaseResultModel resultModel = new BaseResultModel();
+            try
+            {
+                Thread.Sleep(m_CosModel.SnapTimeOut);
+                Camera2DSetModel model = XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == cameraIndex);
+                CameraResultModel cameraResult = Camera2DSnap(model);
+
+                resultModel.RunResult = true;
+
+                HTuple hv_Width, hv_Height;
+                HOperatorSet.GetImageSize(cameraResult.Image as HObject, out hv_Width, out hv_Height);
+
+                switch (algorithmIndex)
+                {
+                    case 0://大视野相机入料补正算法
+                        {
+                            var bigFeedModel = m_sequenceModel.bigFeedAlgorithmModel;
+                            bigFeedModel.Image = cameraResult.Image as HObject;
+                            resultModel = m_algorithmControl.Run(bigFeedModel, AlgorithmControlType.AlgorithmRun);
+
+
+                            BigFeedResultModel feedResult = resultModel as BigFeedResultModel;
+                            if (feedResult != null && feedResult.RunResult)
+                            {
+                                cameraResult.DispObj = feedResult.DispObjects;
+                                OnDispPicEvent(cameraResult);
+
+                                string strLog = string.Format("中心Row:{0} Column:{1} Angle:{2}", feedResult.BigCenterRow, feedResult.BigCenterCol, feedResult.ProdAngleMean);
+                                m_DelOutPutLog(strLog);
+
+                                resultModel.RunResult = SetBigCenterPos(feedResult, hv_Width, hv_Height);
+                            }
+
+                            break;
+                        }
+
+                    case 1://大视野相机定位算法
+                        {
+                            var bigFixedModel = m_sequenceModel.bigFixedAlgorithmModel;
+                            bigFixedModel.Image = cameraResult.Image as HObject;
+                            resultModel = m_algorithmControl.Run(bigFixedModel, AlgorithmControlType.AlgorithmRun);
+                             
+                            BigFixedResultModel fixedResult = resultModel as BigFixedResultModel;
+                            if(fixedResult != null && fixedResult.RunResult)
+                            {
+                                cameraResult.DispObj = fixedResult.OutRegion;
+                                OnDispPicEvent(cameraResult);
+                            }
+
+                            resultModel.RunResult = GetSnapCenterPos(fixedResult, hv_Width, hv_Height);
+
+                            break;
+                        }
+
+                    case 2://小视野入料判断位置算法
+                        {
+                            var smallJudgeModel = m_sequenceModel.smallJudgePosModel;
+                            smallJudgeModel.Image = cameraResult.Image as HObject;
+                            resultModel = m_algorithmControl.Run(smallJudgeModel, AlgorithmControlType.AlgorithmRun);
+
+                            SmallJudgePosResultModel smallResult = resultModel as SmallJudgePosResultModel;
+                            if(smallResult != null && smallResult.RunResult)
+                            {
+                                cameraResult.DispObj = smallResult.OutRegion;
+                                OnDispPicEvent(cameraResult);
+                            }
+
+                            break;
+                        }
+
+                    case 3://小视野定位Bar推算算法
+                        {
+                            var smallPosModel = m_sequenceModel.smallFixedPosModel;
+                            smallPosModel.Image = cameraResult.Image as HObject;
+                            smallPosModel.NeedOcr = "-1";
+                            smallPosModel.IsIngoreCalu = true;
+                            smallPosModel.OcrLength = 5;
+                            resultModel = m_algorithmControl.Run(smallPosModel, AlgorithmControlType.AlgorithmRun);
+
+                            SmallFixedPosResultModel fixedResult = resultModel as SmallFixedPosResultModel;
+                            if (fixedResult != null && fixedResult.RunResult)
+                            {
+                                cameraResult.DispObj = fixedResult.OutRegion;
+                                OnDispPicEvent(cameraResult);
+                                cameraResult.DispObj = fixedResult.OcrOutRegion;
+                                OnDispPicEvent(cameraResult);
+                            }
+
+                            //找到对应Bar条行的数据
+                            List<Bar> listBar = m_DicBar[1];
+                            var bar = listBar.FirstOrDefault(x => x.barId == Int32.Parse(fixedResult.Bar));
+                            m_listProduct = bar.product.ToList().FindAll(x => x.isReclaimer == 1);
+                            m_NeedGetCount = m_listProduct.Count;
+                            
+                            m_DelOutPutLog(fixedResult.strLog);
+
+                            resultModel.RunResult = GetSmallFirstSnapPos(fixedResult, hv_Width, hv_Height);
+                            break;
+                        }
+
+                    case 4://小视野定位算法
+                        {
+                            var smallPosModel = m_sequenceModel.smallFixedPosModel;
+                            smallPosModel.Image = cameraResult.Image as HObject;
+                            smallPosModel.NeedOcr = "-1";
+                            smallPosModel.IsIngoreCalu = false;
+                            smallPosModel.OcrLength = 5;
+                            resultModel = m_algorithmControl.Run(smallPosModel, AlgorithmControlType.AlgorithmRun);
+
+                            SmallFixedPosResultModel fixedResult = resultModel as SmallFixedPosResultModel;
+                            if (fixedResult != null && fixedResult.RunResult)
+                            {
+                                cameraResult.DispObj = fixedResult.OutRegion;
+                                OnDispPicEvent(cameraResult);
+                                cameraResult.DispObj = fixedResult.OcrOutRegion;
+                                OnDispPicEvent(cameraResult);
+                            }
+
+                            m_DelOutPutLog(fixedResult.strLog);
+
+                            resultModel.RunResult = GetSuckFixedPos(fixedResult);
+
+                            if(resultModel.RunResult)
+                            {
+                                resultModel.RunResult = GetNextSmallSnapPos(fixedResult);
+                            }
+                            break;
+                        }
+                    default:
+                        break;
+                }
+
+                //保存图片
+                WriteImage(model.Name, resultModel.RunResult, cameraResult.Image as HObject);
+                
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.RunResult = false;
+                m_DelOutExLog(ex);
+                return resultModel;
+            }
+        }
+
+        /// <summary>
         /// 图片保存
         /// </summary>
         /// <param name="name">图片名称</param>
         /// <param name="result">结果</param>
         /// <param name="ocrresult">OCR识别结果</param>
         /// <param name="ho_Image">图片</param>
-        private void WriteImage(string name, bool result, bool ocrresult, string ocr, HObject ho_Image, HObject ho_RotateImage)
+        private void WriteImage(string name, bool result, HObject ho_Image)
         {
             try
             {
@@ -2450,21 +3043,7 @@ namespace ProcessController
                     Directory.CreateDirectory(strPath);
                 }
                 string strName = name + "_" + DateTime.Now.ToString("HHmmssfff") + ".jpg";
-
-                string strOcrPath = strPath + "OCR//";
-                if (!Directory.Exists(strOcrPath))
-                {
-                    Directory.CreateDirectory(strOcrPath);
-                }
-
-                bool bsaveOcr = false;
-                string strOcrName = "";
-                if(!string.IsNullOrEmpty(ocr))
-                {
-                    bsaveOcr = true;
-                    strOcrName = ocr + "_" + DateTime.Now.ToString("HHmmssfff") + ".jpg";
-                }
-
+                
                 if (m_parameter.IsSaveImg)
                 {
                     //只保存NG图片
@@ -2473,10 +3052,7 @@ namespace ProcessController
                         //NG图片
                         string ngPath = strPath + "NG//";
                         AlgorithmCommHelper.SaveImage(ho_Image as HObject, ngPath, strName);
-                        if (bsaveOcr)
-                        {
-                            AlgorithmCommHelper.SaveImage(ho_RotateImage as HObject, strOcrPath, strOcrName);
-                        }
+                       
                     }
                     else
                     {
@@ -2490,22 +3066,6 @@ namespace ProcessController
                             //NG图片
                             string ngPath = strPath + "NG//";
                             AlgorithmCommHelper.SaveImage(ho_Image as HObject, ngPath, strName);
-                        }
-
-                        //是否保存OCR图片
-                        if (bsaveOcr)
-                        {
-                            //OK图片
-                            if(ocrresult)
-                            {
-                                AlgorithmCommHelper.SaveImage(ho_RotateImage as HObject, strOcrPath, strOcrName);
-                            }
-                            else
-                            {
-                                //NG图片
-                                string ngPath = strOcrPath + "NG//";
-                                AlgorithmCommHelper.SaveImage(ho_RotateImage as HObject, ngPath, strOcrName);
-                            }
                         }
                     }
                 }
@@ -2541,48 +3101,305 @@ namespace ProcessController
             }
         }
         
-        AlgorithmControl m_algorithmControl = new AlgorithmControl();
-        private AlgorithmResultModel TestAlgorithm(int fixtureId)
+        /// <summary>
+        /// 纠正大视野相机
+        /// </summary>
+        private bool SetBigCenterPos(BigFeedResultModel feedResult, int Width, int Height)
         {
-            AlgorithmResultModel result = new AlgorithmResultModel();
             try
             {
-                Camera2DSetModel model = XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == 0);
-                CameraResultModel cameraResult = Camera2DSnap(model);
+                //读取旋转中心文件
+                string rotatePath = Global.Model3DPath +  "\\流程8-旋转中心 1_Mat2d.tup";
+                HTuple hv_RotateTup;
+                HOperatorSet.ReadTuple(rotatePath, out hv_RotateTup);
 
-                string strPath = "D:\\CameraImage\\治具相机"; 
-                AlgorithmCommHelper.SaveImage(cameraResult.Image as HObject, strPath, fixtureId.ToString() + ".jpg");
-
-                string paramPath = Global.Model3DPath + "//" + "治具相机";
-                var algorithmModel = XmlControl.sequenceModelNew.fixtureAlgorithmModels.FirstOrDefault(x => x.Id == fixtureId);
-
-                HObject ho_Xld, ho_Cross, ho_OutObj;
-                HTuple hv_bFindCenter, hv_Exception;
-
-                HTuple hv_Row, hv_Column, hv_Phi;
-                m_algorithmControl.FindFixturePos(cameraResult.Image as HObject, paramPath, fixtureId.ToString(), out ho_Xld, out ho_Cross, algorithmModel.InMeasureLength1,
-                    algorithmModel.InMeasureLength2, algorithmModel.InMeasureSigma, algorithmModel.InMeasureThreshold, algorithmModel.InMeasureSelect, algorithmModel.InMeasureTransition,
-                    algorithmModel.InMeasureNumber, algorithmModel.InMeasureScore, out hv_Row, out hv_Column, out hv_Phi, out hv_bFindCenter, out hv_Exception, out ho_OutObj);
+                //读取标定文件
+                string mat2dPath = Global.Model3DPath + "\\流程7-N点标定 2_Mat2d.tup";
+                HTuple hv_Mat2dTup;
+                HOperatorSet.ReadTuple(mat2dPath, out hv_Mat2dTup);
+                //旋转中心映射到轴
+                HTuple hv_qx, hv_qy;
+                HOperatorSet.AffineTransPoint2d(hv_Mat2dTup, hv_RotateTup[0], hv_RotateTup[1], out hv_qx, out hv_qy);
+                //当前运算中心映射到轴
+                HTuple hv_CenterX, hv_CenterY;
+                HOperatorSet.AffineTransPoint2d(hv_Mat2dTup, feedResult.BigCenterRow, feedResult.BigCenterCol, out hv_CenterX, out hv_CenterY);
+                //图像中心映射到轴
+                HTuple hv_PicX, hv_PicY;
+                HOperatorSet.AffineTransPoint2d(hv_Mat2dTup, Height / 2, Width / 2, out hv_PicX, out hv_PicY);
                  
-                HObject ho_Contour;
-                HOperatorSet.GenEmptyObj(out ho_Contour);
-                HOperatorSet.ConcatObj(ho_Cross, ho_Xld, out ho_Contour);
-                HOperatorSet.ConcatObj(ho_Contour, ho_OutObj, out ho_Contour);
-                cameraResult.DispObj = ho_Contour;
-                OnDispPicEvent(cameraResult);
+                double dCircleX = hv_qx;
+                double dCircleY = hv_qy;
+                double dPhi = 0 - feedResult.ProdAngleMean;
 
-                result.RunResult = hv_bFindCenter == 1;
-
-                result.CenterRow = hv_Row;
-                result.CenterColumn = hv_Column;
-                result.CenterPhi = hv_Phi;
+                HTuple hv_homat2dIdentity, hv_RotateMat;
+                HOperatorSet.HomMat2dIdentity(out hv_homat2dIdentity);
+                HOperatorSet.HomMat2dRotate(hv_homat2dIdentity, dPhi, dCircleX, dCircleY, out hv_RotateMat);
                  
-                return result;
+                double dCurrentX = hv_CenterX;
+                double dCurrentY = hv_CenterY;
+
+                HTuple dValueX = new HTuple();
+                HTuple dValueY = new HTuple();
+                HOperatorSet.AffineTransPoint2d(hv_RotateMat, dCurrentX, dCurrentY, out dValueX, out dValueY);
+                
+                HTuple angValue = 0;
+                HOperatorSet.TupleDeg(dPhi, out angValue);
+                  
+                double xValue = Math.Round(hv_PicX.D - dValueX.D, 3);
+                double yValue = Math.Round(hv_PicY.D - dValueY.D, 3);
+                double uValue = Math.Round(angValue.D, 3);
+
+                m_DelOutPutLog(string.Format("大视野补偿位 X:{0} Y:{1} Angle:{2}", xValue, yValue, uValue));
+
+                //设置偏移到补偿位
+                var pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_BigCamera);
+                var offSetModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_BigCameraOffSet);
+                offSetModel.Pos_X = Math.Round(pointModel.Pos_X + xValue, 3);
+                offSetModel.Pos_Y = Math.Round(pointModel.Pos_Y + yValue, 3);
+                offSetModel.Pos_U = Math.Round(pointModel.Pos_U + uValue, 3);
+
+                return true;
             }
             catch (Exception ex)
             {
                 m_DelOutExLog(ex);
-                return result;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 根据大视野获取小视野拍照位置
+        /// </summary>
+        /// <param name="fixedResult"></param>
+        private bool GetSnapCenterPos(BigFixedResultModel fixedResult, int Width, int Height)
+        {
+            try
+            {
+                //大视野转换到小视野相机像素
+                string mat2dPath = Global.Model3DPath + "\\流程9-仿射变换 1_Mat2d.tup";
+                HTuple hv_Mat2dTup;
+                HOperatorSet.ReadTuple(mat2dPath, out hv_Mat2dTup);
+
+                HTuple dXArr, dYArr;
+                HOperatorSet.AffineTransPoint2d(hv_Mat2dTup, fixedResult.AnyRow, fixedResult.AnyCol, out dXArr, out dYArr);
+                
+                //小视野到中心位置
+                int length = dXArr.DArr.Count();
+                double[] dXArr2 = new double[length];
+                double[] dYArr2 = new double[length];
+                for (int i = 0; i < length; i++)
+                {
+                    double row = Height / 2 - dXArr[i];
+                    double col = Width / 2 - dYArr[i];
+
+                    dXArr2[i] = Math.Round(row, 2);
+                    dYArr2[i] = Math.Round(col, 2);
+                }
+
+                //像素转换到轴位置
+                string ninePath = Global.Model3DPath + "\\流程11-N点标定 1_Mat2d.tup";
+                HTuple hv_nineTup;
+                HOperatorSet.ReadTuple(ninePath, out hv_nineTup);
+
+                HTuple smallXArr, smallYArr;
+                HOperatorSet.AffineTransPoint2d(hv_Mat2dTup, dXArr2, dYArr2, out smallXArr, out smallYArr);
+
+                //组合坐标输出Log
+                int count = smallXArr.DArr.Count();
+                string strOut = "";
+                m_ListPoint.Clear();
+                for (int i = 0; i < count; i++)
+                {
+                    strOut += smallXArr[i].D.ToString("0") + "," + smallYArr[i].D.ToString("0") + ",0,";
+
+                    m_ListPoint.Add(new PointClass()
+                    {
+                        X = Math.Round( smallXArr[i].D, 3),
+                        Y = Math.Round( smallYArr[i].D, 3),
+                        U = 0,
+                    });
+                }
+                strOut = strOut.TrimEnd(',');
+
+                m_DelOutPutLog(strOut);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 推算Bar条后获取第一个拍照位置
+        /// </summary>
+        /// <param name="fixedResult"></param>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        private bool GetSmallFirstSnapPos(SmallFixedPosResultModel fixedResult, int Width, int Height)
+        {
+            try
+            {
+                double dRow = fixedResult.OcrCenterRow;
+                double dCol = fixedResult.OcrCenterCol;
+
+                double row = Height / 2 - dRow;
+                double col = Width / 2 - dCol; 
+                //ocr离中心的位置
+                double distance = fixedResult.Distance;
+
+                string ninePath = Global.Model3DPath + "\\流程11-N点标定 1_Mat2d.tup";
+                HTuple hv_nineTup;
+                HOperatorSet.ReadTuple(ninePath, out hv_nineTup);
+                HTuple hv_qx, hv_qy;
+                HOperatorSet.AffineTransPoint2d(hv_nineTup, row, col, out hv_qx, out hv_qy);
+
+                //产品间距
+                HTuple hv_Distance, hv_Y;
+                HOperatorSet.AffineTransPoint2d(hv_nineTup, distance, 0, out hv_Distance, out hv_Y); 
+
+                //算法推算第一个OCR
+                string strFirstOcr = fixedResult.FirstOcr;
+                int colFirst = Int32.Parse(strFirstOcr.Substring(strFirstOcr.Length - 2, 2));
+                //需要取料第一个OCR
+                var product = m_listProduct.First();
+
+                int colIndex = product.colOcr;
+                int subCol = colFirst - colIndex;
+
+                m_proDistance = hv_Distance.D;
+                double dValueX = Math.Round(m_proDistance * subCol, 3);
+
+                //设置第一个拍照位置
+                var pointModel_1 = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_SmallCameraCenter);
+                var pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_SmallGet);
+                pointModel.Pos_X = pointModel_1.Pos_X + dValueX;
+                pointModel.Pos_Y = pointModel_1.Pos_Y;
+                pointModel.Pos_U = pointModel_1.Pos_U;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 获取位置到顶针位置上方
+        /// </summary>
+        /// <param name="fixedResult"></param>
+        /// <param name="Width"></param>
+        /// <param name="Height"></param>
+        private bool GetSuckFixedPos(SmallFixedPosResultModel fixedResult)
+        {
+            try
+            {
+                //读取旋转中心文件
+                string rotatePath = Global.Model3DPath + "\\流程11-旋转中心 1_Mat2d.tup";
+                HTuple hv_RotateTup;
+                HOperatorSet.ReadTuple(rotatePath, out hv_RotateTup);
+
+                //旋转中心映射到轴
+                string ninePath = Global.Model3DPath + "\\流程11-N点标定 2_Mat2d.tup";
+                HTuple hv_nineTup;
+                HOperatorSet.ReadTuple(ninePath, out hv_nineTup);
+                HTuple dCircleX, dCircleY;
+                HOperatorSet.AffineTransPoint2d(hv_nineTup, hv_RotateTup[0], hv_RotateTup[1], out dCircleX, out dCircleY);
+
+                //定位产品中心到轴
+                HTuple dCurrentX, dCurrentY;
+                HOperatorSet.AffineTransPoint2d(hv_nineTup, fixedResult.OcrCenterRow, fixedResult.OcrCenterCol, out dCurrentX, out dCurrentY);
+                
+                //基准中心到轴
+                HTuple dBaseX, dBaseY;
+                string basePath = Global.Model3DPath + "\\基准中心.tup";
+                HTuple hv_baseTup;
+                HOperatorSet.ReadTuple(basePath, out hv_baseTup);
+                HOperatorSet.AffineTransPoint2d(hv_nineTup, hv_baseTup[0], hv_baseTup[1], out dBaseX, out dBaseY);
+
+                //角度计算
+                double dPhi = hv_baseTup[2] - fixedResult.OcrCenterPhi;
+
+                // 获取拍照位置
+                var pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_BigCamera);
+                double snapPosX = pointModel.Pos_X;
+                double snapPosY = pointModel.Pos_Y;
+
+                //获取当前位置
+                var stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadX);
+                var result1 = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                var result2 = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
+                double currentX = Double.Parse(result1.ObjectResult.ToString());
+                double currentY = Double.Parse(result2.ObjectResult.ToString());
+
+                double dNewCircleX = dCircleX + currentX - snapPosX;
+                double dNewCircleY = dCircleY + currentY - snapPosY;
+
+                HTuple hv_homat2dIdentity, hv_RotateMat;
+                HOperatorSet.HomMat2dIdentity(out hv_homat2dIdentity);
+                HOperatorSet.HomMat2dRotate(hv_homat2dIdentity, dPhi, dNewCircleX, dNewCircleY, out hv_RotateMat);
+                 
+                HTuple dValueX = new HTuple();
+                HTuple dValueY = new HTuple();
+                HOperatorSet.AffineTransPoint2d(hv_RotateMat, dCurrentX, dCurrentY, out dValueX, out dValueY);
+                
+                //设置位置
+                pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_ProFixed);
+                pointModel.Pos_X = Math.Round(dValueX.D, 3);
+                pointModel.Pos_Y = Math.Round(dValueY.D, 3);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 获取下一个产品的拍照位置
+        /// </summary>
+        private bool GetNextSmallSnapPos(SmallFixedPosResultModel fixedResult)
+        {
+            try
+            {
+                var index = m_listProduct.FindIndex(x => x.productOcr == fixedResult.FirstOcr);
+                if(index == -1)
+                {
+                    return true;
+                }
+
+                if(m_ListPoint.Count <= index + 1)
+                {
+                    return true;
+                }
+                var nextproduct = m_listProduct[index + 1];
+                int nextCol = nextproduct.colOcr;
+
+                string strFirstOcr = fixedResult.FirstOcr;
+                int currentCol = Int32.Parse(strFirstOcr.Substring(strFirstOcr.Length - 2, 2));
+
+                int subCol = nextCol - currentCol;
+                double dValueX = Math.Round(m_proDistance * subCol, 3);
+
+                var pointModel = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_SmallGet);
+                var pointModel_Fixed = GetPointModel(MotionParam.Station_PrePare, MotionParam.Pos_ProFixed);
+
+                pointModel.Pos_X = pointModel_Fixed.Pos_X + dValueX;
+                pointModel.Pos_Y = pointModel_Fixed.Pos_Y;
+                pointModel.Pos_U = pointModel_Fixed.Pos_U;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
             }
         }
         #endregion
@@ -2829,20 +3646,20 @@ namespace ProcessController
         /// <summary>
         /// 设置下料的料盘状态
         /// </summary>
-        /// <param name="cosResult">物料测试结果</param>
-        private void SetUnLoadStatus(EnumCosResult cosResult)
+        /// <param name="ldResult">物料测试结果</param>
+        private void SetUnLoadStatus(EnumLDResult ldResult)
         {
             try
             {
                 List<int> listIndex = new List<int>();
                 for (int i = 0; i < m_listCosResult.Count; i++)
                 {
-                    if (m_listCosResult[i] == cosResult)
+                    if (m_listCosResult[i] == ldResult)
                     {
                         listIndex.Add(i + 1);
                     }
                 }
-                UnLoadModel unLoadModel = GetUnLoadModel(cosResult);
+                UnLoadModel unLoadModel = GetUnLoadModel(ldResult);
 
                 int trayCurrentNum = unLoadModel.TrayCurrentNum;
                 int productCurrentRow = unLoadModel.ProductCurrentRow;
@@ -2894,22 +3711,22 @@ namespace ProcessController
         /// <summary>
         /// 获取下料盘Model
         /// </summary>
-        /// <param name="cosResult">测试结果类型</param>
+        /// <param name="ldResult">测试结果类型</param>
         /// <returns></returns>
-        private UnLoadModel GetUnLoadModel(EnumCosResult cosResult)
+        private UnLoadModel GetUnLoadModel(EnumLDResult ldResult)
         {
             UnLoadModel unLoadModel = new UnLoadModel();
             try
             {
-                switch (cosResult)
+                switch (ldResult)
                 {
-                    case EnumCosResult.Enum_Pass:
+                    case EnumLDResult.Enum_Pass:
                         unLoadModel = m_unLoadTrayModel.PassModel;
                         break;
-                    case EnumCosResult.Enum_Fail:
+                    case EnumLDResult.Enum_Fail:
                         unLoadModel = m_unLoadTrayModel.FailModel;
                         break;            
-                    case EnumCosResult.Enum_SeemNG:
+                    case EnumLDResult.Enum_SeemNG:
                         unLoadModel = m_unLoadTrayModel.SeemNGModel;
                         break;
                    
@@ -2949,16 +3766,16 @@ namespace ProcessController
         /// <summary>
         /// 获取下料轴位置
         /// </summary>
-        /// <param name="cosResult">结果</param>
+        /// <param name="ldResult">结果</param>
         /// <param name="index">3：吸嘴3 1：吸嘴1</param>
         /// <param name="xValue">输出x坐标</param>
         /// <param name="yValue">输出ys坐标</param>
-        private void GetUnLoadTrayPos(EnumCosResult cosResult, ESuck eSuck, ref double xValue, ref double yValue)
+        private bool GetUnLoadTrayPos(EnumLDResult ldResult)
         {
             try
             {
                 int trayCurrentRow, trayCurrentCol;
-                UnLoadModel unLoadModel = GetUnLoadModel(cosResult);
+                UnLoadModel unLoadModel = GetUnLoadModel(ldResult);
                 GetUnLoadRowCol(unLoadModel.TrayCurrentNum, out trayCurrentRow, out trayCurrentCol);
 
                 int productCurrentRow = unLoadModel.ProductCurrentRow;
@@ -2967,20 +3784,28 @@ namespace ProcessController
                 //获取吸嘴下料的起始示教位置
                 StationModel stationModel = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoad);
                 
-                string strTeach = string.Format("{0}下料示教位置{1}", eSuck.ToString(), unLoadModel.TrayCurrentNum);
-                PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == strTeach);
+                string strTeach = string.Format("放料位{0}", unLoadModel.TrayCurrentNum);  
+                var pointModel = GetPointModel(MotionParam.Station_UnLoad, strTeach);
                 
                 //物料位置
                 double xproductdis = (productCurrentCol - 1) * m_unLoadTrayModel.ProductColDis;
                 double yproductdis = (productCurrentRow - 1) * m_unLoadTrayModel.ProductRowDis;
                 
                 //某个料盘里面物料
-                xValue = Math.Round(pointModel.Pos_X + xproductdis, 3);
-                yValue = Math.Round(pointModel.Pos_Y - yproductdis, 3);
+                double xValue = Math.Round(pointModel.Pos_X + xproductdis, 3);
+                double yValue = Math.Round(pointModel.Pos_Y - yproductdis, 3);
+                
+                pointModel = GetPointModel(MotionParam.Station_UnLoad, MotionParam.Pos_UnLoad);
+
+                pointModel.Pos_X = xValue;
+                pointModel.Pos_Y = yValue;
+
+                return true;
             }
             catch (Exception ex)
             {
                 m_DelOutExLog(ex);
+                return false;
             }
         }
           
@@ -3118,6 +3943,7 @@ namespace ProcessController
             {
                 //设置当前参数
                 m_CosModel = sequence.LDModel;
+                GetBlowingList();
 
                 m_TrayModel = m_CosModel.TrayModelInch2;
 
@@ -3412,7 +4238,7 @@ namespace ProcessController
         /// </summary>
         /// <param name="charResult">测试结果</param>
         /// <param name="strOcr">OCR数据</param>
-        private void WriteTestData(CharResultModel charResult, LIVResultModel livResult, string strOcr, EnumCosResult eresult, int stationindex = 1, string qr1 = "", string qr2 = "", string coldWave = "")
+        private void WriteTestData(CharResultModel charResult, LIVResultModel livResult, string strOcr, EnumLDResult eresult, int stationindex = 1, string qr1 = "", string qr2 = "", string coldWave = "")
         {
             try
             {
@@ -3493,9 +4319,9 @@ namespace ProcessController
                 }
 
                 PointModel pointModel = stationModel.PointModels.FirstOrDefault(x => x.Name == pointName);
-                if (stationModel == null)
+                if (pointModel == null)
                 {
-                    m_DelOutPutLog(string.Format("不存在点位【{0}】", pointName), LogLevel.Error);
+                    m_DelOutPutLog(string.Format("【{0}】不存在点位【{1}】", stationName, pointName), LogLevel.Error);
                     return null;
                 }
 
@@ -3578,6 +4404,80 @@ namespace ProcessController
             catch (Exception ex)
             {
                 m_DelOutExLog(ex);
+            }
+        }
+
+        #endregion
+
+        #region Map操作数据
+
+        /// <summary>
+        /// 录入Map
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="path"></param>
+        /// <param name="waferName"></param>
+        /// <param name="productType"></param>
+        /// <param name="bcheck">true--检查Map表 false--录入Map表</param>
+        /// <returns></returns>
+        public bool AddMap(int index, string path, string waferName, string productType, bool bcheck)
+        {
+            try
+            {
+                var data = m_oleExcel.ExcelToDS(path, "验证质检发货bar明细");
+                List<Bar> listBar = m_oleExcel.GetData(data, waferName, productType);
+
+                if(listBar.Count > 0)
+                {
+                    if(!bcheck)
+                    {
+                        m_DicBar.Add(index, listBar);
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 删除已录入的Map
+        /// </summary>
+        /// <param name="index"></param>
+        public void DeleteMap(int index)
+        {
+            try
+            {
+                if(m_DicBar.ContainsKey(index))
+                {
+                    m_DicBar.Remove(index);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+        
+        /// <summary>
+        /// 判断有无录入Map表
+        /// </summary>
+        /// <returns></returns>
+        private bool JudgeMap()
+        {
+            try
+            {
+                return m_DicBar.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                m_DelOutExLog(ex);
+                return false;
             }
         }
         

@@ -250,6 +250,12 @@
     <Compile Include="CameraView\FixtureTeachView.Designer.cs">
       <DependentUpon>FixtureTeachView.cs</DependentUpon>
     </Compile>
+    <Compile Include="CameraView\LDAlgorithmView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\LDAlgorithmView.Designer.cs">
+      <DependentUpon>LDAlgorithmView.cs</DependentUpon>
+    </Compile>
     <Compile Include="CameraView\UnloadTeachView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -484,12 +490,6 @@
     </Compile>
     <Compile Include="LDView\UnLoadParamView.Designer.cs">
       <DependentUpon>UnLoadParamView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CameraView\AlgorithmView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CameraView\AlgorithmView.Designer.cs">
-      <DependentUpon>AlgorithmView.cs</DependentUpon>
     </Compile>
     <Compile Include="EditView\EButton.cs">
       <SubType>UserControl</SubType>
@@ -794,6 +794,9 @@
     <EmbeddedResource Include="CameraView\FixtureTeachView.resx">
       <DependentUpon>FixtureTeachView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\LDAlgorithmView.resx">
+      <DependentUpon>LDAlgorithmView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CameraView\UnloadTeachView.resx">
       <DependentUpon>UnloadTeachView.cs</DependentUpon>
     </EmbeddedResource>
@@ -877,9 +880,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LDView\AlarmView.resx">
       <DependentUpon>AlarmView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CameraView\AlgorithmView.resx">
-      <DependentUpon>AlgorithmView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LDView\BlowingBoxView.resx">
       <DependentUpon>BlowingBoxView.cs</DependentUpon>
@@ -1073,6 +1073,10 @@
     <ProjectReference Include="..\..\Controller\CommController\EngineController.csproj">
       <Project>{6e54caa0-969e-4ac2-9aea-0762e896ea40}</Project>
       <Name>EngineController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Controller\ExcelControl\ExcelController.csproj">
+      <Project>{32665b76-70af-40b8-aadc-ddf5f47f695e}</Project>
+      <Name>ExcelController</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Controller\JsonController\JsonController.csproj">
       <Project>{d359f230-fced-42da-be8a-7c44ad18afc8}</Project>

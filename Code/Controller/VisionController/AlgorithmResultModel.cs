@@ -84,4 +84,59 @@ namespace VisionController
 
         public HTuple Exception= null;
     }
+
+    /// <summary>
+    /// 大视野相机入料补正算法结果
+    /// </summary>
+    public class BigFeedResultModel : BaseResultModel
+    {
+        public HObject DispObjects { get; set; }
+        public HObject Rectangle1 { get; set; }
+        public HTuple ProdAngleMean { get; set; }
+        public HTuple BigCenterRow { get; set; }
+        public HTuple BigCenterCol { get; set; }
+
+    }
+
+    /// <summary>
+    /// 大视野相机定位算法结果
+    /// </summary>
+    public class BigFixedResultModel : BaseResultModel
+    {
+        public HObject OutRegion { get; set; } 
+        public HTuple AnyRow { get; set; }
+        public HTuple AnyCol { get; set; }
+        public HTuple AnyAng { get; set; }
+        public HTuple Count { get; set; }
+    }
+
+    /// <summary>
+    /// 小视野判断入料位置结果
+    /// </summary>
+    public class SmallJudgePosResultModel : BaseResultModel
+    {
+        public bool IsCenterPos { get; set; }
+        public bool IsExistProduct { get; set; }
+        public HObject OutRegion { get; set; }
+    }
+
+    /// <summary>
+    /// 小视野定位置结果
+    /// </summary>
+    public class SmallFixedPosResultModel : BaseResultModel
+    {
+        public HObject OutRegion { get; set; }
+        public HObject OcrOutRegion { get; set; }
+
+        public string strLog { get; set; }
+        public string Bar { get; set; }
+        
+        public double OcrCenterRow { get; set; }
+        public double OcrCenterCol { get; set; }
+        public double OcrCenterPhi { get; set; }
+        public int ICanGet { get; set; }
+        public int IExistProduct { get; set; } 
+        public double Distance { get; set; }
+        public string FirstOcr { get; set; }
+    }
 }

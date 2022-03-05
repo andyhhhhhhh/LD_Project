@@ -144,6 +144,8 @@ namespace MainView3D
             m_ProcessControl.m_DelStop += Del_StopAction; 
             m_ProcessControl.m_DelEmergency += Del_EmergencyAction;
             m_ProcessControl.m_DelSaveScreen += Del_SaveScreen;
+            m_mapView.m_DelAddMap += m_ProcessControl.AddMap;
+            m_mapView.m_DelDeleteMap += m_ProcessControl.DeleteMap;
 
             ParamSetView.ConfirmEvent += M_ParamSetView_ConfirmEvent;
             ParamConfigView.ConfirmEvent += M_ParamSetView_ConfirmEvent;
@@ -3581,9 +3583,6 @@ namespace MainView3D
         {
             try
             {
-                ExcelController.ExcelView view = new ExcelController.ExcelView();
-                view.ShowDialog();
-                return; 
                 //About3DView view = new About3DView();
                 //view.ShowDialog();
             }

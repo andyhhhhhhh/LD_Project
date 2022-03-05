@@ -82,6 +82,10 @@
       <Project>{2b81bdde-434c-4e9b-868a-2ce8b51d157b}</Project>
       <Name>CameraContorller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExcelControl\ExcelController.csproj">
+      <Project>{32665b76-70af-40b8-aadc-ddf5f47f695e}</Project>
+      <Name>ExcelController</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JsonController\JsonController.csproj">
       <Project>{d359f230-fced-42da-be8a-7c44ad18afc8}</Project>
       <Name>JsonController</Name>

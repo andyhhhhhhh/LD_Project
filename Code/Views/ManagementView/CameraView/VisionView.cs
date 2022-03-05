@@ -17,7 +17,8 @@ namespace ManagementView
     public partial class VisionView : UserControl
     {
         Camera2DParamView m_CameraView = new Camera2DParamView();
-        AlgorithmView m_algorithmView = new AlgorithmView();
+        //AlgorithmView m_algorithmView = new AlgorithmView();
+        LDAlgorithmView m_ldalgorithmView = new LDAlgorithmView();
         CalibrationView m_calibrationView = new CalibrationView();
         UnloadTeachView m_unloadTeachView = new UnloadTeachView();
         FixtureTeachView m_fixtureView = new FixtureTeachView();
@@ -33,17 +34,17 @@ namespace ManagementView
                 tabControl1.SelectedTabIndex = 0;
 
                 CommHelper.LayoutChildFillView(panelCamera, m_CameraView);
-                CommHelper.LayoutChildFillView(panelAlgrithm, m_algorithmView);
+                CommHelper.LayoutChildFillView(panelAlgrithm, m_ldalgorithmView);
                 CommHelper.LayoutChildFillView(panelCalibration, m_calibrationView);
                 CommHelper.LayoutChildFillView(panelUnload, m_unloadTeachView);
                 CommHelper.LayoutChildFillView(panelFixture, m_fixtureView);
 
                 m_calibrationView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
-                m_calibrationView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
-                m_algorithmView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
+                //m_calibrationView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
+                //m_algorithmView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
 
                 m_unloadTeachView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
-                m_unloadTeachView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
+                //m_unloadTeachView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
 
                 m_fixtureView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc; 
             }

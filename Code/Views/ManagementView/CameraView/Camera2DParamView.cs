@@ -207,6 +207,9 @@ namespace ManagementView._3DViews
                 tModel.IsExternTrig = chkIsExternTrig.Checked;
 
                 UpdateData();
+
+                m_CameraControl[tModel.Id].Run(tModel, CameraControlType.CameraSetParam);
+
                 MessageBoxEx.Show("保存成功");
             }
             catch (Exception ex)

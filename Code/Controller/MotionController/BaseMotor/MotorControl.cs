@@ -35,6 +35,7 @@ namespace MotionController
                     if (m_Motor == null)
                     {
                         m_Motor = new ZMotionControl();
+                        bresult = ZMotionService.Instance().Init();
                     }
                     break;
                 case EnumCard.软PLC:
@@ -57,10 +58,10 @@ namespace MotionController
             return bresult;           
         }
 
-        public AxisStatus GetStatus(ushort axisIndex, out bool bok)
+        public AxisStatus GetStatus(ushort cardIndex, ushort axisIndex, out bool bok)
         {
             bok = true;
-            return SoftPlcService.Instance().GetAxisStatus(axisIndex, out bok);
+            return ZMotionService.Instance().GetAxisStatus(cardIndex, axisIndex, out bok);
         }
          
         public int Motor_axis_enable(ushort cardIndex, ushort axisIndex)
@@ -133,9 +134,9 @@ namespace MotionController
         /// <param name="cardIndex">卡号</param>
         /// <param name="axisIndex">轴号</param>
         /// <returns>参考EM_ERR_CODE</returns>
-        public int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed)
+        public int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed, int homeType, int limitType)
         {
-            return m_Motor.Motor_axis_home(cardIndex, axisIndex, homeIo, speed, secondSpeed);
+            return m_Motor.Motor_axis_home(cardIndex, axisIndex, homeIo, speed, secondSpeed, homeType, limitType);
         }
 
         /// <summary>
@@ -443,6 +444,18 @@ namespace MotionController
         public int Motor_ext_write_out_bit(ushort cardIndex, short exindex, ushort ioindex, ushort val)
         {
             return m_Motor.Motor_ext_write_out_bit(cardIndex, exindex, ioindex, val);
+        }
+
+        /// <summary>
+        /// 插补运动
+        /// </summary>
+        /// <param name="cardIndex"></param>
+        /// <param name="listAxisIndex">轴集合</param>
+        /// <param name="speed">速度</param>
+        /// <returns></returns>
+        public int Motor_group_move(List<ushort> cardIndex, List<ushort> listAxisIndex, List<float> listpos, TSpeed speed, int stationIndex)
+        {
+            return m_Motor.Motor_group_move(cardIndex, listAxisIndex, listpos, speed, stationIndex);
         }
     }
 }

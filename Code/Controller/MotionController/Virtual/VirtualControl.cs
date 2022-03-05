@@ -31,7 +31,7 @@ namespace MotionController
             return (int)EM_ERRCODE.RETURN_OK;
         }
 
-        public override int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed)
+        public override int Motor_axis_home(ushort cardIndex, ushort axisIndex, uint homeIo, float speed, float secondSpeed, int homeType, int limitType)
         {
             return (int)EM_ERRCODE.RETURN_OK;
         }
@@ -138,8 +138,13 @@ namespace MotionController
 
         public override int Motor_get_current_pos(ushort cardIndex, ushort axisIndex, out double pval, int type = 0)
         {
-            pval = 0;
-            return 1;
+            pval = 99999;
+            return (int)EM_ERRCODE.RETURN_OK; ;
+        }
+
+        public override int Motor_group_move(List<ushort> cardIndex, List<ushort> listAxisIndex, List<float> listpos, TSpeed speed, int stationIndex)
+        {
+            return (int)EM_ERRCODE.RETURN_OK;
         }
 
         public override int Motor_init_card(AxisParam paxis, ushort cardIndex, ushort axisCnt, int extIOCnt, int cntType)

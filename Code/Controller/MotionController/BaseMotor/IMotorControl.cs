@@ -36,7 +36,15 @@ namespace MotionController
         /// <summary>
         /// 绝对运动 参数：Coord:多轴运动 Axis:单轴运动
         /// </summary>
-        AxisMove, 
+        AxisMove,
+        /// <summary>
+        /// 插补运动 参数：Coord:多轴运动 Axis:单轴运动
+        /// </summary>
+        AxisMoveGroup,
+        /// <summary>
+        /// 插补运动不等待完成 参数：Coord:多轴运动 Axis:单轴运动
+        /// </summary>
+        AxisMoveGroupNotWait,
         /// <summary>
         /// 相对对运动 参数：Coord:多轴运动 Axis:单轴运动
         /// </summary>

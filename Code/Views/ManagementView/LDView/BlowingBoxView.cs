@@ -67,7 +67,7 @@ namespace ManagementView
         /// 设置结果List到按钮
         /// </summary>
         /// <param name="listCosResult">输入list结果</param>
-        public void SetBlowingList(List<EnumCosResult> listCosResult)
+        public void SetBlowingList(List<EnumLDResult> listCosResult)
         {
             try
             {
@@ -93,11 +93,11 @@ namespace ManagementView
         /// 获取按钮的结果List
         /// </summary>
         /// <returns>返回结果list</returns>
-        public List<EnumCosResult> GetBlowingList()
+        public List<EnumLDResult> GetBlowingList()
         {
             try
             {
-                List<EnumCosResult> listCosResult = new List<EnumCosResult>();
+                List<EnumLDResult> listCosResult = new List<EnumLDResult>();
                 for (int i = 0; i < m_boxViewArr.Length; i++)
                 {
                     listCosResult.Add(m_boxViewArr[i].enumCosResult);

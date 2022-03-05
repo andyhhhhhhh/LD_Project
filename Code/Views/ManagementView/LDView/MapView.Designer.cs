@@ -34,7 +34,6 @@
             this.btnDel = new DevComponents.DotNetBar.ButtonX();
             this.btnEnter = new DevComponents.DotNetBar.ButtonX();
             this.btnCheckWafer = new DevComponents.DotNetBar.ButtonX();
-            this.loadMapPath = new ManagementView._3DViews.CommonView.LoadFileView();
             this.cmbIndex = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.comboItem1 = new DevComponents.Editors.ComboItem();
             this.comboItem2 = new DevComponents.Editors.ComboItem();
@@ -67,8 +66,14 @@
             this.groupPanel4 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.txtSetBar = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.labelX6 = new DevComponents.DotNetBar.LabelX();
+            this.btnMapTest = new DevComponents.DotNetBar.ButtonX();
             this.btnUpdate = new DevComponents.DotNetBar.ButtonX();
             this.panelBlow = new DevComponents.DotNetBar.PanelEx();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
+            this.cmbProduct = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.comboItem21 = new DevComponents.Editors.ComboItem();
+            this.comboItem22 = new DevComponents.Editors.ComboItem();
+            this.loadMapPath = new ManagementView._3DViews.CommonView.LoadFileView();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupPanel1.SuspendLayout();
             this.groupPanel2.SuspendLayout();
@@ -105,6 +110,8 @@
             this.groupPanel1.Controls.Add(this.btnEnter);
             this.groupPanel1.Controls.Add(this.btnCheckWafer);
             this.groupPanel1.Controls.Add(this.loadMapPath);
+            this.groupPanel1.Controls.Add(this.cmbProduct);
+            this.groupPanel1.Controls.Add(this.labelX7);
             this.groupPanel1.Controls.Add(this.cmbIndex);
             this.groupPanel1.Controls.Add(this.labelX2);
             this.groupPanel1.Controls.Add(this.labelX1);
@@ -173,24 +180,13 @@
             // 
             this.btnCheckWafer.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btnCheckWafer.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnCheckWafer.Location = new System.Drawing.Point(406, 18);
+            this.btnCheckWafer.Location = new System.Drawing.Point(606, 68);
             this.btnCheckWafer.Name = "btnCheckWafer";
             this.btnCheckWafer.Size = new System.Drawing.Size(75, 23);
             this.btnCheckWafer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.btnCheckWafer.TabIndex = 4;
             this.btnCheckWafer.Text = "检查Wafer";
             this.btnCheckWafer.Click += new System.EventHandler(this.btnCheckWafer_Click);
-            // 
-            // loadMapPath
-            // 
-            this.loadMapPath.FileFilter = null;
-            this.loadMapPath.FileName = null;
-            this.loadMapPath.FilePath = null;
-            this.loadMapPath.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.loadMapPath.Location = new System.Drawing.Point(17, 63);
-            this.loadMapPath.Name = "loadMapPath";
-            this.loadMapPath.Size = new System.Drawing.Size(664, 28);
-            this.loadMapPath.TabIndex = 3;
             // 
             // cmbIndex
             // 
@@ -210,9 +206,9 @@
             this.comboItem8,
             this.comboItem9,
             this.comboItem10});
-            this.cmbIndex.Location = new System.Drawing.Point(255, 18);
+            this.cmbIndex.Location = new System.Drawing.Point(251, 18);
             this.cmbIndex.Name = "cmbIndex";
-            this.cmbIndex.Size = new System.Drawing.Size(121, 23);
+            this.cmbIndex.Size = new System.Drawing.Size(66, 23);
             this.cmbIndex.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cmbIndex.TabIndex = 2;
             // 
@@ -262,7 +258,7 @@
             // 
             // 
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX2.Location = new System.Drawing.Point(213, 18);
+            this.labelX2.Location = new System.Drawing.Point(209, 18);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(53, 23);
             this.labelX2.TabIndex = 1;
@@ -549,6 +545,7 @@
             this.groupPanel4.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel4.Controls.Add(this.txtSetBar);
             this.groupPanel4.Controls.Add(this.labelX6);
+            this.groupPanel4.Controls.Add(this.btnMapTest);
             this.groupPanel4.Controls.Add(this.btnUpdate);
             this.groupPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -610,6 +607,18 @@
             this.labelX6.TabIndex = 1;
             this.labelX6.Text = "bar条号设置";
             // 
+            // btnMapTest
+            // 
+            this.btnMapTest.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.btnMapTest.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.btnMapTest.Location = new System.Drawing.Point(26, 178);
+            this.btnMapTest.Name = "btnMapTest";
+            this.btnMapTest.Size = new System.Drawing.Size(75, 23);
+            this.btnMapTest.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.btnMapTest.TabIndex = 4;
+            this.btnMapTest.Text = "Map测试";
+            this.btnMapTest.Click += new System.EventHandler(this.btnMapTest_Click);
+            // 
             // btnUpdate
             // 
             this.btnUpdate.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
@@ -639,6 +648,53 @@
             this.panelBlow.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
             this.panelBlow.Style.GradientAngle = 90;
             this.panelBlow.TabIndex = 1;
+            // 
+            // labelX7
+            // 
+            // 
+            // 
+            // 
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.Location = new System.Drawing.Point(346, 18);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(53, 23);
+            this.labelX7.TabIndex = 1;
+            this.labelX7.Text = "产品.";
+            // 
+            // cmbProduct
+            // 
+            this.cmbProduct.DisplayMember = "Text";
+            this.cmbProduct.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbProduct.FormattingEnabled = true;
+            this.cmbProduct.ItemHeight = 17;
+            this.cmbProduct.Items.AddRange(new object[] {
+            this.comboItem21,
+            this.comboItem22});
+            this.cmbProduct.Location = new System.Drawing.Point(388, 18);
+            this.cmbProduct.Name = "cmbProduct";
+            this.cmbProduct.Size = new System.Drawing.Size(97, 23);
+            this.cmbProduct.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cmbProduct.TabIndex = 2;
+            this.cmbProduct.Text = "25W";
+            // 
+            // comboItem21
+            // 
+            this.comboItem21.Text = "25W";
+            // 
+            // comboItem22
+            // 
+            this.comboItem22.Text = "28W";
+            // 
+            // loadMapPath
+            // 
+            this.loadMapPath.FileFilter = null;
+            this.loadMapPath.FileName = null;
+            this.loadMapPath.FilePath = null;
+            this.loadMapPath.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loadMapPath.Location = new System.Drawing.Point(17, 63);
+            this.loadMapPath.Name = "loadMapPath";
+            this.loadMapPath.Size = new System.Drawing.Size(564, 28);
+            this.loadMapPath.TabIndex = 3;
             // 
             // MapView
             // 
@@ -701,5 +757,10 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private DevComponents.DotNetBar.ButtonX btnMapTest;
+        private DevComponents.DotNetBar.Controls.ComboBoxEx cmbProduct;
+        private DevComponents.Editors.ComboItem comboItem21;
+        private DevComponents.Editors.ComboItem comboItem22;
+        private DevComponents.DotNetBar.LabelX labelX7;
     }
 }

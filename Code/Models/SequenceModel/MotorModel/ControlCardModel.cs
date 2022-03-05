@@ -78,7 +78,7 @@ namespace SequenceTestModel
         /// 扩展IO List
         /// </summary>
         [XmlArrayItem("ExtIoModels")]
-        public List<ExtIoModel> ExtIoModels { get; set; } 
+        public List<ExtIoModel> ExtIoModels { get; set; }
 
         public CardModel()
         {
@@ -191,6 +191,14 @@ namespace SequenceTestModel
         public double maxDec { get; set; }
 
         /// <summary>
+        /// 加加速度
+        /// </summary>
+        //  [XmlElement("maxDec")]
+        [Category("通用配置")]
+        [Description("加加速度")]
+        public double maxAacc { get; set; }
+
+        /// <summary>
         /// 1mm对应多少脉冲
         /// </summary>
        // [XmlElement("stepvalue")]
@@ -237,6 +245,11 @@ namespace SequenceTestModel
         [Category("通用配置")]
         [Description("回原后偏移量")]
         public long iAfterhomeOffset { get; set; }
+        
+        /// <summary>
+        /// 到位精度
+        /// </summary>
+        public double InPlaceOffSet { get; set; }
 
         /// <summary>
         /// 运动绝对位置
@@ -261,6 +274,7 @@ namespace SequenceTestModel
         public AxisParamModel()
         {
             homeSecondVel = 10;
+            maxAacc = 30000;
         }
 
     }
@@ -308,7 +322,7 @@ namespace SequenceTestModel
         [XmlElement("IoNum")]
         public int IoNum { get; set; }
     }
-    
+
     /// <summary>
     /// 工位Model
     /// </summary>
@@ -340,7 +354,7 @@ namespace SequenceTestModel
             {
                 base.Name = value;
             }
-        } 
+        }
 
         /// <summary>
         /// 轴数量
@@ -400,7 +414,7 @@ namespace SequenceTestModel
             PointModels = new List<PointModel>();
         }
     }
-    
+
     /// <summary>
     /// 点位Model
     /// </summary>
@@ -465,7 +479,7 @@ namespace SequenceTestModel
         /// <summary>
         /// Axis_U 位置最大值
         /// </summary>
-        public double pos_U_Max { get; set; } 
+        public double pos_U_Max { get; set; }
 
         /// <summary>
         /// 点位所在的工站
@@ -566,7 +580,7 @@ namespace SequenceTestModel
         /// <summary>
         /// 输入值
         /// </summary>
-        [XmlIgnore] 
+        [XmlIgnore]
         public ushort val;
 
     }

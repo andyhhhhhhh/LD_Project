@@ -105,11 +105,15 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.groupPanel4 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.dataIO = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.ioContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
+            this.OutPuttoolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.InPuttoolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupPanel3 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.txtiInHomeOffset = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.btnRefresh = new DevComponents.DotNetBar.ButtonX();
             this.txtHomeIO = new DevComponents.DotNetBar.Controls.TextBoxX();
-            this.txtvel = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.txtAAcc = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.txtinplaceOffSet = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txtstepvalue = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txtmaxDec = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txthomeSecondVel = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -122,6 +126,7 @@
             this.labelX20 = new DevComponents.DotNetBar.LabelX();
             this.btnCancel = new DevComponents.DotNetBar.ButtonX();
             this.labelX23 = new DevComponents.DotNetBar.LabelX();
+            this.labelX25 = new DevComponents.DotNetBar.LabelX();
             this.labelX22 = new DevComponents.DotNetBar.LabelX();
             this.labelX16 = new DevComponents.DotNetBar.LabelX();
             this.labelX19 = new DevComponents.DotNetBar.LabelX();
@@ -166,6 +171,7 @@
             this.groupPanel1.SuspendLayout();
             this.groupPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataIO)).BeginInit();
+            this.ioContextMenuStrip.SuspendLayout();
             this.groupPanel3.SuspendLayout();
             this.groupPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.advTree1)).BeginInit();
@@ -181,7 +187,7 @@
             this.panelEx1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEx1.Location = new System.Drawing.Point(0, 0);
             this.panelEx1.Name = "panelEx1";
-            this.panelEx1.Size = new System.Drawing.Size(1350, 728);
+            this.panelEx1.Size = new System.Drawing.Size(1270, 728);
             this.panelEx1.Style.Alignment = System.Drawing.StringAlignment.Center;
             this.panelEx1.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
             this.panelEx1.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
@@ -209,7 +215,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.85792F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.14208F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1350, 728);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1270, 728);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // groupPanel5
@@ -233,10 +239,10 @@
             this.groupPanel5.Controls.Add(this.labelX6);
             this.groupPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel5.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.groupPanel5.Location = new System.Drawing.Point(698, 341);
+            this.groupPanel5.Location = new System.Drawing.Point(656, 341);
             this.groupPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel5.Name = "groupPanel5";
-            this.groupPanel5.Size = new System.Drawing.Size(652, 387);
+            this.groupPanel5.Size = new System.Drawing.Size(614, 387);
             // 
             // 
             // 
@@ -972,10 +978,10 @@
             this.groupPanel1.Controls.Add(this.labelX1);
             this.groupPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel1.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.groupPanel1.Location = new System.Drawing.Point(337, 0);
+            this.groupPanel1.Location = new System.Drawing.Point(317, 0);
             this.groupPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(361, 341);
+            this.groupPanel1.Size = new System.Drawing.Size(339, 341);
             // 
             // 
             // 
@@ -1157,7 +1163,7 @@
             this.groupPanel4.Location = new System.Drawing.Point(0, 341);
             this.groupPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel4.Name = "groupPanel4";
-            this.groupPanel4.Size = new System.Drawing.Size(698, 387);
+            this.groupPanel4.Size = new System.Drawing.Size(656, 387);
             // 
             // 
             // 
@@ -1212,6 +1218,7 @@
             this.Column6,
             this.Column7,
             this.Column8});
+            this.dataIO.ContextMenuStrip = this.ioContextMenuStrip;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle5.Font = new System.Drawing.Font("微软雅黑", 10F);
@@ -1236,12 +1243,55 @@
             this.dataIO.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataIO.RowHeadersWidth = 35;
             this.dataIO.RowTemplate.Height = 23;
-            this.dataIO.Size = new System.Drawing.Size(692, 359);
+            this.dataIO.Size = new System.Drawing.Size(650, 359);
             this.dataIO.TabIndex = 2;
             this.dataIO.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataIO_CellBeginEdit);
             this.dataIO.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataIO_CellEndEdit);
             this.dataIO.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataIO_CellEnter);
             this.dataIO.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataIO_CellLeave);
+            // 
+            // ioContextMenuStrip
+            // 
+            this.ioContextMenuStrip.Arrow = System.Drawing.Color.Black;
+            this.ioContextMenuStrip.Back = System.Drawing.Color.White;
+            this.ioContextMenuStrip.BackRadius = 4;
+            this.ioContextMenuStrip.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
+            this.ioContextMenuStrip.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+            this.ioContextMenuStrip.Fore = System.Drawing.Color.Black;
+            this.ioContextMenuStrip.HoverFore = System.Drawing.Color.White;
+            this.ioContextMenuStrip.ItemAnamorphosis = true;
+            this.ioContextMenuStrip.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.ioContextMenuStrip.ItemBorderShow = true;
+            this.ioContextMenuStrip.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.ioContextMenuStrip.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.ioContextMenuStrip.ItemRadius = 4;
+            this.ioContextMenuStrip.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.ioContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OutPuttoolStripMenuItem1,
+            this.InPuttoolStripMenuItem2});
+            this.ioContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.ioContextMenuStrip.Name = "skinContextMenuStrip1";
+            this.ioContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.ioContextMenuStrip.Size = new System.Drawing.Size(125, 48);
+            this.ioContextMenuStrip.SkinAllColor = true;
+            this.ioContextMenuStrip.TitleAnamorphosis = true;
+            this.ioContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.ioContextMenuStrip.TitleRadius = 4;
+            this.ioContextMenuStrip.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            // 
+            // OutPuttoolStripMenuItem1
+            // 
+            this.OutPuttoolStripMenuItem1.Name = "OutPuttoolStripMenuItem1";
+            this.OutPuttoolStripMenuItem1.Size = new System.Drawing.Size(124, 22);
+            this.OutPuttoolStripMenuItem1.Text = "导出数据";
+            this.OutPuttoolStripMenuItem1.Click += new System.EventHandler(this.OutPuttoolStripMenuItem1_Click);
+            // 
+            // InPuttoolStripMenuItem2
+            // 
+            this.InPuttoolStripMenuItem2.Name = "InPuttoolStripMenuItem2";
+            this.InPuttoolStripMenuItem2.Size = new System.Drawing.Size(124, 22);
+            this.InPuttoolStripMenuItem2.Text = "导入数据";
+            this.InPuttoolStripMenuItem2.Click += new System.EventHandler(this.InPuttoolStripMenuItem2_Click);
             // 
             // groupPanel3
             // 
@@ -1250,7 +1300,8 @@
             this.groupPanel3.Controls.Add(this.txtiInHomeOffset);
             this.groupPanel3.Controls.Add(this.btnRefresh);
             this.groupPanel3.Controls.Add(this.txtHomeIO);
-            this.groupPanel3.Controls.Add(this.txtvel);
+            this.groupPanel3.Controls.Add(this.txtAAcc);
+            this.groupPanel3.Controls.Add(this.txtinplaceOffSet);
             this.groupPanel3.Controls.Add(this.txtstepvalue);
             this.groupPanel3.Controls.Add(this.txtmaxDec);
             this.groupPanel3.Controls.Add(this.txthomeSecondVel);
@@ -1263,6 +1314,7 @@
             this.groupPanel3.Controls.Add(this.labelX20);
             this.groupPanel3.Controls.Add(this.btnCancel);
             this.groupPanel3.Controls.Add(this.labelX23);
+            this.groupPanel3.Controls.Add(this.labelX25);
             this.groupPanel3.Controls.Add(this.labelX22);
             this.groupPanel3.Controls.Add(this.labelX16);
             this.groupPanel3.Controls.Add(this.labelX19);
@@ -1280,10 +1332,10 @@
             this.groupPanel3.Controls.Add(this.labelX10);
             this.groupPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel3.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.groupPanel3.Location = new System.Drawing.Point(698, 0);
+            this.groupPanel3.Location = new System.Drawing.Point(656, 0);
             this.groupPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel3.Name = "groupPanel3";
-            this.groupPanel3.Size = new System.Drawing.Size(652, 341);
+            this.groupPanel3.Size = new System.Drawing.Size(614, 341);
             // 
             // 
             // 
@@ -1324,7 +1376,7 @@
             this.txtiInHomeOffset.Border.Class = "TextBoxBorder";
             this.txtiInHomeOffset.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtiInHomeOffset.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtiInHomeOffset.Location = new System.Drawing.Point(114, 227);
+            this.txtiInHomeOffset.Location = new System.Drawing.Point(114, 197);
             this.txtiInHomeOffset.Name = "txtiInHomeOffset";
             this.txtiInHomeOffset.Size = new System.Drawing.Size(100, 25);
             this.txtiInHomeOffset.TabIndex = 1;
@@ -1352,26 +1404,41 @@
             this.txtHomeIO.Border.Class = "TextBoxBorder";
             this.txtHomeIO.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtHomeIO.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtHomeIO.Location = new System.Drawing.Point(358, 271);
+            this.txtHomeIO.Location = new System.Drawing.Point(358, 235);
             this.txtHomeIO.Name = "txtHomeIO";
             this.txtHomeIO.Size = new System.Drawing.Size(100, 25);
             this.txtHomeIO.TabIndex = 1;
             this.txtHomeIO.Text = "0";
             // 
-            // txtvel
+            // txtAAcc
             // 
-            this.txtvel.BackColor = System.Drawing.Color.White;
+            this.txtAAcc.BackColor = System.Drawing.Color.White;
             // 
             // 
             // 
-            this.txtvel.Border.Class = "TextBoxBorder";
-            this.txtvel.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtvel.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtvel.Location = new System.Drawing.Point(358, 139);
-            this.txtvel.Name = "txtvel";
-            this.txtvel.Size = new System.Drawing.Size(100, 25);
-            this.txtvel.TabIndex = 1;
-            this.txtvel.Text = "0";
+            this.txtAAcc.Border.Class = "TextBoxBorder";
+            this.txtAAcc.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtAAcc.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.txtAAcc.Location = new System.Drawing.Point(358, 121);
+            this.txtAAcc.Name = "txtAAcc";
+            this.txtAAcc.Size = new System.Drawing.Size(100, 25);
+            this.txtAAcc.TabIndex = 1;
+            this.txtAAcc.Text = "0";
+            // 
+            // txtinplaceOffSet
+            // 
+            this.txtinplaceOffSet.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.txtinplaceOffSet.Border.Class = "TextBoxBorder";
+            this.txtinplaceOffSet.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtinplaceOffSet.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.txtinplaceOffSet.Location = new System.Drawing.Point(114, 273);
+            this.txtinplaceOffSet.Name = "txtinplaceOffSet";
+            this.txtinplaceOffSet.Size = new System.Drawing.Size(100, 25);
+            this.txtinplaceOffSet.TabIndex = 1;
+            this.txtinplaceOffSet.Text = "0";
             // 
             // txtstepvalue
             // 
@@ -1382,7 +1449,7 @@
             this.txtstepvalue.Border.Class = "TextBoxBorder";
             this.txtstepvalue.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtstepvalue.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtstepvalue.Location = new System.Drawing.Point(114, 271);
+            this.txtstepvalue.Location = new System.Drawing.Point(114, 235);
             this.txtstepvalue.Name = "txtstepvalue";
             this.txtstepvalue.Size = new System.Drawing.Size(100, 25);
             this.txtstepvalue.TabIndex = 1;
@@ -1397,7 +1464,7 @@
             this.txtmaxDec.Border.Class = "TextBoxBorder";
             this.txtmaxDec.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtmaxDec.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtmaxDec.Location = new System.Drawing.Point(358, 95);
+            this.txtmaxDec.Location = new System.Drawing.Point(358, 83);
             this.txtmaxDec.Name = "txtmaxDec";
             this.txtmaxDec.Size = new System.Drawing.Size(100, 25);
             this.txtmaxDec.TabIndex = 1;
@@ -1412,7 +1479,7 @@
             this.txthomeSecondVel.Border.Class = "TextBoxBorder";
             this.txthomeSecondVel.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txthomeSecondVel.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txthomeSecondVel.Location = new System.Drawing.Point(358, 227);
+            this.txthomeSecondVel.Location = new System.Drawing.Point(358, 197);
             this.txthomeSecondVel.Name = "txthomeSecondVel";
             this.txthomeSecondVel.Size = new System.Drawing.Size(100, 25);
             this.txthomeSecondVel.TabIndex = 1;
@@ -1427,7 +1494,7 @@
             this.txthomeVel.Border.Class = "TextBoxBorder";
             this.txthomeVel.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txthomeVel.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txthomeVel.Location = new System.Drawing.Point(358, 183);
+            this.txthomeVel.Location = new System.Drawing.Point(358, 159);
             this.txthomeVel.Name = "txthomeVel";
             this.txthomeVel.Size = new System.Drawing.Size(100, 25);
             this.txthomeVel.TabIndex = 1;
@@ -1442,7 +1509,7 @@
             this.txtmaxAcc.Border.Class = "TextBoxBorder";
             this.txtmaxAcc.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtmaxAcc.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtmaxAcc.Location = new System.Drawing.Point(358, 51);
+            this.txtmaxAcc.Location = new System.Drawing.Point(358, 45);
             this.txtmaxAcc.Name = "txtmaxAcc";
             this.txtmaxAcc.Size = new System.Drawing.Size(100, 25);
             this.txtmaxAcc.TabIndex = 1;
@@ -1457,7 +1524,7 @@
             this.txtlimitP.Border.Class = "TextBoxBorder";
             this.txtlimitP.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtlimitP.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtlimitP.Location = new System.Drawing.Point(114, 183);
+            this.txtlimitP.Location = new System.Drawing.Point(114, 159);
             this.txtlimitP.Name = "txtlimitP";
             this.txtlimitP.Size = new System.Drawing.Size(100, 25);
             this.txtlimitP.TabIndex = 1;
@@ -1485,7 +1552,7 @@
             // 
             this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX15.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX15.Location = new System.Drawing.Point(229, 228);
+            this.labelX15.Location = new System.Drawing.Point(229, 198);
             this.labelX15.Name = "labelX15";
             this.labelX15.Size = new System.Drawing.Size(105, 23);
             this.labelX15.TabIndex = 0;
@@ -1500,7 +1567,7 @@
             this.txtlimitN.Border.Class = "TextBoxBorder";
             this.txtlimitN.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.txtlimitN.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.txtlimitN.Location = new System.Drawing.Point(114, 139);
+            this.txtlimitN.Location = new System.Drawing.Point(114, 121);
             this.txtlimitN.Name = "txtlimitN";
             this.txtlimitN.Size = new System.Drawing.Size(100, 25);
             this.txtlimitN.TabIndex = 1;
@@ -1513,11 +1580,11 @@
             // 
             this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX20.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX20.Location = new System.Drawing.Point(229, 139);
+            this.labelX20.Location = new System.Drawing.Point(229, 122);
             this.labelX20.Name = "labelX20";
             this.labelX20.Size = new System.Drawing.Size(123, 23);
             this.labelX20.TabIndex = 0;
-            this.labelX20.Text = "默认速度mm/s";
+            this.labelX20.Text = "加加速度mm2/s";
             // 
             // btnCancel
             // 
@@ -1540,11 +1607,24 @@
             // 
             this.labelX23.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX23.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX23.Location = new System.Drawing.Point(229, 273);
+            this.labelX23.Location = new System.Drawing.Point(229, 236);
             this.labelX23.Name = "labelX23";
             this.labelX23.Size = new System.Drawing.Size(123, 23);
             this.labelX23.TabIndex = 0;
             this.labelX23.Text = "原点IO";
+            // 
+            // labelX25
+            // 
+            // 
+            // 
+            // 
+            this.labelX25.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX25.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.labelX25.Location = new System.Drawing.Point(9, 273);
+            this.labelX25.Name = "labelX25";
+            this.labelX25.Size = new System.Drawing.Size(105, 23);
+            this.labelX25.TabIndex = 0;
+            this.labelX25.Text = "到位精度";
             // 
             // labelX22
             // 
@@ -1553,7 +1633,7 @@
             // 
             this.labelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX22.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX22.Location = new System.Drawing.Point(9, 227);
+            this.labelX22.Location = new System.Drawing.Point(9, 198);
             this.labelX22.Name = "labelX22";
             this.labelX22.Size = new System.Drawing.Size(123, 23);
             this.labelX22.TabIndex = 0;
@@ -1566,7 +1646,7 @@
             // 
             this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX16.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX16.Location = new System.Drawing.Point(9, 271);
+            this.labelX16.Location = new System.Drawing.Point(9, 236);
             this.labelX16.Name = "labelX16";
             this.labelX16.Size = new System.Drawing.Size(105, 23);
             this.labelX16.TabIndex = 0;
@@ -1579,7 +1659,7 @@
             // 
             this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX19.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX19.Location = new System.Drawing.Point(229, 95);
+            this.labelX19.Location = new System.Drawing.Point(229, 84);
             this.labelX19.Name = "labelX19";
             this.labelX19.Size = new System.Drawing.Size(123, 23);
             this.labelX19.TabIndex = 0;
@@ -1605,7 +1685,7 @@
             // 
             this.labelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX21.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX21.Location = new System.Drawing.Point(229, 183);
+            this.labelX21.Location = new System.Drawing.Point(229, 160);
             this.labelX21.Name = "labelX21";
             this.labelX21.Size = new System.Drawing.Size(123, 23);
             this.labelX21.TabIndex = 0;
@@ -1618,7 +1698,7 @@
             // 
             this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX18.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX18.Location = new System.Drawing.Point(229, 51);
+            this.labelX18.Location = new System.Drawing.Point(229, 46);
             this.labelX18.Name = "labelX18";
             this.labelX18.Size = new System.Drawing.Size(123, 23);
             this.labelX18.TabIndex = 0;
@@ -1631,7 +1711,7 @@
             // 
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX14.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX14.Location = new System.Drawing.Point(9, 183);
+            this.labelX14.Location = new System.Drawing.Point(9, 160);
             this.labelX14.Name = "labelX14";
             this.labelX14.Size = new System.Drawing.Size(96, 23);
             this.labelX14.TabIndex = 0;
@@ -1644,7 +1724,7 @@
             // 
             this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX17.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX17.Location = new System.Drawing.Point(229, 7);
+            this.labelX17.Location = new System.Drawing.Point(229, 8);
             this.labelX17.Name = "labelX17";
             this.labelX17.Size = new System.Drawing.Size(123, 23);
             this.labelX17.TabIndex = 0;
@@ -1657,7 +1737,7 @@
             this.cmbhomeType.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.cmbhomeType.FormattingEnabled = true;
             this.cmbhomeType.ItemHeight = 19;
-            this.cmbhomeType.Location = new System.Drawing.Point(114, 95);
+            this.cmbhomeType.Location = new System.Drawing.Point(114, 83);
             this.cmbhomeType.Name = "cmbhomeType";
             this.cmbhomeType.Size = new System.Drawing.Size(100, 25);
             this.cmbhomeType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -1670,7 +1750,7 @@
             // 
             this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX13.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX13.Location = new System.Drawing.Point(9, 139);
+            this.labelX13.Location = new System.Drawing.Point(9, 122);
             this.labelX13.Name = "labelX13";
             this.labelX13.Size = new System.Drawing.Size(96, 23);
             this.labelX13.TabIndex = 0;
@@ -1683,7 +1763,7 @@
             // 
             this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX12.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX12.Location = new System.Drawing.Point(9, 95);
+            this.labelX12.Location = new System.Drawing.Point(9, 84);
             this.labelX12.Name = "labelX12";
             this.labelX12.Size = new System.Drawing.Size(96, 23);
             this.labelX12.TabIndex = 0;
@@ -1696,7 +1776,7 @@
             this.cmblimitType.Font = new System.Drawing.Font("微软雅黑", 10F);
             this.cmblimitType.FormattingEnabled = true;
             this.cmblimitType.ItemHeight = 19;
-            this.cmblimitType.Location = new System.Drawing.Point(114, 51);
+            this.cmblimitType.Location = new System.Drawing.Point(114, 45);
             this.cmblimitType.Name = "cmblimitType";
             this.cmblimitType.Size = new System.Drawing.Size(100, 25);
             this.cmblimitType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -1709,7 +1789,7 @@
             // 
             this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX11.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX11.Location = new System.Drawing.Point(9, 51);
+            this.labelX11.Location = new System.Drawing.Point(9, 46);
             this.labelX11.Name = "labelX11";
             this.labelX11.Size = new System.Drawing.Size(96, 23);
             this.labelX11.TabIndex = 0;
@@ -1735,7 +1815,7 @@
             // 
             this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX10.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.labelX10.Location = new System.Drawing.Point(9, 7);
+            this.labelX10.Location = new System.Drawing.Point(9, 8);
             this.labelX10.Name = "labelX10";
             this.labelX10.Size = new System.Drawing.Size(96, 23);
             this.labelX10.TabIndex = 0;
@@ -1751,7 +1831,7 @@
             this.groupPanel2.Location = new System.Drawing.Point(0, 0);
             this.groupPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(337, 341);
+            this.groupPanel2.Size = new System.Drawing.Size(317, 341);
             // 
             // 
             // 
@@ -1804,7 +1884,7 @@
             this.advTree1.NodesConnector = this.nodeConnector1;
             this.advTree1.NodeStyle = this.elementStyle1;
             this.advTree1.PathSeparator = ";";
-            this.advTree1.Size = new System.Drawing.Size(331, 313);
+            this.advTree1.Size = new System.Drawing.Size(311, 313);
             this.advTree1.Styles.Add(this.elementStyle1);
             this.advTree1.TabIndex = 0;
             this.advTree1.Text = "advTree1";
@@ -1926,9 +2006,9 @@
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.Column2.DataPropertyName = "cardIndex";
-            this.Column2.HeaderText = "卡号";
+            this.Column2.HeaderText = "卡";
             this.Column2.Name = "Column2";
-            this.Column2.Width = 62;
+            this.Column2.Width = 48;
             // 
             // Column3
             // 
@@ -1996,7 +2076,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelEx1);
             this.Name = "CardView";
-            this.Size = new System.Drawing.Size(1350, 728);
+            this.Size = new System.Drawing.Size(1270, 728);
             this.Load += new System.EventHandler(this.CardView_Load);
             this.panelEx1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -2006,6 +2086,7 @@
             this.groupPanel1.ResumeLayout(false);
             this.groupPanel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataIO)).EndInit();
+            this.ioContextMenuStrip.ResumeLayout(false);
             this.groupPanel3.ResumeLayout(false);
             this.groupPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.advTree1)).EndInit();
@@ -2091,7 +2172,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private DevComponents.DotNetBar.Controls.TextBoxX txtHomeIO;
-        private DevComponents.DotNetBar.Controls.TextBoxX txtvel;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtAAcc;
         private DevComponents.DotNetBar.Controls.TextBoxX txtstepvalue;
         private DevComponents.DotNetBar.Controls.TextBoxX txtiInHomeOffset;
         private DevComponents.DotNetBar.Controls.TextBoxX txtmaxDec;
@@ -2131,6 +2212,11 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private DevComponents.DotNetBar.Controls.GroupPanel groupPanel2;
         private DevComponents.DotNetBar.LabelX labelX23;
+        private CCWin.SkinControl.SkinContextMenuStrip ioContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem OutPuttoolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem InPuttoolStripMenuItem2;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtinplaceOffSet;
+        private DevComponents.DotNetBar.LabelX labelX25;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

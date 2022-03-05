@@ -311,27 +311,13 @@ namespace HalconView
 
         }
 
-        public void AddRect(int height = 100, int width = 100, int count = 0)
+        public void AddRect(double dStartRow = 100, double dStartCol = 100, double dEndRow = 500, double dEndCol = 500, string color = "green")
         {
-            if (count > 0)
-            {
-                for (int i = 0; i < count; i++)
-                {
-                    HDrawingObject rect1 = HDrawingObject.CreateDrawingObject(
-                      HDrawingObject.HDrawingObjectType.RECTANGLE1, 100, 100, 100 + height, 100 + width);
-                    rect1.SetDrawingObjectParams("color", "green");
-                    AttachDrawObj(rect1);
-                    m_Dic.Add(rect1.ID, RECT1);
-                }
-            }
-            else
-            {
-                HDrawingObject rect1 = HDrawingObject.CreateDrawingObject(
-                        HDrawingObject.HDrawingObjectType.RECTANGLE1, 100, 100, 100 + height, 100 + width);
-                rect1.SetDrawingObjectParams("color", "green");
-                AttachDrawObj(rect1);
-                m_Dic.Add(rect1.ID, RECT1);
-            }
+            HDrawingObject rect1 = HDrawingObject.CreateDrawingObject(
+              HDrawingObject.HDrawingObjectType.RECTANGLE1, dStartRow, dStartCol, dEndRow, dEndCol);
+            rect1.SetDrawingObjectParams("color", color);
+            AttachDrawObj(rect1);
+            m_Dic.Add(rect1.ID, RECT1);
         }
 
         public void AddRect(ref HDrawingObject rect, double dStartRow, double dStartCol, double dEndRow, double dEndCol, string color = "green")
@@ -1012,6 +998,7 @@ namespace HalconView
 
             if (dispObj != null)
             {
+                GetWindowHandle().SetDraw("margin");
                 GetWindowHandle().SetLineWidth(1);
                 GetWindowHandle().SetColor("red");
                 GetWindowHandle().DispObj(dispObj);

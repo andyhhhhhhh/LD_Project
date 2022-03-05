@@ -267,6 +267,7 @@
             this.btn_enabled.Size = new System.Drawing.Size(31, 31);
             this.btn_enabled.TabIndex = 1;
             this.btn_enabled.UseVisualStyleBackColor = true;
+            this.btn_enabled.Click += new System.EventHandler(this.btn_enabled_Click);
             // 
             // btn_inited
             // 

@@ -37,10 +37,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
             this.dataCountView = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.清除数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.清除数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelEx1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataCountView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -72,13 +72,13 @@
             this.dataCountView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 11F);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataCountView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataCountView.ColumnHeadersHeight = 28;
+            this.dataCountView.ColumnHeadersHeight = 27;
             this.dataCountView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2});
@@ -104,26 +104,12 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataCountView.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 11F);
+            this.dataCountView.RowHeadersWidth = 38;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微软雅黑", 10.5F);
             this.dataCountView.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dataCountView.RowTemplate.Height = 23;
             this.dataCountView.Size = new System.Drawing.Size(335, 365);
             this.dataCountView.TabIndex = 7;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.清除数据ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(143, 30);
-            // 
-            // 清除数据ToolStripMenuItem
-            // 
-            this.清除数据ToolStripMenuItem.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.清除数据ToolStripMenuItem.Name = "清除数据ToolStripMenuItem";
-            this.清除数据ToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
-            this.清除数据ToolStripMenuItem.Text = "清除数据";
-            this.清除数据ToolStripMenuItem.Click += new System.EventHandler(this.清除数据ToolStripMenuItem_Click);
             // 
             // Column1
             // 
@@ -140,6 +126,21 @@
             this.Column2.DefaultCellStyle = dataGridViewCellStyle3;
             this.Column2.HeaderText = "生产数据";
             this.Column2.Name = "Column2";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.清除数据ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(143, 30);
+            // 
+            // 清除数据ToolStripMenuItem
+            // 
+            this.清除数据ToolStripMenuItem.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.清除数据ToolStripMenuItem.Name = "清除数据ToolStripMenuItem";
+            this.清除数据ToolStripMenuItem.Size = new System.Drawing.Size(142, 26);
+            this.清除数据ToolStripMenuItem.Text = "清除数据";
+            this.清除数据ToolStripMenuItem.Click += new System.EventHandler(this.清除数据ToolStripMenuItem_Click);
             // 
             // CountView
             // 

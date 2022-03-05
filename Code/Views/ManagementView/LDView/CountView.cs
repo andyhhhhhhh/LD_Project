@@ -45,7 +45,7 @@ namespace ManagementView
                 for (int i = 0; i < 11; i++)
                 {
                     dataCountView.Rows.Add();
-                    dataCountView.Rows[i].Height = 30;
+                    dataCountView.Rows[i].Height = 28;
                 }
 
                 dataCountView.Rows[0].Cells[0].Value = "上料数量";

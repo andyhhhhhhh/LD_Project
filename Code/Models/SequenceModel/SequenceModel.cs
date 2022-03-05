@@ -157,6 +157,30 @@ namespace SequenceTestModel
         [XmlElement("fxitureTeachModels")]
         public List<FixtureTeachModel> fixtureTeachModels { get; set; }
 
+        /// <summary>
+        /// 大视野入料补正算法参数
+        /// </summary>
+        [XmlElement("bigFeedAlgorithmModel")]
+        public BigFeedAlgorithmModel bigFeedAlgorithmModel { get; set; }
+
+        /// <summary>
+        /// 大视野定位算法参数
+        /// </summary>
+        [XmlElement("bigFixedAlgorithmModel")]
+        public BigFixedAlgorithmModel bigFixedAlgorithmModel { get; set; }
+        
+        /// <summary>
+        /// 小视野入料判断位置参数
+        /// </summary>
+        [XmlElement("smallJudgePosModel")]
+        public SmallJudgePosModel smallJudgePosModel { get; set; }
+
+        /// <summary>
+        /// 小视野定位位置参数
+        /// </summary>
+        [XmlElement("smallFixedPosModel")]
+        public SmallFixedPosModel smallFixedPosModel { get; set; }
+
         public SequenceModel()
         {
             Id = 1;
@@ -179,6 +203,10 @@ namespace SequenceTestModel
             calibrationModel = new CalibrationModel();
             fixtureAlgorithmModels = new List<FixtureAlgorithmModel>();
             fixtureTeachModels = new List<FixtureTeachModel>();
+            bigFeedAlgorithmModel = new BigFeedAlgorithmModel();
+            bigFixedAlgorithmModel = new BigFixedAlgorithmModel();
+            smallJudgePosModel = new SmallJudgePosModel();
+            smallFixedPosModel = new SmallFixedPosModel();
         }
 
         public SequenceModel Clone()
@@ -205,6 +233,8 @@ namespace SequenceTestModel
             tModel.algorithmModels = algorithmModels;
             tModel.fixtureAlgorithmModels = fixtureAlgorithmModels;
             tModel.fixtureTeachModels = fixtureTeachModels;
+            tModel.bigFeedAlgorithmModel = bigFeedAlgorithmModel;
+            tModel.smallFixedPosModel = smallFixedPosModel;
 
             return tModel;
         }

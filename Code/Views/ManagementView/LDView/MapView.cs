@@ -13,6 +13,12 @@ namespace ManagementView
 {
     public partial class MapView : UserControl
     {
+
+        public delegate bool Del_AddMap(int index, string path, string waferName, string productType, bool bcheck);
+        public Del_AddMap m_DelAddMap;
+
+        public delegate void Del_DeleteMap(int index);
+        public Del_DeleteMap m_DelDeleteMap;
         public MapView()
         {
             InitializeComponent();
@@ -21,6 +27,7 @@ namespace ManagementView
         private void MapView_Load(object sender, EventArgs e)
         {
             UpdateData();
+             
         }
 
         private void UpdateData()
@@ -38,6 +45,10 @@ namespace ManagementView
                 {
                     dataMapView.DataSource = null;
                     dataMapView.DataSource = listMap;
+                }
+                else
+                {
+                    dataMapView.DataSource = null;
                 }
 
                 dataMapView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -57,7 +68,23 @@ namespace ManagementView
 
         private void btnCheckWafer_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                bool bresult = m_DelAddMap(cmbIndex.SelectedIndex + 1, loadMapPath.FilePath, txtWaferNo.Text, cmbProduct.Text, false);
+                if (!bresult)
+                {
+                    MessageBox.Show("Map表未包含Wafer号!!");
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Map表正确!!");
+                }
+            }
+            catch (Exception ex)
+            {
+                 
+            }
         }
 
         private void btnEnter_Click(object sender, EventArgs e)
@@ -70,8 +97,16 @@ namespace ManagementView
                 {
                     mapModel.ListMap = new List<MapModel.SetMap>();
                 }
+                 
+                bool bresult = m_DelAddMap(cmbIndex.SelectedIndex + 1, loadMapPath.FilePath, txtWaferNo.Text, cmbProduct.Text, false);
+                if(!bresult)
+                {
+                    MessageBox.Show("请检查Map表是否正确!!");
+                    return;
+                }
+
                 int index = mapModel.ListMap.FindIndex(x => x.Index == cmbIndex.SelectedIndex + 1);
-                if(index == -1)
+                if (index == -1)
                 {
                     mapModel.ListMap.Add(new MapModel.SetMap()
                     {
@@ -88,11 +123,12 @@ namespace ManagementView
                         setMap.Index = cmbIndex.SelectedIndex + 1;
                         setMap.WaferNo = txtWaferNo.Text;
                         setMap.WaferPath = loadMapPath.FilePath;
-                       setMap.IsEffective = true;
+                        setMap.IsEffective = true;
                     }
-                }               
+                } 
 
                 UpdateData();
+
             }
             catch (Exception ex)
             {
@@ -105,17 +141,26 @@ namespace ManagementView
             try
             {
                 var selModel = dataMapView.SelectedRows[0].DataBoundItem as MapModel.SetMap;
-
+                
                 if(selModel == null)
                 {
                     return;
                 }
 
+                int index = dataMapView.SelectedRows[0].Index; 
+
                 LDModel ldModel = XMLController.XmlControl.sequenceModelNew.LDModel;
                 MapModel mapModel = ldModel.mapModel;
                 mapModel.ListMap.Remove(selModel);
 
+                m_DelDeleteMap(selModel.Index);
+
                 UpdateData();
+
+                if (index > 0)
+                {
+                    dataMapView.Rows[index - 1].Selected = true;
+                }
             }
             catch (Exception ex)
             {
@@ -164,6 +209,19 @@ namespace ManagementView
                 txtWaferNo.Text = selModel.WaferNo;
                 cmbIndex.SelectedIndex = selModel.Index - 1;
                 loadMapPath.FilePath = selModel.WaferPath;
+            }
+            catch (Exception ex)
+            {
+                 
+            }
+        }
+
+        private void btnMapTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ExcelController.Form1 view = new ExcelController.Form1();
+                view.Show();
             }
             catch (Exception ex)
             {

@@ -58,9 +58,12 @@
             this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zhantieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DeletetoolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.设置偏移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.清空数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolOutPutData = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolInPutData = new System.Windows.Forms.ToolStripMenuItem();
+            this.设置偏移ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupPanel5 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.radio_Continue = new System.Windows.Forms.RadioButton();
@@ -524,14 +527,17 @@
             this.复制ToolStripMenuItem,
             this.zhantieToolStripMenuItem,
             this.DeletetoolStripMenuItem1,
-            this.toolStripSeparator3,
-            this.设置偏移ToolStripMenuItem,
             this.清空数据ToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.toolOutPutData,
+            this.toolInPutData,
+            this.设置偏移ToolStripMenuItem,
+            this.toolStripSeparator4,
             this.保存ToolStripMenuItem});
             this.pointContextMenuStrip.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
             this.pointContextMenuStrip.Name = "skinContextMenuStrip1";
             this.pointContextMenuStrip.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
-            this.pointContextMenuStrip.Size = new System.Drawing.Size(125, 242);
+            this.pointContextMenuStrip.Size = new System.Drawing.Size(125, 292);
             this.pointContextMenuStrip.SkinAllColor = true;
             this.pointContextMenuStrip.TitleAnamorphosis = true;
             this.pointContextMenuStrip.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
@@ -598,10 +604,31 @@
             this.DeletetoolStripMenuItem1.Text = "删除";
             this.DeletetoolStripMenuItem1.Click += new System.EventHandler(this.DeletetoolStripMenuItem1_Click);
             // 
+            // 清空数据ToolStripMenuItem
+            // 
+            this.清空数据ToolStripMenuItem.Name = "清空数据ToolStripMenuItem";
+            this.清空数据ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.清空数据ToolStripMenuItem.Text = "清空数据";
+            this.清空数据ToolStripMenuItem.Click += new System.EventHandler(this.清空数据ToolStripMenuItem_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(121, 6);
+            // 
+            // toolOutPutData
+            // 
+            this.toolOutPutData.Name = "toolOutPutData";
+            this.toolOutPutData.Size = new System.Drawing.Size(124, 22);
+            this.toolOutPutData.Text = "导出数据";
+            this.toolOutPutData.Click += new System.EventHandler(this.toolOutPutData_Click);
+            // 
+            // toolInPutData
+            // 
+            this.toolInPutData.Name = "toolInPutData";
+            this.toolInPutData.Size = new System.Drawing.Size(124, 22);
+            this.toolInPutData.Text = "导入数据";
+            this.toolInPutData.Click += new System.EventHandler(this.toolInPutData_Click);
             // 
             // 设置偏移ToolStripMenuItem
             // 
@@ -610,12 +637,10 @@
             this.设置偏移ToolStripMenuItem.Text = "设置偏移";
             this.设置偏移ToolStripMenuItem.Click += new System.EventHandler(this.设置偏移ToolStripMenuItem_Click);
             // 
-            // 清空数据ToolStripMenuItem
+            // toolStripSeparator4
             // 
-            this.清空数据ToolStripMenuItem.Name = "清空数据ToolStripMenuItem";
-            this.清空数据ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.清空数据ToolStripMenuItem.Text = "清空数据";
-            this.清空数据ToolStripMenuItem.Click += new System.EventHandler(this.清空数据ToolStripMenuItem_Click);
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(121, 6);
             // 
             // 保存ToolStripMenuItem
             // 
@@ -675,7 +700,7 @@
             // 
             this.groupPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel5.TabIndex = 0;
-            this.groupPanel5.Text = "步进距离(单位:mm)";
+            this.groupPanel5.Text = "步进距离(单位:um)";
             // 
             // radio_Continue
             // 
@@ -733,7 +758,7 @@
             // 
             this.groupPanel4.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel4.TabIndex = 0;
-            this.groupPanel4.Text = "目前位置(单位:mm)";
+            this.groupPanel4.Text = "目前位置(单位:um)";
             // 
             // txtU_Pos
             // 
@@ -1454,5 +1479,8 @@
         private System.Windows.Forms.ToolStripMenuItem GotoolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem DeletetoolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 设置偏移ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolOutPutData;
+        private System.Windows.Forms.ToolStripMenuItem toolInPutData;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }

@@ -13,6 +13,28 @@ namespace ManagementView.MotorView
 {
     public partial class AxisMonitor : UserControl
     {
+        private int index;
+        /// <summary>
+        /// 设置轴号
+        /// </summary>
+        public int Index
+        {
+            get
+            {
+                return index;
+            }
+            set
+            {
+                index = value;
+            }
+        }
+
+        public delegate void Del_AxisServo(int index, bool bservo);
+        public Del_AxisServo m_DelAxisServo;
+
+        //是否已使能
+        bool m_bservo = false;
+
         public AxisMonitor()
         {
             InitializeComponent();
@@ -37,6 +59,7 @@ namespace ManagementView.MotorView
                     btn_nLimited.Image = axisStatus.nLimited ? Properties.Resources.Green_2 : Properties.Resources.Red_2;
                     btn_planning.Image = axisStatus.planning ? Properties.Resources.Green_2 : Properties.Resources.Red_2;
                     btn_reached.Image = axisStatus.reached ? Properties.Resources.Green_2 : Properties.Resources.Red_2;
+                    m_bservo = axisStatus.enabled;
                 }));
             }
             catch (Exception ex)
@@ -44,5 +67,18 @@ namespace ManagementView.MotorView
                  
             }
         }
+
+        private void btn_enabled_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                m_DelAxisServo(Index, !m_bservo);
+            }
+            catch (Exception ex)
+            {
+                 
+            }
+        }
+
     }
 }

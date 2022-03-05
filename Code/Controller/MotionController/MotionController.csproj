@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="libmotion_sharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="libmotion_sharp, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Bin\libmotion_sharp.dll</HintPath>
     </Reference>
@@ -59,6 +59,7 @@
     <Compile Include="SoftPLC\SoftPlcService.cs" />
     <Compile Include="Virtual\VirtualControl.cs" />
     <Compile Include="ZMotion\ZMotionControl.cs" />
+    <Compile Include="ZMotion\ZMotionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\DBCore\Infrastructure.DBCore.csproj">

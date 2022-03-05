@@ -13,44 +13,53 @@ namespace SequenceTestModel
     public class MotionParam
     {
         //模组命名
-        public const string Station_TakeTray = "取料盘模组";
         public const string Station_PrePare = "备料模组";
         public const string Station_Up = "顶升模组";
-        public const string Station_Load = "上料模组";
+        public const string Station_LoadX = "上料模组X";
+        public const string Station_LoadZ = "上料模组Z";
         public const string Station_Camera = "双目相机模组";
         public const string Station_Check = "检测模组";
         public const string Station_UnLoad = "下料模组";
+        public const string Station_UnLoadZ = "下料模组Z";
         public const string Station_EmptyTray = "空料盘模组";
-
+        public const string Station_TakeTray = "取料盘模组";
 
         public const int AxisZ1No = 0;
 
         //位置命名
         //备料模组
         public const string Pos_Safe = "安全位";
-        public const string Pos_GetTray = "接料盘位";
-        public const string Pos_PutTray = "放料盘位";
-        public const string Pos_TakeTray = "取料盘位";
-        public const string Pos_GiveTray = "送料盘位";
+        public const string Pos_GetTray = "送料盘位";
         public const string Pos_BigCamera = "大视野相机拍照位";
+
+        //双目相机
         public const string Pos_SmallCamera = "小视野相机拍照位";
-        public const string Pos_MeausreHeight = "测高传感器测量位";
+
+        //生成位置
+        public const string Pos_BigCameraOffSet = "大视野相机偏移位";
+        public const string Pos_SmallCameraCenter = "小视野相机中心位";
+        public const string Pos_SmallGet = "小视野产品位";
+        public const string Pos_ProFixed = "产品定位位置";
+
+        //顶升模组
         public const string Pos_SuckFilm = "吸膜位";
         public const string Pos_ThimbleRise = "顶针上升位";
         public const string Pos_ThimbleDown = "顶针下降位";
+
+        //上料模组
+        public const string Pos_Load = "上料位";
         public const string Pos_NSnap = "N面拍照位";
         public const string Pos_UnLoad = "下料位";
-        public const string Pos_Take = "取料位";
         public const string Pos_UnLoadWait = "下料等待位";
-
-        public const string Pos_LoadWait = "上料等待位";
-        public const string Pos_Load = "上料位";
+         
+        //检测模组
         public const string Pos_Correct1 = "上料位置校正1";
         public const string Pos_Correct2 = "上料位置校正2";
         public const string Pos_ARCheck = "AR检测位";
         public const string Pos_HRCheck = "HR检测位";
 
-        public const string Pos_ARLocation = "AR定位";
+        //下料模组
+        public const string Pos_Take = "取料位";
         public const string Pos_Put_1 = "放料位1";
         public const string Pos_Put_2 = "放料位2";
         public const string Pos_Put_3 = "放料位3";
@@ -67,13 +76,7 @@ namespace SequenceTestModel
         public const string Pos_Put_14 = "放料位14";
         public const string Pos_Put_15 = "放料位15";
         public const string Pos_Put_16 = "放料位16";
-        public const string Pos_TrayCCD = "料盘CCD定位";
-        public const string Pos_HRLocation = "HR定位";
 
-        //生成位置
-        public const string Pos_BigCameraOffSet = "大视野相机偏移位";
-        public const string Pos_SmallCameraCenter = "小视野相机中心位";
-        public const string Pos_SmallGet = "小视野产品位";
 
         //DI
         public const string DI_Emergey = "急停";
