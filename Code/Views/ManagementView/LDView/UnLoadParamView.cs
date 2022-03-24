@@ -30,9 +30,7 @@ namespace ManagementView
                 m_blowingView = new BlowingBoxView();
                 CommHelper.LayoutChildFillView(panelBlow, m_blowingView);
 
-                UpdateData();
-                eLight1.ComName = "光源串口";
-                eLight2.ComName = "光源串口";
+                UpdateData(); 
                 SetUserEnable();
             }
             catch (Exception ex)

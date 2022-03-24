@@ -67,6 +67,7 @@ namespace ManagementView.MotorView
                     m_axisMonitor[i].Index = i;
                     m_axisMonitor[i].m_DelAxisServo += SingleAxisServo;
                 }
+
                 CommHelper.LayoutChildFillView(panel_X, m_axisMonitor[0]);
                 CommHelper.LayoutChildFillView(panel_Y, m_axisMonitor[1]);
                 CommHelper.LayoutChildFillView(panel_Z, m_axisMonitor[2]);
@@ -117,6 +118,20 @@ namespace ManagementView.MotorView
                 panel_U.Visible = m_StationModel.AxisNum > 3;
 
                 slider1_ValueChanged(null, null);
+
+                bool brotate = m_StationModel.Name.Contains(MotionParam.Station_Check);
+                btnStation_Home.Enabled = !brotate;
+                btnY_Home.Enabled = !brotate;
+
+                bool btray = m_StationModel.Name.Contains(MotionParam.Station_TakeTray) || m_StationModel.Name.Contains(MotionParam.Station_EmptyTray);
+                if(btray)
+                {
+                    btnStation_Home.Enabled = false;
+                    btnX_Home.Enabled = false;
+
+                    btnX_Pos.Enabled = false;
+                    btnX_Neg.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
@@ -774,7 +789,7 @@ namespace ManagementView.MotorView
         {
             try
             {
-                if (!JudgeSafe())
+                if (!JudgeSafe(true))
                 {
                     return;
                 }
@@ -800,7 +815,7 @@ namespace ManagementView.MotorView
         {
             try
             {
-                if (!JudgeSafe())
+                if (!JudgeSafe(true))
                 {
                     return;
                 }
@@ -868,7 +883,7 @@ namespace ManagementView.MotorView
         {
             try
             {
-                if (!JudgeSafe())
+                if (!JudgeSafe(true))
                 {
                     return;
                 }
@@ -995,9 +1010,9 @@ namespace ManagementView.MotorView
                 return;
             }
             double offset = Double.Parse(strDis);
-            if(offset >= 10)
+            if(offset >= 10000)
             {
-                var result = MessageBoxEx.Show(this, string.Format("注意，请确认是否移动距离{0}mm", offset), "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                var result = MessageBoxEx.Show(this, string.Format("注意，请确认是否移动距离{0}um", offset), "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if(result == DialogResult.No)
                 {
                     MessageBoxEx.Show("用户取消");
@@ -1006,6 +1021,7 @@ namespace ManagementView.MotorView
             }
 
             axis.vel = m_StationModel.PercentSpeed * axis.maxVel;
+            axis.percentSpeed = m_StationModel.PercentSpeed;
 
             axis.relPos = dir ? offset : -offset;
             var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisMoveRel);
@@ -1290,7 +1306,9 @@ namespace ManagementView.MotorView
                     return;
                 }
                 axis.dir = dir;
-                axis.vel = axis.maxVel * m_StationModel.PercentSpeed;
+                double dpercent = m_StationModel.PercentSpeed > 0.3 ? 0.3 : m_StationModel.PercentSpeed;
+                axis.vel = axis.maxVel * dpercent;
+                axis.percentSpeed = dpercent;
                 var resultModel = m_MotroContorl.Run(axis, MotorControlType.AxisMoveJog);
                 if (!resultModel.RunResult)
                 {
@@ -1379,6 +1397,22 @@ namespace ManagementView.MotorView
                 lblSpeed.Text = slider1.Value.ToString() + "%";
 
                 m_StationModel.PercentSpeed = (double) slider1.Value / 100;  
+                if(m_StationModel.Axis_X != null)
+                {
+                    m_StationModel.Axis_X.percentSpeed = m_StationModel.PercentSpeed;
+                }
+                if (m_StationModel.Axis_Y != null)
+                {
+                    m_StationModel.Axis_Y.percentSpeed = m_StationModel.PercentSpeed;
+                }
+                if (m_StationModel.Axis_Z != null)
+                {
+                    m_StationModel.Axis_Z.percentSpeed = m_StationModel.PercentSpeed;
+                }
+                if (m_StationModel.Axis_U != null)
+                {
+                    m_StationModel.Axis_U.percentSpeed = m_StationModel.PercentSpeed;
+                }
             }
             catch (Exception ex)
             {
@@ -1469,7 +1503,7 @@ namespace ManagementView.MotorView
                                     {
                                         BeginInvoke(new Action(() =>
                                         {
-                                            txtX_Pos.Text = (status.Acs / m_StationModel.Axis_X.stepvalue).ToString("0.000"); 
+                                            txtX_Pos.Text = (status.Acs / m_StationModel.Axis_X.stepvalue).ToString("0.00"); 
                                             SetStatus(status);
                                         }));
                                         m_axisMonitor[0].SetStatus(status);
@@ -1495,7 +1529,7 @@ namespace ManagementView.MotorView
                                     {
                                         txtY_Pos.Invoke(new Action(() =>
                                         {
-                                            txtY_Pos.Text = (status.Acs / m_StationModel.Axis_Y.stepvalue).ToString("0.000"); 
+                                            txtY_Pos.Text = (status.Acs / m_StationModel.Axis_Y.stepvalue).ToString("0.00"); 
                                             SetStatus(status);
                                         }));
                                         m_axisMonitor[1].SetStatus(status);
@@ -1521,7 +1555,7 @@ namespace ManagementView.MotorView
                                     {
                                         txtZ_Pos.Invoke(new Action(() =>
                                         {
-                                            txtZ_Pos.Text = (status.Acs / m_StationModel.Axis_Z.stepvalue).ToString("0.000");
+                                            txtZ_Pos.Text = (status.Acs / m_StationModel.Axis_Z.stepvalue).ToString("0.00");
                                             SetStatus(status);
                                         }));
                                         m_axisMonitor[2].SetStatus(status);
@@ -1547,7 +1581,7 @@ namespace ManagementView.MotorView
                                     {
                                         txtU_Pos.Invoke(new Action(() =>
                                         {
-                                            txtU_Pos.Text = (status.Acs / m_StationModel.Axis_U.stepvalue).ToString("0.000");
+                                            txtU_Pos.Text = (status.Acs / m_StationModel.Axis_U.stepvalue).ToString("0.00");
                                             SetStatus(status);
                                         }));
                                         m_axisMonitor[3].SetStatus(status);
@@ -1771,8 +1805,9 @@ namespace ManagementView.MotorView
         /// <summary>
         /// 判断位置安全
         /// </summary>
+        /// <param name="isHome">true-回零时判断</param>
         /// <returns></returns>
-        private bool JudgeSafe()
+        private bool JudgeSafe(bool isHome = false)
         {
             try
             {
@@ -1786,13 +1821,16 @@ namespace ManagementView.MotorView
                     }
                 }
 
-                isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_Camera);//是否需要判断Z轴    
-                if (isJudgeSafe)
+                if(!isHome)
                 {
-                    if (!JudgeLoadXSafe())
+                    isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_Camera);//是否需要判断Z轴    
+                    if (isJudgeSafe)
                     {
-                        MessageBoxEx.Show("上料模组X未在安全位!");
-                        return false;
+                        if (!JudgeLoadXSafe())
+                        {
+                            MessageBoxEx.Show("上料模组X未在安全位!");
+                            return false;
+                        }
                     }
                 }
 
@@ -1805,10 +1843,13 @@ namespace ManagementView.MotorView
                         return false;
                     }
 
-                    if (!JudgeUnLoadXSafe())
+                    if(!isHome)
                     {
-                        MessageBoxEx.Show("下料模组X未在安全位!");
-                        return false;
+                        if (!JudgeUnLoadXSafe())
+                        {
+                            MessageBoxEx.Show("下料模组X未在安全位!");
+                            return false;
+                        }
                     }
 
                     if (!JudgeLoadZSafe())
@@ -1818,13 +1859,16 @@ namespace ManagementView.MotorView
                     }
                 }
 
-                isJudgeSafe = cmbStation.Text.Contains(MotionParam.Station_UnLoad);//是否需要判断Z轴    
+                isJudgeSafe = cmbStation.Text == MotionParam.Station_UnLoad;//是否需要判断Z轴    
                 if (isJudgeSafe)
                 {
-                    if (!JudgeLoadXSafe(false))
+                    if (!isHome)
                     {
-                        MessageBoxEx.Show("上料模组X未在安全位!");
-                        return false;
+                        if (!JudgeLoadXSafe(false))
+                        {
+                            MessageBoxEx.Show("上料模组X未在安全位!");
+                            return false;
+                        }
                     }
 
                     if (!JudgeUnLoadZSafe())
@@ -1833,7 +1877,6 @@ namespace ManagementView.MotorView
                         return false;
                     }
                 }
-
 
                 return true;
             }
@@ -1858,7 +1901,7 @@ namespace ManagementView.MotorView
                 var resultModel = m_MotroContorl.Run(stationModel.Axis_X, MotorControlType.AxisGetPosition);
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
 
-                if (dvalue > pointModel.Pos_X - 0.5)
+                if (dvalue > pointModel.Pos_X + 0.5)
                 {
                     return false;
                 }
@@ -1960,7 +2003,7 @@ namespace ManagementView.MotorView
                     return false;
                 }
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
-                if (dvalue < pointModel.Pos_X - 0.5)
+                if (dvalue > pointModel.Pos_X + 0.5)
                 {
                     return false;
                 }
@@ -1992,7 +2035,7 @@ namespace ManagementView.MotorView
                 }
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
 
-                if (dvalue < pointModel.Pos_X - 0.5)
+                if (dvalue > pointModel.Pos_X + 0.1 || dvalue < pointModel.Pos_X - 0.1)
                 {
                     return false;
                 }
@@ -2024,7 +2067,7 @@ namespace ManagementView.MotorView
                 }
                 double dvalue = double.Parse(resultModel.ObjectResult.ToString());
 
-                if (dvalue < pointModel.Pos_X - 0.5)
+                if (dvalue > pointModel.Pos_X + 0.5)
                 {
                     return false;
                 }

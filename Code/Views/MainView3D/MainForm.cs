@@ -74,6 +74,10 @@ namespace MainView3D
         /// Map录入界面
         /// </summary>
         MapView m_mapView = new MapView();
+        /// <summary>
+        /// 调试界面
+        /// </summary>
+        DebugView m_debugView = new DebugView();
 
         /// <summary>
         /// 执行步骤界面
@@ -146,6 +150,8 @@ namespace MainView3D
             m_ProcessControl.m_DelSaveScreen += Del_SaveScreen;
             m_mapView.m_DelAddMap += m_ProcessControl.AddMap;
             m_mapView.m_DelDeleteMap += m_ProcessControl.DeleteMap;
+            m_ProcessControl.m_DelRefreshMap += m_mapView.RefreshData;
+            m_mapView.m_DelChangeRow += m_ProcessControl.ChangeRow;
 
             ParamSetView.ConfirmEvent += M_ParamSetView_ConfirmEvent;
             ParamConfigView.ConfirmEvent += M_ParamSetView_ConfirmEvent;
@@ -223,6 +229,7 @@ namespace MainView3D
             CommHelper.LayoutChildFillView(panelUnLoad, m_unLoadView);
             CommHelper.LayoutChildFillView(panelRange, m_rangeView);
             CommHelper.LayoutChildFillView(panelMap, m_mapView);
+            CommHelper.LayoutChildFillView(panelDebug, m_debugView);
 
             dockSite2.Dock = DockStyle.Fill;
             bar2.SelectedDockTab = 0;
@@ -874,30 +881,38 @@ namespace MainView3D
                 CameraResultModel cameraResultModel = e as CameraResultModel;
                 if (cameraResultModel != null)
                 {
-                    if (InvokeRequired)
+                    if (cameraResultModel.Image == null)
                     {
-                        BeginInvoke(new Action(() =>
-                        {
-                            if (cameraResultModel.Image == null)
-                            {
-                                return;
-                            }
-
-                            HSmartWindow hsmartWindow = GetSmartWindow(cameraResultModel.IndexResult);
-                            hsmartWindow.FitImageToWindow((HObject)cameraResultModel.Image, (HObject)cameraResultModel.DispObj, false, cameraResultModel.ResultLabel);
-
-                        }));
+                        return;
                     }
-                    else
-                    {
-                        if (cameraResultModel.Image == null)
-                        {
-                            return;
-                        }
 
-                        HSmartWindow hsmartWindow = GetSmartWindow(cameraResultModel.IndexResult);
-                        hsmartWindow.FitImageToWindow((HObject)cameraResultModel.Image, (HObject)cameraResultModel.DispObj, false, cameraResultModel.ResultLabel);
-                    }
+                    HSmartWindow hsmartWindow = GetSmartWindow(cameraResultModel.IndexResult);
+                    hsmartWindow.FitImageToWindow((HObject)cameraResultModel.Image, (HObject)cameraResultModel.DispObj, false, cameraResultModel.ResultLabel);
+
+                    //if (InvokeRequired)
+                    //{
+                    //    BeginInvoke(new Action(() =>
+                    //    {
+                    //        if (cameraResultModel.Image == null)
+                    //        {
+                    //            return;
+                    //        }
+
+                    //        HSmartWindow hsmartWindow = GetSmartWindow(cameraResultModel.IndexResult);
+                    //        hsmartWindow.FitImageToWindow((HObject)cameraResultModel.Image, (HObject)cameraResultModel.DispObj, false, cameraResultModel.ResultLabel);
+
+                    //    }));
+                    //}
+                    //else
+                    //{
+                    //    if (cameraResultModel.Image == null)
+                    //    {
+                    //        return;
+                    //    }
+
+                    //    HSmartWindow hsmartWindow = GetSmartWindow(cameraResultModel.IndexResult);
+                    //    hsmartWindow.FitImageToWindow((HObject)cameraResultModel.Image, (HObject)cameraResultModel.DispObj, false, cameraResultModel.ResultLabel);
+                    //}
                 }
             }
             catch (Exception ex)
@@ -1579,7 +1594,10 @@ namespace MainView3D
                         return;
                     }
 
-                    if (!MessageBoxInfo("料盘是否根据上次状态，继续运行？\r\n是点击确定，否点击取消！", 2))
+                    bool bresult = MessageBoxInfo("是否继续取上次产品检测？\r\n是点击确定，否点击取消！", 2);
+                    m_ProcessControl.m_isContinueLoad = bresult;
+
+                    if (!MessageBoxInfo("下料是否继续根据上次状态，继续运行？\r\n是点击确定，否点击取消！", 2))
                     {
                         m_unLoadView.ResetConfig();
                         m_paramView.ResetConfig();
@@ -3001,6 +3019,7 @@ namespace MainView3D
                         break;
                 }
                 MsgBoxView view = new MsgBoxView(msg, enumBox);
+                view.TopMost = true;
 
                 if (view.ShowDialog() == DialogResult.Yes)
                 {
@@ -3584,7 +3603,7 @@ namespace MainView3D
             try
             {
                 //About3DView view = new About3DView();
-                //view.ShowDialog();
+                //view.ShowDialog(); 
             }
             catch (Exception ex)
             {

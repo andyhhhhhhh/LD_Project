@@ -16,6 +16,7 @@ using HalconDotNet;
 using VisionController;
 using AlgorithmController;
 using GlobalCore;
+using CameraContorller;
 
 namespace ManagementView
 {
@@ -23,6 +24,11 @@ namespace ManagementView
     {
         LDAlgorithmControl m_algorithm = new LDAlgorithmControl();
         HSmartWindow m_hsmartWindow = new HSmartWindow();
+
+        /// <summary>
+        /// 拍照Func
+        /// </summary>
+        public Func<Camera2DSetModel, CameraResultModel> m_FuncCameraSnap;
         public LDAlgorithmView()
         {
             InitializeComponent();
@@ -264,7 +270,26 @@ namespace ManagementView
 
         private void btnSnap_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int index = tabControl.SelectedTabIndex == 0 || tabControl.SelectedTabIndex == 1 ? 0 : 1;
+                Camera2DSetModel tModel = XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == index);
 
+                CameraResultModel resultModel = m_FuncCameraSnap(tModel);
+
+                if (resultModel.RunResult)
+                {
+                    m_hsmartWindow.FitImageToWindow(resultModel.Image as HObject, null);
+                }
+                else
+                {
+                    AddLog(resultModel.ErrorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
         }
         #endregion
 
@@ -459,7 +484,6 @@ namespace ManagementView
             double OcrCenterPhi = 0;
             int ICanGet = 0;
             int IExistProduct = 0;
-            string NeedOcr = "";
             string bar = "";
             double distance = 0;
             string firstOcr = "";
@@ -470,7 +494,7 @@ namespace ManagementView
             
             m_algorithm.LDSmallFixedAlgorithm(m_hsmartWindow.Image, ho_OcrRegion, modelIDPath, tModel.PyramidLevel, tModel.LastPyramidLevel, tModel.MinScore, tModel.Greediness,
                 tModel.ThrsholdMin, tModel.HysThresholdMin, tModel.HysThesholdMax, tModel.CloseRec, tModel.ModelRegionAreaDownValue, tModel.IsNotProdValue, tModel.IsNotProdValue * -1,
-                tModel.AutoThreshold, tModel.DistancePP, NeedOcr, tModel.IsIngoreCalu, tModel.OcrLength, out AllProdAndKongSortObj, out ho_OutRegion, out ho_OcrOutRegion, out AllProdAndKongSortName, 
+                tModel.AutoThreshold, tModel.DistancePP, tModel.NeedOcr, tModel.IsIngoreCalu, tModel.OcrLength, tModel.JudgeBarLength, tModel.OcrBinPath, out AllProdAndKongSortObj, out ho_OutRegion, out ho_OcrOutRegion, out AllProdAndKongSortName, 
                 out  OcrCenterRow, out OcrCenterCol, out OcrCenterPhi, out distance, out ICanGet, out IExistProduct, out firstOcr, out bar, out strLog, out bResult);
 
             m_hsmartWindow.GetWindowHandle().SetDraw("margin");
@@ -483,6 +507,7 @@ namespace ManagementView
             m_hsmartWindow.GetWindowHandle().DispObj(ho_OcrOutRegion);
 
             AddLog("执行结果：" + (bResult ? "成功" : "失败"));
+            AddLog(string.Format("Row:{0} Col:{1} Angle:{2}", OcrCenterRow, OcrCenterCol, OcrCenterPhi));
             AddLog(strLog);
 
             return true;
@@ -602,5 +627,35 @@ namespace ManagementView
             }
         }
 
+        /// <summary>
+        /// 循环测试算法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCycleTest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string strPath = loadPath.FolderPath;
+                var listFile = Directory.GetFiles(strPath, "*.jpg").Union(Directory.GetFiles(strPath, "*.png")).Union(Directory.GetFiles(strPath, "*.bmp")).ToArray().ToList();
+
+                HObject ho_Image;
+                foreach (var file in listFile)
+                {
+                    HOperatorSet.ReadImage(out ho_Image, file);
+                    m_hsmartWindow.FitImageToWindow(ho_Image, null);
+                    btnTest_Click(null, null);
+                    var result = MessageBox.Show("是否继续测试?", "询问", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                    if (result == DialogResult.Cancel)
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                 
+            }
+        }
     }
 }

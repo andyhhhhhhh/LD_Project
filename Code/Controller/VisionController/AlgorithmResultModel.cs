@@ -118,6 +118,8 @@ namespace VisionController
         public bool IsCenterPos { get; set; }
         public bool IsExistProduct { get; set; }
         public HObject OutRegion { get; set; }
+        public double SubRow { get; set; }
+        public double SubCol { get; set; }
     }
 
     /// <summary>
@@ -138,5 +140,66 @@ namespace VisionController
         public int IExistProduct { get; set; } 
         public double Distance { get; set; }
         public string FirstOcr { get; set; }
+        public string NeedOcr { get; set; }
+    }
+
+    /// <summary>
+    /// P面算法结果
+    /// </summary>
+    public class PResultModel : BaseResultModel
+    {
+        public HObject DispObjects { get; set; }
+    }
+
+    /// <summary>
+    /// N面算法结果
+    /// </summary>
+    public class NResultModel : BaseResultModel
+    {
+        public HObject DispObjects { get; set; }
+        public double CenterRow { get; set; }
+        public double CenterColumn { get; set; }
+        public double CenterPhi { get; set; }
+    }
+
+    /// <summary>
+    ///  产品结果判断类
+    /// </summary>
+    public class QResultModel
+    {
+        /// <summary>
+        /// 当前OCR
+        /// </summary>
+        public string Ocr { get; set; }
+
+        /// <summary>
+        /// P面结果 0--OK 1--NG 2--疑似NG
+        /// </summary>
+        public EResult PResult { get; set; }
+
+        /// <summary>
+        /// P面结果 0--OK 1--NG 2--疑似NG
+        /// </summary>
+        public EResult NResult { get; set; }
+
+        /// <summary>
+        /// P面结果 0--OK 1--NG 2--疑似NG
+        /// </summary>
+        public EResult ARResult { get; set; }
+
+        /// <summary>
+        /// P面结果 0--OK 1--NG 2--疑似NG
+        /// </summary>
+        public EResult HRResult { get; set; }
+
+        /// <summary>
+        /// 结果枚举
+        /// </summary>
+        public enum EResult
+        {
+            EOK,
+            ENG,
+            ESeemNG,
+        }
     }
 }

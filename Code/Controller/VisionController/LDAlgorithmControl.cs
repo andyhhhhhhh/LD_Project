@@ -73,13 +73,15 @@ namespace VisionController
                     LDSmallJudgePos(tModel.Image, out ho_OutRegion, tModel.MinSubCol, tModel.MinGray, out hv_IsCenterPos, out hv_IsExistProduct, out hv_SubCol);
 
                     SmallJudgePosResultModel smallJudgeResult = new SmallJudgePosResultModel();
-                    smallJudgeResult.IsCenterPos = hv_IsCenterPos == 0;
-                    smallJudgeResult.IsExistProduct = hv_IsExistProduct == 0;
+                    smallJudgeResult.IsCenterPos = hv_IsCenterPos == 1;
+                    smallJudgeResult.IsExistProduct = hv_IsExistProduct == 1;
                     smallJudgeResult.OutRegion = ho_OutRegion;
+                    smallJudgeResult.SubCol = hv_SubCol;
+                    smallJudgeResult.RunResult = true;
 
                     return smallJudgeResult;
                 }
-                else if(controlModel is SmallFixedPosModel)
+                else if (controlModel is SmallFixedPosModel)
                 {
                     SmallFixedPosModel tModel = controlModel as SmallFixedPosModel;
                     HObject ho_OcrRegion, ho_OcrOutRegion, ho_OutRegion, AllProdAndKongSortObj;
@@ -92,38 +94,176 @@ namespace VisionController
                     int ICanGet = 0;
                     int IExistProduct = 0;
                     string bar = "";
-                    bool IsIngoreCalu = false;
-                    int OcrLength = 5;
                     double distance = 0;
                     string firstOcr = "";
 
                     string modelIDPath = Global.Model3DPath + "//" + "SmallFixed//";
 
                     HOperatorSet.GenRectangle1(out ho_OcrRegion, tModel.OcrRow1, tModel.OcrColumn1, tModel.OcrRow2, tModel.OcrColumn2);
-                    
+
                     LDSmallFixedAlgorithm(tModel.Image, ho_OcrRegion, modelIDPath, tModel.PyramidLevel, tModel.LastPyramidLevel, tModel.MinScore, tModel.Greediness,
                         tModel.ThrsholdMin, tModel.HysThresholdMin, tModel.HysThesholdMax, tModel.CloseRec, tModel.ModelRegionAreaDownValue, tModel.IsNotProdValue, tModel.IsNotProdValue * -1,
-                        tModel.AutoThreshold, tModel.DistancePP, tModel.NeedOcr, IsIngoreCalu, OcrLength, out AllProdAndKongSortObj, out ho_OutRegion, out ho_OcrOutRegion, out AllProdAndKongSortName,
+                        tModel.AutoThreshold, tModel.DistancePP, tModel.NeedOcr, tModel.IsIngoreCalu, tModel.OcrLength, tModel.JudgeBarLength, tModel.OcrBinPath, out AllProdAndKongSortObj, out ho_OutRegion, out ho_OcrOutRegion, out AllProdAndKongSortName,
                         out OcrCenterRow, out OcrCenterCol, out OcrCenterPhi, out distance, out ICanGet, out IExistProduct, out firstOcr, out bar, out strLog, out bResult);
-                    
+
                     SmallFixedPosResultModel smallFixedResult = new SmallFixedPosResultModel();
 
+                    smallFixedResult.RunResult = bResult;
                     smallFixedResult.OutRegion = ho_OutRegion;
                     smallFixedResult.OcrOutRegion = ho_OcrOutRegion;
-                    smallFixedResult.RunResult = bResult;
                     smallFixedResult.OcrCenterRow = OcrCenterRow;
                     smallFixedResult.OcrCenterCol = OcrCenterCol;
                     smallFixedResult.OcrCenterPhi = OcrCenterPhi;
                     smallFixedResult.ICanGet = ICanGet;
                     smallFixedResult.IExistProduct = IExistProduct;
                     smallFixedResult.strLog = strLog;
-                    smallFixedResult.Bar = bar == "" ? "3" : "";
+                    smallFixedResult.Bar = bar;
                     smallFixedResult.Distance = distance;
                     smallFixedResult.FirstOcr = firstOcr;
+                    smallFixedResult.NeedOcr = tModel.NeedOcr;
 
                     return smallFixedResult;
                 }
+                else if (controlModel is FixtureAlgorithmModel)
+                {
+                    FixtureAlgorithmModel tModel = controlModel as FixtureAlgorithmModel;
+                    var result = NTestAlgorithm(tModel.Image);
 
+                    return result;
+                }
+                else if (controlModel is AlgorithmModelP) //P面检测算法
+                {
+                    AlgorithmModelP tModel = controlModel as AlgorithmModelP;
+
+                    HObject ho_OutObj, ho_ModelProdObject = null, ho_CheckRegion = null, ho_BengQueRegions = null, ho_ZangWuRegions = null, ho_SeChaRegions = null, ho_ProdObject = null;
+                    HTuple hv_IsProd = null, hv_Exception = null;
+                    HTuple hv_ModelProdRegionPosRCA = null, hv_BengQueNumber = null, hv_ZangWuNumber = null, hv_SeChaNumber = null;
+                    HOperatorSet.GenEmptyObj(out ho_OutObj);
+
+                    string strpath = Global.Model3DPath + "//Model";
+                    HOperatorSet.ReadRegion(out ho_ModelProdObject, strpath + "//P_ProdRegion.hobj");
+                    HOperatorSet.ReadTuple(strpath + "//P_ProdRegionPosRCA.tup", out hv_ModelProdRegionPosRCA);
+
+                    HOperatorSet.GenRectangle1(out ho_CheckRegion, tModel.SRow1, tModel.SColumn1, tModel.SRow2, tModel.SColumn2);
+
+                    PCheck(tModel.Image, ho_CheckRegion, ho_ModelProdObject, out ho_BengQueRegions,
+                        out ho_ZangWuRegions, out ho_SeChaRegions, out ho_ProdObject, tModel.DynThr,
+                        tModel.HysThrMin, tModel.HysThrMax, tModel.DarkThrMin, tModel.LightThrMax, tModel.BenQueAreaMin,
+                        tModel.BQwidth, tModel.BQheight, tModel.ZangWuAreaMin, hv_ModelProdRegionPosRCA,
+                        out hv_IsProd, out hv_Exception);
+
+                    HOperatorSet.ConcatObj(ho_BengQueRegions, ho_ZangWuRegions, out ho_OutObj);
+                    HOperatorSet.ConcatObj(ho_OutObj, ho_SeChaRegions, out ho_OutObj);
+                    HOperatorSet.ConcatObj(ho_OutObj, ho_ProdObject, out ho_OutObj);
+
+                    HOperatorSet.CountObj(ho_BengQueRegions, out hv_BengQueNumber);
+                    HOperatorSet.CountObj(ho_ZangWuRegions, out hv_ZangWuNumber);
+                    HOperatorSet.CountObj(ho_SeChaRegions, out hv_SeChaNumber);
+
+                    PResultModel pResult = new PResultModel();
+                    pResult.DispObjects = ho_OutObj; 
+                    pResult.RunResult = false;
+                    if (hv_IsProd != null && hv_IsProd == 0)
+                    {
+                        //没有产品
+                        pResult.ErrorMessage = "没有产品";
+                    }
+                    else if (hv_BengQueNumber > 0)
+                    {
+                        //崩缺产品
+                        pResult.ErrorMessage = "崩缺产品";
+                    }
+                    else if (hv_ZangWuNumber > 0)
+                    {
+                        //脏污产品
+                        pResult.ErrorMessage = "脏污产品";
+                    }
+                    else if (hv_SeChaNumber > 0)
+                    {
+                        //色差产品
+                        pResult.ErrorMessage = "色差产品";
+                    }
+                    else
+                    {
+                        pResult.RunResult = true;
+                    }
+
+                    return pResult;
+                }
+                else if (controlModel is AlgorithmModelN) //N面检测算法
+                {
+                    AlgorithmModelN tModel = controlModel as AlgorithmModelN;
+                    HObject ho_OutObj = null, ho_NModelRegion = null, ho_SubBenQueObject = null, ho_CeXiObject = null, ho_LieWenObject = null, ho_BigDarkObject = null;
+                    HTuple hv_NModelPos = null, hv_Error = null, hv_IsProd = null;
+                    HTuple hv_CeXiNumber = null, hv_BenQueNumber = null, hv_LieWenNumber = null, hv_DarkNumber = null;
+                    HOperatorSet.GenEmptyObj(out ho_OutObj);
+
+                    string strpath = Global.Model3DPath + "//Model";
+                    HOperatorSet.ReadRegion(out ho_NModelRegion, strpath + "//N_ProModelRegion.hobj");
+                    HOperatorSet.ReadTuple(strpath + "//N_ProModelPosRCA.tup", out hv_NModelPos);
+                     
+                    //崩缺断料检测参数 
+                    hv_Error = 1;
+
+                    NFaceCheck(tModel.Image, ho_NModelRegion, out ho_SubBenQueObject, out ho_CeXiObject,
+                        out ho_LieWenObject, out ho_BigDarkObject, hv_NModelPos, tModel.MaskMean,
+                        tModel.DynThreshold, tModel.CloseWidth, tModel.CloseHeight, tModel.BQAreaMin, tModel.BQWidthHeight,
+                        tModel.DiffValue, tModel.LieWenNum, tModel.stdWH, tModel.HysthrMin, tModel.HysthrMax, tModel.DustAreaMin,
+                        tModel.DustWidth, tModel.DustHeight, out hv_IsProd, out hv_Error);
+
+                    HOperatorSet.ConcatObj(ho_SubBenQueObject, ho_CeXiObject, out ho_OutObj);
+                    HOperatorSet.ConcatObj(ho_OutObj, ho_LieWenObject, out ho_OutObj);
+                    HOperatorSet.ConcatObj(ho_OutObj, ho_BigDarkObject, out ho_OutObj); 
+
+                    HOperatorSet.CountObj(ho_CeXiObject, out hv_CeXiNumber);
+                    HOperatorSet.CountObj(ho_SubBenQueObject, out hv_BenQueNumber);
+                    HOperatorSet.CountObj(ho_LieWenObject, out hv_LieWenNumber);
+                    HOperatorSet.CountObj(ho_BigDarkObject, out hv_DarkNumber);
+
+                    NResultModel nResult = new NResultModel();
+                    nResult.RunResult = false;
+                    if ((int)(new HTuple(hv_CeXiNumber.TupleGreater(0))) != 0)
+                    {
+                        nResult.ErrorMessage = "侧吸产品"; 
+                    }
+                    else if ((int)(new HTuple(hv_BenQueNumber.TupleGreater(0))) != 0)
+                    {
+                        nResult.ErrorMessage = "崩缺产品"; 
+                    }
+                    else if ((int)(new HTuple(hv_IsProd.TupleEqual(0))) != 0)
+                    {
+                        nResult.ErrorMessage = "无产品"; 
+                    }
+                    else if ((int)(new HTuple(hv_LieWenNumber.TupleGreater(0))) != 0)
+                    {
+                        nResult.ErrorMessage = "裂纹产品"; 
+                    }
+                    else if ((int)(new HTuple(hv_DarkNumber.TupleGreater(0))) != 0)
+                    {
+                        nResult.ErrorMessage = "黑块产品"; 
+                    }
+                    else
+                    {
+                        nResult.RunResult = true;
+                    }
+
+                    //获取N面中心还有角度
+                    var result = NTestAlgorithm(tModel.Image);
+                    if(!result.RunResult)
+                    {
+                        nResult.RunResult = false;
+                    }
+                    else
+                    {
+                        nResult.CenterRow = result.CenterRow;
+                        nResult.CenterColumn = result.CenterColumn;
+                        nResult.CenterPhi = result.CenterPhi;
+                        HOperatorSet.ConcatObj(ho_OutObj, result.ObjectResult as HObject, out ho_OutObj);
+                    }
+                    nResult.DispObjects = ho_OutObj;
+
+                    return nResult;
+                }
                 return resultModel;
             }
             catch (Exception ex)
@@ -387,6 +527,8 @@ namespace VisionController
             ho_RegionClosing1.Dispose();
             HOperatorSet.ClosingRectangle1(ho_RegionClosing, out ho_RegionClosing1, 100,
                 1800);
+
+            HOperatorSet.OpeningRectangle1(ho_RegionClosing1, out ho_RegionClosing1, 100, 200);
 
             ho_ConnectedRegions.Dispose();
             HOperatorSet.Connection(ho_RegionClosing1, out ho_ConnectedRegions);
@@ -1108,7 +1250,7 @@ namespace VisionController
                 throw HDevExpDefaultException;
             }
         }
-         
+
         /// <summary>
         /// 判断产品是否居中
         /// </summary>
@@ -1121,7 +1263,7 @@ namespace VisionController
         public void LDSmallJudgePos(HObject ho_Image, out HObject ho_OutRegion, HTuple hv_MinCol,
                                         HTuple hv_MinGray, out HTuple hv_IsCenterPos, out HTuple hv_IsExistProduct, out HTuple hv_SubCol)
         {
-            
+
             // Stack for temporary objects 
             HObject[] OTemp = new HObject[20];
 
@@ -1206,7 +1348,7 @@ namespace VisionController
 
             return;
         }
-        
+
         public void CreateShapeModelInfo(HObject ho_Image, HObject ho_CreateRectangle,
                                         out HObject ho_ModelRectangle, HTuple hv_ScaleImage, HTuple hv_NumLevels, HTuple hv_AngleStart,
                                         HTuple hv_AngleExtent, HTuple hv_AngleStep, HTuple hv_Optimization, HTuple hv_Metric,
@@ -1417,7 +1559,7 @@ namespace VisionController
                 throw HDevExpDefaultException;
             }
         }
-        
+
         /// <summary>
         /// 小视野定位算法
         /// </summary>
@@ -1442,9 +1584,9 @@ namespace VisionController
         /// <param name="AllProdAndKongSortName"></param>
         /// <param name="strLog"></param>
         /// <param name="bResult"></param>
-        public void LDSmallFixedAlgorithm(HObject ho_Image, HObject ho_OCRRectangle1, string ModelPath, HTuple PyramidLevel, HTuple LastPyramidLevel, HTuple MinScore, HTuple Greediness,  HTuple hv_ThrsholdMin, HTuple hv_HysThresholdMin, HTuple hv_HysThesholdMax,
+        public void LDSmallFixedAlgorithm(HObject ho_Image, HObject ho_OCRRectangle1, string ModelPath, HTuple PyramidLevel, HTuple LastPyramidLevel, HTuple MinScore, HTuple Greediness, HTuple hv_ThrsholdMin, HTuple hv_HysThresholdMin, HTuple hv_HysThesholdMax,
                                         HTuple hv_CloseRec, HTuple hv_ModelRegionAreaDownValue, HTuple hv_IsNotProdValue, HTuple hv_IsNotProdValueMin,
-                                        HTuple hv_AutoThreshold, HTuple hv_DistancePP, string NeedOcr, bool IsIngoreCalu, int OcrLength, out HObject AllProdAndKongSortObj, out HObject ho_OutRegion, out HObject ho_OcrOutRegion, out HTuple AllProdAndKongSortName,
+                                        HTuple hv_AutoThreshold, HTuple hv_DistancePP, string NeedOcr, bool IsIngoreCalu, int OcrLength, int judgeBarLength, string binPath, out HObject AllProdAndKongSortObj, out HObject ho_OutRegion, out HObject ho_OcrOutRegion, out HTuple AllProdAndKongSortName,
                                         out double OcrCenterRow, out double OcrCenterCol, out double OcrCenterPhi, out double distance, out int ICanGet, out int IExistProduct, out string firstOcr, out string bar, out string strLog, out bool bResult)
         {
             HOperatorSet.GenEmptyObj(out AllProdAndKongSortObj);
@@ -1458,11 +1600,11 @@ namespace VisionController
             OcrCenterPhi = 0;
             ICanGet = 0;
             IExistProduct = 0;
-            bar = "";
+            bar = "-9999";
             distance = 0;
             firstOcr = "";
             try
-            {  
+            {
                 HTuple hv_ModelRegionTup = new HTuple();
                 HOperatorSet.ReadTuple(ModelPath + "Rec2Model.tup", out hv_ModelRegionTup);
 
@@ -1512,9 +1654,9 @@ namespace VisionController
                 //*******************ZOOM图像中匹配模板位置，大图中截取OCR区域图像*********************
                 //根据产品区域，定位OCR区域。
                 //输入参数：  
-                HObject ho_ModelRectangle, ho_OCRImagePart; 
+                HObject ho_ModelRectangle, ho_OCRImagePart;
                 HOperatorSet.GenEmptyObj(out ho_ModelRectangle);
-                 
+
                 HOperatorSet.ReadRegion(out ho_ModelRectangle, ModelPath + "ModelRectangle.hobj");
 
                 HTuple hv_ModelID = new HTuple();
@@ -1587,7 +1729,7 @@ namespace VisionController
 
                 AllProdAndKongSortObj = ho_AllProdAndKongSortObj;
                 AllProdAndKongSortName = hv_AllProdAndKongSortName;
-                 
+
                 int length = hv_AllProdAndKongSortName.Length;
                 strLog = "";
                 if (length > 0)
@@ -1596,7 +1738,7 @@ namespace VisionController
                     {
                         strLog += hv_AllProdAndKongSortName[i].S + ",";
                     }
-                    strLog = strLog.TrimEnd(','); 
+                    strLog = strLog.TrimEnd(',');
                 }
 
                 HObject ho_regionZoom;
@@ -1605,28 +1747,40 @@ namespace VisionController
                 bResult = hv_AllProdAndKongSortName.Length > 0;
                 ho_OutRegion = ho_regionZoom;
 
-                if(bResult)
+                if (bResult)
                 {
                     List<string> listOcrValue = new List<string>();
                     string strOcrLog = "";
-                    bool bGetOcr = LDSmallOcr(IsIngoreCalu, OcrLength, out bar, out strOcrLog, out listOcrValue);
+                    bool bGetOcr = LDSmallOcr(IsIngoreCalu, OcrLength, judgeBarLength, binPath, out bar, out strOcrLog, out listOcrValue);
                     strLog += strOcrLog;
 
                     bResult = bGetOcr;
 
-                    firstOcr = listOcrValue[0];
+                    if (listOcrValue.Count > 0)
+                    {
+                        firstOcr = listOcrValue.FirstOrDefault(x => x != "0");
+                    }
+                    else
+                    {
+                        firstOcr = "0000";
+                    }
 
                     if (bGetOcr)
                     {
                         //屏蔽推算则取第一个OCR
-                        if(IsIngoreCalu)
+                        if (IsIngoreCalu)
                         {
-                            NeedOcr = listOcrValue[0];
+                            NeedOcr = firstOcr;
+                        }
+                        if (NeedOcr == null)
+                        {
+                            NeedOcr = "";
                         }
 
-                        string strCenterLog = ""; 
+                        string strCenterLog = "";
                         bool bGetCenter = LDGetCenter(ho_AllProdAndKongSortObj, hv_AllProdAndKongSortName, listOcrValue, NeedOcr, out ho_OcrOutRegion,
                             out OcrCenterRow, out OcrCenterCol, out OcrCenterPhi, out distance, out ICanGet, out IExistProduct, out strCenterLog);
+
                         strLog += strCenterLog;
 
                         bResult = bGetCenter;
@@ -1647,19 +1801,19 @@ namespace VisionController
         /// <param name="IsIngoreCalu">是否屏蔽计算</param>
         /// <param name="strLog">Log显示</param>
         /// <param name="listOcrValue">输出OCR</param>
-        public bool LDSmallOcr(bool IsIngoreCalu, int ocrLength, out string bar, out string strLog, out List<string> listOcrValue)
+        public bool LDSmallOcr(bool IsIngoreCalu, int ocrLength, int judgeBarLength, string binPath, out string bar, out string strLog, out List<string> listOcrValue)
         {
             strLog = "";
             bar = "";
             listOcrValue = new List<string>();
             try
             {
-                HKOcr.InitOCR("");
+                HKOcr.InitOCR(binPath);
 
                 List<string> listOcr = new List<string>();
                 var files = Directory.GetFiles("E://OCR", "*.jpg").Union(Directory.GetFiles("E://OCR", "*.png"));
 
-                string strResult = ""; 
+                string strResult = "";
                 foreach (var file in files)
                 {
                     string ocr = HKOcr.OcrReadAction(file);
@@ -1690,7 +1844,45 @@ namespace VisionController
                 strLog += Environment.NewLine;
                 strLog += "OCR Read:" + strResult;
 
-                if (!IsIngoreCalu)
+                if (IsIngoreCalu)
+                {
+                    //根据ocr推算Bar条号
+                    int length = ocrLength;
+                    List<string> listNew = new List<string>();
+                    foreach (var item in listOcr)
+                    {
+                        if (item.Length > length - 2)
+                        {
+                            listNew.Add(item.Substring(0, length - 2));
+                        }
+                    }
+
+                    string[] arr = listNew.ToArray();
+
+                    var res = from n in arr
+                              group n by n into g
+                              orderby g.Count() descending
+                              select g;
+                    // 分组中第一个组就是重复最多的
+                    var gr = res.First();
+
+                    if (gr.Count() < judgeBarLength)
+                    {
+                        bar = "-9999";
+                    }
+                    else
+                    {
+                        foreach (string x in gr)
+                        {
+                            bar = x;
+                        }
+                    }
+
+                    strLog += Environment.NewLine;
+                    strLog += ("Bar 结果:" + bar);
+                }
+
+                //推算OCR
                 {
                     strResult = "";
                     //获取的OCR进行排序
@@ -1732,35 +1924,6 @@ namespace VisionController
                     strLog += Environment.NewLine;
                     strLog += ("OCR 推算:" + strResult);
                 }
-                else
-                {
-                    //根据ocr推算Bar条号
-                    int length = ocrLength;
-                    List<string> listNew = new List<string>();
-                    foreach (var item in listOcr)
-                    {
-                        if(item.Length > length - 2)
-                        {
-                            listNew.Add(item.Substring(0, length - 2)); 
-                        }
-                    }
-
-                    string[] arr = listNew.ToArray(); 
-                  
-                    var res = from n in arr
-                              group n by n into g
-                              orderby g.Count() descending
-                              select g;
-                    // 分组中第一个组就是重复最多的
-                    var gr = res.First();
-                    foreach (string x in gr)
-                    {
-                        bar = x;
-                    }
-
-                    strLog += Environment.NewLine;
-                    strLog += ("Bar 结果:" + bar);
-                }
 
                 listOcrValue = listOcr;
 
@@ -1772,7 +1935,91 @@ namespace VisionController
                 return false;
             }
         }
-        
+
+        /// <summary>
+        /// N面检测获取中心算法
+        /// </summary>
+        private AlgorithmResultModel NTestAlgorithm(HObject ho_Image)
+        {
+            AlgorithmResultModel resultModel = new AlgorithmResultModel();
+            try
+            {
+                // Local iconic variables 
+                HObject ho_GrayImage, ho_Region, ho_OutObj;
+                HObject ho_RegionOpening, ho_RegionFillUp, ho_ConnectedRegions;
+                HObject ho_SelectedRegions, ho_Cross;
+
+                // Local control variables 
+
+                HTuple hv_UsedThreshold = null, hv_Row = null;
+                HTuple hv_Column = null, hv_Phi = null, hv_Length1 = null;
+                HTuple hv_Length2 = null;
+                // Initialize local and output iconic variables 
+                HOperatorSet.GenEmptyObj(out ho_GrayImage);
+                HOperatorSet.GenEmptyObj(out ho_Region);
+                HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+                HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+                HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+                HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+                HOperatorSet.GenEmptyObj(out ho_Cross);
+                HOperatorSet.GenEmptyObj(out ho_OutObj);
+
+                ho_GrayImage.Dispose();
+                HOperatorSet.Rgb1ToGray(ho_Image, out ho_GrayImage);
+
+                ho_Region.Dispose();
+                HOperatorSet.BinaryThreshold(ho_GrayImage, out ho_Region, "max_separability",
+                    "light", out hv_UsedThreshold);
+
+                ho_RegionOpening.Dispose();
+                HOperatorSet.ClosingCircle(ho_Region, out ho_RegionOpening, 5.5);
+                ho_RegionFillUp.Dispose();
+                HOperatorSet.FillUp(ho_RegionOpening, out ho_RegionFillUp);
+
+                ho_ConnectedRegions.Dispose();
+                HOperatorSet.Connection(ho_RegionFillUp, out ho_ConnectedRegions);
+
+                ho_SelectedRegions.Dispose();
+                HOperatorSet.SelectShapeStd(ho_ConnectedRegions, out ho_SelectedRegions, "max_area",
+                    70);
+
+                HOperatorSet.ShapeTrans(ho_SelectedRegions, out ho_SelectedRegions, "rectangle2");
+
+                HOperatorSet.SmallestRectangle2(ho_SelectedRegions, out hv_Row, out hv_Column,
+                    out hv_Phi, out hv_Length1, out hv_Length2);
+
+                ho_Cross.Dispose();
+                HOperatorSet.GenCrossContourXld(out ho_Cross, hv_Row, hv_Column, 100, hv_Phi);
+
+                HOperatorSet.ConcatObj(ho_SelectedRegions, ho_Cross, out ho_OutObj);
+
+                ho_GrayImage.Dispose();
+                ho_Region.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_Cross.Dispose();
+
+                resultModel.RunResult = hv_Row.Length > 0;
+
+                HOperatorSet.TupleDeg(hv_Phi, out hv_Phi);
+
+                resultModel.CenterRow = hv_Row;
+                resultModel.CenterColumn = hv_Column;
+                resultModel.CenterPhi = hv_Phi;
+                resultModel.ObjectResult = ho_OutObj;
+
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.RunResult = false;
+                return resultModel;
+            }
+
+        }
+
         public bool LDGetCenter(HObject ho_AllProdAndKongSortObj, HTuple hv_AllProdAndKongSortName, List<string> listOcrValue, string strNeedOcr, out HObject ho_OutRegion,
                                         out double OcrCenterRow, out double OcrCenterCol, out double OcrCenterPhi, out double Distance, out int ICanGet, out int IExistProduct, out string strLog)
         {
@@ -1785,7 +2032,7 @@ namespace VisionController
             Distance = 0;
             HOperatorSet.GenEmptyObj(out ho_OutRegion);
             try
-            {   
+            {
                 //获取每个的距离
                 double distance = GetObjDistance(ho_AllProdAndKongSortObj);
                 if (distance == 0 || distance < 420 || distance > 700)
@@ -2310,360 +2557,360 @@ namespace VisionController
                                          HObject ho_WeiJieReduceProdRegion, out HObject ho_AllProdAndKongSortObj, HTuple hv_DanGeStateName,
                                          HTuple hv_WeiJieProdName, HTuple hv_WeiJieReduceProdName, HTuple hv_DistancePP,
                                             out HTuple hv_AllProdAndKongSortName, out HTuple hv_Error, out HTuple hv_Exception)
-                            {
-                                hv_Exception = new HTuple();
-                                // Local iconic variables 
-                                HObject ho_AllProdObjectsSort = null;
+        {
+            hv_Exception = new HTuple();
+            // Local iconic variables 
+            HObject ho_AllProdObjectsSort = null;
 
-                                // Local control variables 
+            // Local control variables 
 
-                                HTuple hv_AllProdStateNmaeSort = new HTuple();
-                                HTuple hv_Error1 = new HTuple(), hv_Error2 = new HTuple();
-                                // Initialize local and output iconic variables 
-                                HOperatorSet.GenEmptyObj(out ho_AllProdAndKongSortObj);
-                                HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSort);
-                                hv_AllProdAndKongSortName = new HTuple();
-                                hv_Error = new HTuple();
-                                try
-                                {
-                                    try
-                                    {
-                                        ho_AllProdObjectsSort.Dispose();
-                                        HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSort);
-                                        hv_AllProdStateNmaeSort = new HTuple();
+            HTuple hv_AllProdStateNmaeSort = new HTuple();
+            HTuple hv_Error1 = new HTuple(), hv_Error2 = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_AllProdAndKongSortObj);
+            HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSort);
+            hv_AllProdAndKongSortName = new HTuple();
+            hv_Error = new HTuple();
+            try
+            {
+                try
+                {
+                    ho_AllProdObjectsSort.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSort);
+                    hv_AllProdStateNmaeSort = new HTuple();
 
-                                        ho_AllProdObjectsSort.Dispose();
-                                        SortRegionAndTuple(ho_DanGeProdRegion, ho_WeiJieProdRegion, ho_WeiJieReduceProdRegion,
-                                            out ho_AllProdObjectsSort, hv_DanGeStateName, hv_WeiJieProdName, hv_WeiJieReduceProdName,
-                                            out hv_AllProdStateNmaeSort, out hv_Error1);
-                                        //判断是否有空格物料出现,作为推算使用,
+                    ho_AllProdObjectsSort.Dispose();
+                    SortRegionAndTuple(ho_DanGeProdRegion, ho_WeiJieProdRegion, ho_WeiJieReduceProdRegion,
+                        out ho_AllProdObjectsSort, hv_DanGeStateName, hv_WeiJieProdName, hv_WeiJieReduceProdName,
+                        out hv_AllProdStateNmaeSort, out hv_Error1);
+                    //判断是否有空格物料出现,作为推算使用,
 
-                                        ho_AllProdAndKongSortObj.Dispose();
-                                        GetAllProdKongSort(ho_AllProdObjectsSort, out ho_AllProdAndKongSortObj, hv_AllProdStateNmaeSort,
-                                            hv_DistancePP, out hv_AllProdAndKongSortName, out hv_Error2);
-                                        hv_Error = 0;
-                                    }
-                                    // catch (Exception) 
-                                    catch (HalconException HDevExpDefaultException1)
-                                    {
-                                        HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                                        hv_Error = 1;
-                                    }
-                                    ho_AllProdObjectsSort.Dispose();
+                    ho_AllProdAndKongSortObj.Dispose();
+                    GetAllProdKongSort(ho_AllProdObjectsSort, out ho_AllProdAndKongSortObj, hv_AllProdStateNmaeSort,
+                        hv_DistancePP, out hv_AllProdAndKongSortName, out hv_Error2);
+                    hv_Error = 0;
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    hv_Error = 1;
+                }
+                ho_AllProdObjectsSort.Dispose();
 
-                                    return;
-                                }
-                                catch (HalconException HDevExpDefaultException)
-                                {
-                                    ho_AllProdObjectsSort.Dispose();
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_AllProdObjectsSort.Dispose();
 
-                                    throw HDevExpDefaultException;
-                                }
-                            }
+                throw HDevExpDefaultException;
+            }
+        }
 
         public void SortRegionAndTuple(HObject ho_DanGeProdRegion, HObject ho_WeiJieProdRegion,
                                         HObject ho_WeiJieReduceProdRegion, out HObject ho_AllProdObjectsSortOut, HTuple hv_DanGeStateName,
                                         HTuple hv_WeiJieProdName, HTuple hv_WeiJieReduceProdName, out HTuple hv_AllProdStateNmaeSortOut,
                                         out HTuple hv_Error)
-                                        {
+        {
 
 
 
 
-                                            // Stack for temporary objects 
-                                            HObject[] OTemp = new HObject[20];
+            // Stack for temporary objects 
+            HObject[] OTemp = new HObject[20];
 
-                                            // Local iconic variables 
+            // Local iconic variables 
 
-                                            HObject ho_ObjectsConcat = null, ho_AllProdObjectsConcat = null;
-                                            HObject ho_ObjectSelected6 = null;
+            HObject ho_ObjectsConcat = null, ho_AllProdObjectsConcat = null;
+            HObject ho_ObjectSelected6 = null;
 
-                                            // Local control variables 
+            // Local control variables 
 
-                                            HTuple hv_AllProdStateNmae = new HTuple();
-                                            HTuple hv_Area = new HTuple(), hv_Row5 = new HTuple();
-                                            HTuple hv_Column5 = new HTuple(), hv_Sorted = new HTuple();
-                                            HTuple hv_Length4 = new HTuple(), hv_Index9 = new HTuple();
-                                            HTuple hv_Selected = new HTuple(), hv_Indices1 = new HTuple();
-                                            HTuple hv_Selected1 = new HTuple(), hv_Number6 = new HTuple();
-                                            HTuple hv_Exception = null;
-                                            // Initialize local and output iconic variables 
-                                            HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSortOut);
-                                            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat);
-                                            HOperatorSet.GenEmptyObj(out ho_AllProdObjectsConcat);
-                                            HOperatorSet.GenEmptyObj(out ho_ObjectSelected6);
-                                            hv_Error = new HTuple();
-                                            try
-                                            {
-                                                ho_AllProdObjectsSortOut.Dispose();
-                                                HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSortOut);
-                                                hv_AllProdStateNmaeSortOut = new HTuple();
-                                                try
-                                                {
-                                                    ho_ObjectsConcat.Dispose();
-                                                    HOperatorSet.ConcatObj(ho_DanGeProdRegion, ho_WeiJieProdRegion, out ho_ObjectsConcat
-                                                        );
-                                                    ho_AllProdObjectsConcat.Dispose();
-                                                    HOperatorSet.ConcatObj(ho_ObjectsConcat, ho_WeiJieReduceProdRegion, out ho_AllProdObjectsConcat
-                                                        );
-                                                    hv_AllProdStateNmae = new HTuple();
-                                                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_DanGeStateName);
-                                                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_WeiJieProdName);
-                                                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_WeiJieReduceProdName);
-                                                    HOperatorSet.AreaCenter(ho_AllProdObjectsConcat, out hv_Area, out hv_Row5,
-                                                        out hv_Column5);
-                                                    HOperatorSet.TupleSort(hv_Row5, out hv_Sorted);
-                                                    HOperatorSet.TupleLength(hv_Sorted, out hv_Length4);
-                                                    HTuple end_val9 = hv_Length4 - 1;
-                                                    HTuple step_val9 = 1;
-                                                    for (hv_Index9 = 0; hv_Index9.Continue(end_val9, step_val9); hv_Index9 = hv_Index9.TupleAdd(step_val9))
-                                                    {
-                                                        HOperatorSet.TupleSelect(hv_Sorted, hv_Index9, out hv_Selected);
-                                                        HOperatorSet.TupleFind(hv_Row5, hv_Selected, out hv_Indices1);
-                                                        ho_ObjectSelected6.Dispose();
-                                                        HOperatorSet.SelectObj(ho_AllProdObjectsConcat, out ho_ObjectSelected6,
-                                                            hv_Indices1 + 1);
-                                                        {
-                                                            HObject ExpTmpOutVar_0;
-                                                            HOperatorSet.ConcatObj(ho_AllProdObjectsSortOut, ho_ObjectSelected6, out ExpTmpOutVar_0
-                                                                );
-                                                            ho_AllProdObjectsSortOut.Dispose();
-                                                            ho_AllProdObjectsSortOut = ExpTmpOutVar_0;
-                                                        }
-                                                        HOperatorSet.TupleSelect(hv_AllProdStateNmae, hv_Indices1, out hv_Selected1);
-                                                        hv_AllProdStateNmaeSortOut = hv_AllProdStateNmaeSortOut.TupleConcat(hv_Selected1);
-                                                    }
-                                                    HOperatorSet.CountObj(ho_AllProdObjectsSortOut, out hv_Number6);
-                                                    hv_Error = 0;
-                                                }
-                                                // catch (Exception) 
-                                                catch (HalconException HDevExpDefaultException1)
-                                                {
-                                                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                                                    hv_Error = 1;
-                                                }
-                                                ho_ObjectsConcat.Dispose();
-                                                ho_AllProdObjectsConcat.Dispose();
-                                                ho_ObjectSelected6.Dispose();
+            HTuple hv_AllProdStateNmae = new HTuple();
+            HTuple hv_Area = new HTuple(), hv_Row5 = new HTuple();
+            HTuple hv_Column5 = new HTuple(), hv_Sorted = new HTuple();
+            HTuple hv_Length4 = new HTuple(), hv_Index9 = new HTuple();
+            HTuple hv_Selected = new HTuple(), hv_Indices1 = new HTuple();
+            HTuple hv_Selected1 = new HTuple(), hv_Number6 = new HTuple();
+            HTuple hv_Exception = null;
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSortOut);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat);
+            HOperatorSet.GenEmptyObj(out ho_AllProdObjectsConcat);
+            HOperatorSet.GenEmptyObj(out ho_ObjectSelected6);
+            hv_Error = new HTuple();
+            try
+            {
+                ho_AllProdObjectsSortOut.Dispose();
+                HOperatorSet.GenEmptyObj(out ho_AllProdObjectsSortOut);
+                hv_AllProdStateNmaeSortOut = new HTuple();
+                try
+                {
+                    ho_ObjectsConcat.Dispose();
+                    HOperatorSet.ConcatObj(ho_DanGeProdRegion, ho_WeiJieProdRegion, out ho_ObjectsConcat
+                        );
+                    ho_AllProdObjectsConcat.Dispose();
+                    HOperatorSet.ConcatObj(ho_ObjectsConcat, ho_WeiJieReduceProdRegion, out ho_AllProdObjectsConcat
+                        );
+                    hv_AllProdStateNmae = new HTuple();
+                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_DanGeStateName);
+                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_WeiJieProdName);
+                    hv_AllProdStateNmae = hv_AllProdStateNmae.TupleConcat(hv_WeiJieReduceProdName);
+                    HOperatorSet.AreaCenter(ho_AllProdObjectsConcat, out hv_Area, out hv_Row5,
+                        out hv_Column5);
+                    HOperatorSet.TupleSort(hv_Row5, out hv_Sorted);
+                    HOperatorSet.TupleLength(hv_Sorted, out hv_Length4);
+                    HTuple end_val9 = hv_Length4 - 1;
+                    HTuple step_val9 = 1;
+                    for (hv_Index9 = 0; hv_Index9.Continue(end_val9, step_val9); hv_Index9 = hv_Index9.TupleAdd(step_val9))
+                    {
+                        HOperatorSet.TupleSelect(hv_Sorted, hv_Index9, out hv_Selected);
+                        HOperatorSet.TupleFind(hv_Row5, hv_Selected, out hv_Indices1);
+                        ho_ObjectSelected6.Dispose();
+                        HOperatorSet.SelectObj(ho_AllProdObjectsConcat, out ho_ObjectSelected6,
+                            hv_Indices1 + 1);
+                        {
+                            HObject ExpTmpOutVar_0;
+                            HOperatorSet.ConcatObj(ho_AllProdObjectsSortOut, ho_ObjectSelected6, out ExpTmpOutVar_0
+                                );
+                            ho_AllProdObjectsSortOut.Dispose();
+                            ho_AllProdObjectsSortOut = ExpTmpOutVar_0;
+                        }
+                        HOperatorSet.TupleSelect(hv_AllProdStateNmae, hv_Indices1, out hv_Selected1);
+                        hv_AllProdStateNmaeSortOut = hv_AllProdStateNmaeSortOut.TupleConcat(hv_Selected1);
+                    }
+                    HOperatorSet.CountObj(ho_AllProdObjectsSortOut, out hv_Number6);
+                    hv_Error = 0;
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    hv_Error = 1;
+                }
+                ho_ObjectsConcat.Dispose();
+                ho_AllProdObjectsConcat.Dispose();
+                ho_ObjectSelected6.Dispose();
 
-                                                return;
-                                            }
-                                            catch (HalconException HDevExpDefaultException)
-                                            {
-                                                ho_ObjectsConcat.Dispose();
-                                                ho_AllProdObjectsConcat.Dispose();
-                                                ho_ObjectSelected6.Dispose();
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_ObjectsConcat.Dispose();
+                ho_AllProdObjectsConcat.Dispose();
+                ho_ObjectSelected6.Dispose();
 
-                                                throw HDevExpDefaultException;
-                                            }
-                                        }
-        
+                throw HDevExpDefaultException;
+            }
+        }
+
         public static void GetAllProdKongSort(HObject ho_AllProdObjectsSort, out HObject ho_AllProdKongSortObjOut,
                                             HTuple hv_AllProdStateNmaeSort, HTuple hv_DistancePP, out HTuple hv_AllProdKongSortNameOut,
                                             out HTuple hv_Error)
-                                        {
+        {
 
-                                            // Stack for temporary objects 
-                                            HObject[] OTemp = new HObject[20];
+            // Stack for temporary objects 
+            HObject[] OTemp = new HObject[20];
 
-                                            // Local iconic variables 
+            // Local iconic variables 
 
-                                            HObject ho_DanGeObjectSelected = null, ho_Cross = null;
-                                            HObject ho_Cross1 = null, ho_RegionMoved = null;
+            HObject ho_DanGeObjectSelected = null, ho_Cross = null;
+            HObject ho_Cross1 = null, ho_RegionMoved = null;
 
-                                            // Local control variables 
+            // Local control variables 
 
-                                            HTuple hv_Number6 = new HTuple(), hv_AllProdArea = new HTuple();
-                                            HTuple hv_AllProdRow = new HTuple(), hv_AllProdColumn = new HTuple();
-                                            HTuple hv_Index5 = new HTuple(), hv_DanGeNameSelected = new HTuple();
-                                            HTuple hv_SelectedR1 = new HTuple(), hv_SelectedC1 = new HTuple();
-                                            HTuple hv_SelectedR2 = new HTuple(), hv_SelectedC2 = new HTuple();
-                                            HTuple hv_Distance = new HTuple(), hv_DistanceRow = new HTuple();
-                                            HTuple hv_Dst = new HTuple(), hv_Indices = new HTuple();
-                                            HTuple hv_Selected = new HTuple(), hv_Indices1 = new HTuple();
-                                            HTuple hv_Indices4 = new HTuple(), hv_DstT = new HTuple();
-                                            HTuple hv_Indices2 = new HTuple(), hv_Selected1 = new HTuple();
-                                            HTuple hv_Indices3 = new HTuple(), hv_Round = new HTuple();
-                                            HTuple hv_Index10 = new HTuple(), hv_Exception = null;
-                                            // Initialize local and output iconic variables 
-                                            HOperatorSet.GenEmptyObj(out ho_AllProdKongSortObjOut);
-                                            HOperatorSet.GenEmptyObj(out ho_DanGeObjectSelected);
-                                            HOperatorSet.GenEmptyObj(out ho_Cross);
-                                            HOperatorSet.GenEmptyObj(out ho_Cross1);
-                                            HOperatorSet.GenEmptyObj(out ho_RegionMoved);
-                                            hv_Error = new HTuple();
-                                            try
-                                            {
-                                                ho_AllProdKongSortObjOut.Dispose();
-                                                HOperatorSet.GenEmptyObj(out ho_AllProdKongSortObjOut);
-                                                hv_AllProdKongSortNameOut = new HTuple();
-                                                try
-                                                {
-                                                    HOperatorSet.CountObj(ho_AllProdObjectsSort, out hv_Number6);
-                                                    HOperatorSet.AreaCenter(ho_AllProdObjectsSort, out hv_AllProdArea, out hv_AllProdRow,
-                                                        out hv_AllProdColumn);
-                                                    if ((int)((new HTuple(hv_Number6.TupleLess(2))).TupleAnd(new HTuple(hv_Number6.TupleGreater(
-                                                        0)))) != 0)
-                                                    {
-                                                        hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_AllProdStateNmaeSort);
-                                                        {
-                                                            HObject ExpTmpOutVar_0;
-                                                            HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_AllProdObjectsSort,
-                                                                out ExpTmpOutVar_0);
-                                                            ho_AllProdKongSortObjOut.Dispose();
-                                                            ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
-                                                        }
-                                                    }
-                                                    HTuple end_val9 = hv_Number6 - 2;
-                                                    HTuple step_val9 = 1;
-                                                    for (hv_Index5 = 0; hv_Index5.Continue(end_val9, step_val9); hv_Index5 = hv_Index5.TupleAdd(step_val9))
-                                                    {
-                                                        ho_DanGeObjectSelected.Dispose();
-                                                        HOperatorSet.SelectObj(ho_AllProdObjectsSort, out ho_DanGeObjectSelected,
-                                                            hv_Index5 + 1);
-                                                        HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5, out hv_DanGeNameSelected);
-                                                        HOperatorSet.TupleSelect(hv_AllProdRow, hv_Index5, out hv_SelectedR1);
-                                                        HOperatorSet.TupleSelect(hv_AllProdColumn, hv_Index5, out hv_SelectedC1);
-                                                        ho_Cross.Dispose();
-                                                        HOperatorSet.GenCrossContourXld(out ho_Cross, hv_SelectedR1, hv_SelectedC1,
-                                                            60, 0);
-                                                        HOperatorSet.TupleSelect(hv_AllProdRow, hv_Index5 + 1, out hv_SelectedR2);
-                                                        HOperatorSet.TupleSelect(hv_AllProdColumn, hv_Index5 + 1, out hv_SelectedC2);
-                                                        ho_Cross1.Dispose();
-                                                        HOperatorSet.GenCrossContourXld(out ho_Cross1, hv_SelectedR2, hv_SelectedC2,
-                                                            60, 0);
-                                                        HOperatorSet.DistancePp(hv_SelectedR1, hv_SelectedC1, hv_SelectedR2, hv_SelectedC2,
-                                                            out hv_Distance);
+            HTuple hv_Number6 = new HTuple(), hv_AllProdArea = new HTuple();
+            HTuple hv_AllProdRow = new HTuple(), hv_AllProdColumn = new HTuple();
+            HTuple hv_Index5 = new HTuple(), hv_DanGeNameSelected = new HTuple();
+            HTuple hv_SelectedR1 = new HTuple(), hv_SelectedC1 = new HTuple();
+            HTuple hv_SelectedR2 = new HTuple(), hv_SelectedC2 = new HTuple();
+            HTuple hv_Distance = new HTuple(), hv_DistanceRow = new HTuple();
+            HTuple hv_Dst = new HTuple(), hv_Indices = new HTuple();
+            HTuple hv_Selected = new HTuple(), hv_Indices1 = new HTuple();
+            HTuple hv_Indices4 = new HTuple(), hv_DstT = new HTuple();
+            HTuple hv_Indices2 = new HTuple(), hv_Selected1 = new HTuple();
+            HTuple hv_Indices3 = new HTuple(), hv_Round = new HTuple();
+            HTuple hv_Index10 = new HTuple(), hv_Exception = null;
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_AllProdKongSortObjOut);
+            HOperatorSet.GenEmptyObj(out ho_DanGeObjectSelected);
+            HOperatorSet.GenEmptyObj(out ho_Cross);
+            HOperatorSet.GenEmptyObj(out ho_Cross1);
+            HOperatorSet.GenEmptyObj(out ho_RegionMoved);
+            hv_Error = new HTuple();
+            try
+            {
+                ho_AllProdKongSortObjOut.Dispose();
+                HOperatorSet.GenEmptyObj(out ho_AllProdKongSortObjOut);
+                hv_AllProdKongSortNameOut = new HTuple();
+                try
+                {
+                    HOperatorSet.CountObj(ho_AllProdObjectsSort, out hv_Number6);
+                    HOperatorSet.AreaCenter(ho_AllProdObjectsSort, out hv_AllProdArea, out hv_AllProdRow,
+                        out hv_AllProdColumn);
+                    if ((int)((new HTuple(hv_Number6.TupleLess(2))).TupleAnd(new HTuple(hv_Number6.TupleGreater(
+                        0)))) != 0)
+                    {
+                        hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_AllProdStateNmaeSort);
+                        {
+                            HObject ExpTmpOutVar_0;
+                            HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_AllProdObjectsSort,
+                                out ExpTmpOutVar_0);
+                            ho_AllProdKongSortObjOut.Dispose();
+                            ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
+                        }
+                    }
+                    HTuple end_val9 = hv_Number6 - 2;
+                    HTuple step_val9 = 1;
+                    for (hv_Index5 = 0; hv_Index5.Continue(end_val9, step_val9); hv_Index5 = hv_Index5.TupleAdd(step_val9))
+                    {
+                        ho_DanGeObjectSelected.Dispose();
+                        HOperatorSet.SelectObj(ho_AllProdObjectsSort, out ho_DanGeObjectSelected,
+                            hv_Index5 + 1);
+                        HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5, out hv_DanGeNameSelected);
+                        HOperatorSet.TupleSelect(hv_AllProdRow, hv_Index5, out hv_SelectedR1);
+                        HOperatorSet.TupleSelect(hv_AllProdColumn, hv_Index5, out hv_SelectedC1);
+                        ho_Cross.Dispose();
+                        HOperatorSet.GenCrossContourXld(out ho_Cross, hv_SelectedR1, hv_SelectedC1,
+                            60, 0);
+                        HOperatorSet.TupleSelect(hv_AllProdRow, hv_Index5 + 1, out hv_SelectedR2);
+                        HOperatorSet.TupleSelect(hv_AllProdColumn, hv_Index5 + 1, out hv_SelectedC2);
+                        ho_Cross1.Dispose();
+                        HOperatorSet.GenCrossContourXld(out ho_Cross1, hv_SelectedR2, hv_SelectedC2,
+                            60, 0);
+                        HOperatorSet.DistancePp(hv_SelectedR1, hv_SelectedC1, hv_SelectedR2, hv_SelectedC2,
+                            out hv_Distance);
 
-                                                        hv_DistanceRow = ((hv_SelectedR2 - hv_SelectedR1)).TupleAbs();
-                                                        hv_Dst = (1.0 * hv_DistanceRow) / hv_DistancePP;
-                                                        //判断是否有多个未解离，需要增大Dst 2021-12-1
-                                                        //未解离的在上面
-                                                        HOperatorSet.TupleFind(hv_DanGeNameSelected, "未解离产品", out hv_Indices);
-                                                        if ((int)(new HTuple(hv_Indices.TupleEqual(0))) != 0)
-                                                        {
-                                                            HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_Selected);
-                                                            HOperatorSet.TupleFind(hv_Selected, "是单个独立产品", out hv_Indices1);
-                                                            HOperatorSet.TupleFind(hv_Selected, "未解离产品", out hv_Indices4);
-                                                            if ((int)((new HTuple(hv_Indices1.TupleEqual(0))).TupleOr(new HTuple(hv_Indices4.TupleEqual(
-                                                                0)))) != 0)
-                                                            {
-                                                                hv_DstT = 1.7;
-                                                            }
-                                                            else
-                                                            {
-                                                                hv_DstT = 1.55;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            //未解离的在下面
-                                                            HOperatorSet.TupleFind(hv_DanGeNameSelected, "是单个独立产品", out hv_Indices2);
-                                                            if ((int)(new HTuple(hv_Indices2.TupleEqual(0))) != 0)
-                                                            {
-                                                                HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_Selected1);
-                                                                HOperatorSet.TupleFind(hv_Selected1, "未解离产品", out hv_Indices3);
-                                                                if ((int)(new HTuple(hv_Indices3.TupleEqual(0))) != 0)
-                                                                {
-                                                                    hv_DstT = 1.7;
-                                                                }
-                                                                else
-                                                                {
-                                                                    hv_DstT = 1.55;
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                hv_DstT = 1.55;
-                                                            }
-                                                        }
+                        hv_DistanceRow = ((hv_SelectedR2 - hv_SelectedR1)).TupleAbs();
+                        hv_Dst = (1.0 * hv_DistanceRow) / hv_DistancePP;
+                        //判断是否有多个未解离，需要增大Dst 2021-12-1
+                        //未解离的在上面
+                        HOperatorSet.TupleFind(hv_DanGeNameSelected, "未解离产品", out hv_Indices);
+                        if ((int)(new HTuple(hv_Indices.TupleEqual(0))) != 0)
+                        {
+                            HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_Selected);
+                            HOperatorSet.TupleFind(hv_Selected, "是单个独立产品", out hv_Indices1);
+                            HOperatorSet.TupleFind(hv_Selected, "未解离产品", out hv_Indices4);
+                            if ((int)((new HTuple(hv_Indices1.TupleEqual(0))).TupleOr(new HTuple(hv_Indices4.TupleEqual(
+                                0)))) != 0)
+                            {
+                                hv_DstT = 1.7;
+                            }
+                            else
+                            {
+                                hv_DstT = 1.55;
+                            }
+                        }
+                        else
+                        {
+                            //未解离的在下面
+                            HOperatorSet.TupleFind(hv_DanGeNameSelected, "是单个独立产品", out hv_Indices2);
+                            if ((int)(new HTuple(hv_Indices2.TupleEqual(0))) != 0)
+                            {
+                                HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_Selected1);
+                                HOperatorSet.TupleFind(hv_Selected1, "未解离产品", out hv_Indices3);
+                                if ((int)(new HTuple(hv_Indices3.TupleEqual(0))) != 0)
+                                {
+                                    hv_DstT = 1.7;
+                                }
+                                else
+                                {
+                                    hv_DstT = 1.55;
+                                }
+                            }
+                            else
+                            {
+                                hv_DstT = 1.55;
+                            }
+                        }
 
-                                                        HOperatorSet.TupleRound(hv_Dst, out hv_Round);
-                                                        if ((int)(new HTuple(hv_Dst.TupleGreater(hv_DstT))) != 0)
-                                                        {
-                                                            //有1个以上的空格产品
-                                                            //空隔前一个产品先包含进去
-                                                            {
-                                                                HObject ExpTmpOutVar_0;
-                                                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
-                                                                    out ExpTmpOutVar_0);
-                                                                ho_AllProdKongSortObjOut.Dispose();
-                                                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
-                                                            }
-                                                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
-                                                            HTuple end_val59 = hv_Round - 1;
-                                                            HTuple step_val59 = 1;
-                                                            for (hv_Index10 = 1; hv_Index10.Continue(end_val59, step_val59); hv_Index10 = hv_Index10.TupleAdd(step_val59))
-                                                            {
-                                                                ho_RegionMoved.Dispose();
-                                                                HOperatorSet.MoveRegion(ho_DanGeObjectSelected, out ho_RegionMoved,
-                                                                    hv_DistancePP * hv_Index10, 0);
-                                                                {
-                                                                    HObject ExpTmpOutVar_0;
-                                                                    HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_RegionMoved, out ExpTmpOutVar_0
-                                                                        );
-                                                                    ho_AllProdKongSortObjOut.Dispose();
-                                                                    ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
-                                                                }
-                                                                hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat("空隔产品");
+                        HOperatorSet.TupleRound(hv_Dst, out hv_Round);
+                        if ((int)(new HTuple(hv_Dst.TupleGreater(hv_DstT))) != 0)
+                        {
+                            //有1个以上的空格产品
+                            //空隔前一个产品先包含进去
+                            {
+                                HObject ExpTmpOutVar_0;
+                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
+                                    out ExpTmpOutVar_0);
+                                ho_AllProdKongSortObjOut.Dispose();
+                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
+                            }
+                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
+                            HTuple end_val59 = hv_Round - 1;
+                            HTuple step_val59 = 1;
+                            for (hv_Index10 = 1; hv_Index10.Continue(end_val59, step_val59); hv_Index10 = hv_Index10.TupleAdd(step_val59))
+                            {
+                                ho_RegionMoved.Dispose();
+                                HOperatorSet.MoveRegion(ho_DanGeObjectSelected, out ho_RegionMoved,
+                                    hv_DistancePP * hv_Index10, 0);
+                                {
+                                    HObject ExpTmpOutVar_0;
+                                    HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_RegionMoved, out ExpTmpOutVar_0
+                                        );
+                                    ho_AllProdKongSortObjOut.Dispose();
+                                    ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
+                                }
+                                hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat("空隔产品");
 
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            //没有空隔产品
-                                                            {
-                                                                HObject ExpTmpOutVar_0;
-                                                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
-                                                                    out ExpTmpOutVar_0);
-                                                                ho_AllProdKongSortObjOut.Dispose();
-                                                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
-                                                            }
-                                                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
-                                                        }
-                                                        if ((int)(new HTuple(hv_Index5.TupleEqual(hv_Number6 - 2))) != 0)
-                                                        {
-                                                            ho_DanGeObjectSelected.Dispose();
-                                                            HOperatorSet.SelectObj(ho_AllProdObjectsSort, out ho_DanGeObjectSelected,
-                                                                hv_Index5 + 2);
-                                                            HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_DanGeNameSelected);
-                                                            {
-                                                                HObject ExpTmpOutVar_0;
-                                                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
-                                                                    out ExpTmpOutVar_0);
-                                                                ho_AllProdKongSortObjOut.Dispose();
-                                                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
-                                                            }
-                                                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
-                                                        }
-                                                    }
+                            }
+                        }
+                        else
+                        {
+                            //没有空隔产品
+                            {
+                                HObject ExpTmpOutVar_0;
+                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
+                                    out ExpTmpOutVar_0);
+                                ho_AllProdKongSortObjOut.Dispose();
+                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
+                            }
+                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
+                        }
+                        if ((int)(new HTuple(hv_Index5.TupleEqual(hv_Number6 - 2))) != 0)
+                        {
+                            ho_DanGeObjectSelected.Dispose();
+                            HOperatorSet.SelectObj(ho_AllProdObjectsSort, out ho_DanGeObjectSelected,
+                                hv_Index5 + 2);
+                            HOperatorSet.TupleSelect(hv_AllProdStateNmaeSort, hv_Index5 + 1, out hv_DanGeNameSelected);
+                            {
+                                HObject ExpTmpOutVar_0;
+                                HOperatorSet.ConcatObj(ho_AllProdKongSortObjOut, ho_DanGeObjectSelected,
+                                    out ExpTmpOutVar_0);
+                                ho_AllProdKongSortObjOut.Dispose();
+                                ho_AllProdKongSortObjOut = ExpTmpOutVar_0;
+                            }
+                            hv_AllProdKongSortNameOut = hv_AllProdKongSortNameOut.TupleConcat(hv_DanGeNameSelected);
+                        }
+                    }
 
-                                                    hv_Error = 0;
-                                                }
-                                                // catch (Exception) 
-                                                catch (HalconException HDevExpDefaultException1)
-                                                {
-                                                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
-                                                    hv_Error = 1;
-                                                }
+                    hv_Error = 0;
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    hv_Error = 1;
+                }
 
-                                                ho_DanGeObjectSelected.Dispose();
-                                                ho_Cross.Dispose();
-                                                ho_Cross1.Dispose();
-                                                ho_RegionMoved.Dispose();
+                ho_DanGeObjectSelected.Dispose();
+                ho_Cross.Dispose();
+                ho_Cross1.Dispose();
+                ho_RegionMoved.Dispose();
 
-                                                return;
-                                            }
-                                            catch (HalconException HDevExpDefaultException)
-                                            {
-                                                ho_DanGeObjectSelected.Dispose();
-                                                ho_Cross.Dispose();
-                                                ho_Cross1.Dispose();
-                                                ho_RegionMoved.Dispose();
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_DanGeObjectSelected.Dispose();
+                ho_Cross.Dispose();
+                ho_Cross1.Dispose();
+                ho_RegionMoved.Dispose();
 
-                                                throw HDevExpDefaultException;
-                                            }
-                                        }
+                throw HDevExpDefaultException;
+            }
+        }
 
 
         public void CheckTexture(HObject ho_ImageZoomed2, HObject ho_ObjectSelected1,
@@ -2968,6 +3215,1241 @@ namespace VisionController
                 throw HDevExpDefaultException;
             }
         }
+
+
+
+        public void PCheck(HObject ho_Image, HObject ho_Rectangle, HObject ho_ModelProdObject,
+                                out HObject ho_BengQueRegions, out HObject ho_ZangWuRegions, out HObject ho_SeChaRegions,
+                                out HObject ho_ProdObject, HTuple hv_DynThr, HTuple hv_HysThrMin, HTuple hv_HysThrMax,
+                                HTuple hv_DarkThrMin, HTuple hv_LightThrMax, HTuple hv_BenQueAreaMin, HTuple hv_BQwidth,
+                                HTuple hv_BQheight, HTuple hv_ZangWuAreaMin, HTuple hv_ModelProdRegionPosRCA,
+                                out HTuple hv_IsProd, out HTuple hv_Exception)
+        {
+            // Local iconic variables 
+
+            HObject ho_GrayImage = null, ho_TModelProdObject = null;
+            HObject ho_RegionDifference = null, ho_RegionDifference1 = null;
+            HObject ho_ObjectsConcat = null, ho_RegionUnion = null, ho_RegionOpening = null;
+            HObject ho_ImageReduced1 = null, ho_Region2 = null, ho_RegionClosing2 = null;
+            HObject ho_RegionFillUp = null, ho_RegionOpening3 = null, ho_BengQueRegions1 = null;
+            HObject ho_RegionTrans1 = null, ho_RegionTrans = null, ho_RegionErosion = null;
+            HObject ho_ImageReduced = null, ho_ImageSMedian = null, ho_Region = null;
+            HObject ho_RegionHysteresis = null, ho_ObjectsConcat1 = null;
+            HObject ho_RegionUnion1 = null, ho_RegionClosing = null, ho_RegionOpening1 = null;
+            HObject ho_ConnectedRegions1 = null, ho_ImageMedian = null;
+            HObject ho_Region1 = null, ho_RegionClosing1 = null, ho_RegionOpening2 = null;
+            HObject ho_SelectedRegions = null;
+
+            // Local control variables 
+
+            HTuple hv_ProdRegionPosRCA = new HTuple();
+            HTuple hv_Length = new HTuple(), hv_HomMat2D = new HTuple();
+            HTuple hv_AbsoluteHisto = new HTuple(), hv_RelativeHisto = new HTuple();
+            HTuple hv_MinThresh = new HTuple(), hv_MaxThresh = new HTuple();
+            HTuple hv_Number = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_BengQueRegions);
+            HOperatorSet.GenEmptyObj(out ho_ZangWuRegions);
+            HOperatorSet.GenEmptyObj(out ho_SeChaRegions);
+            HOperatorSet.GenEmptyObj(out ho_ProdObject);
+            HOperatorSet.GenEmptyObj(out ho_GrayImage);
+            HOperatorSet.GenEmptyObj(out ho_TModelProdObject);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference1);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+            HOperatorSet.GenEmptyObj(out ho_ImageReduced1);
+            HOperatorSet.GenEmptyObj(out ho_Region2);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing2);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening3);
+            HOperatorSet.GenEmptyObj(out ho_BengQueRegions1);
+            HOperatorSet.GenEmptyObj(out ho_RegionTrans1);
+            HOperatorSet.GenEmptyObj(out ho_RegionTrans);
+            HOperatorSet.GenEmptyObj(out ho_RegionErosion);
+            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+            HOperatorSet.GenEmptyObj(out ho_ImageSMedian);
+            HOperatorSet.GenEmptyObj(out ho_Region);
+            HOperatorSet.GenEmptyObj(out ho_RegionHysteresis);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat1);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion1);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening1);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_ImageMedian);
+            HOperatorSet.GenEmptyObj(out ho_Region1);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing1);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening2);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+            hv_IsProd = new HTuple();
+            hv_Exception = new HTuple();
+            try
+            {
+                try
+                {
+                    hv_IsProd = 1;
+                    ho_BengQueRegions.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_BengQueRegions);
+                    ho_ZangWuRegions.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_ZangWuRegions);
+                    ho_SeChaRegions.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_SeChaRegions);
+                    ho_ProdObject.Dispose();
+                    GetProdRegion(ho_Image, ho_Rectangle, out ho_ProdObject, hv_DynThr, hv_HysThrMin,
+                        hv_HysThrMax, out hv_ProdRegionPosRCA, out hv_IsProd, out hv_Exception);
+
+                    ho_GrayImage.Dispose();
+                    HOperatorSet.Rgb1ToGray(ho_Image, out ho_GrayImage);
+                    HOperatorSet.TupleLength(hv_ProdRegionPosRCA, out hv_Length);
+                    if ((int)(new HTuple(hv_Length.TupleNotEqual(3))) != 0)
+                    {
+                        //没有找到产品
+                        ho_GrayImage.Dispose();
+                        ho_TModelProdObject.Dispose();
+                        ho_RegionDifference.Dispose();
+                        ho_RegionDifference1.Dispose();
+                        ho_ObjectsConcat.Dispose();
+                        ho_RegionUnion.Dispose();
+                        ho_RegionOpening.Dispose();
+                        ho_ImageReduced1.Dispose();
+                        ho_Region2.Dispose();
+                        ho_RegionClosing2.Dispose();
+                        ho_RegionFillUp.Dispose();
+                        ho_RegionOpening3.Dispose();
+                        ho_BengQueRegions1.Dispose();
+                        ho_RegionTrans1.Dispose();
+                        ho_RegionTrans.Dispose();
+                        ho_RegionErosion.Dispose();
+                        ho_ImageReduced.Dispose();
+                        ho_ImageSMedian.Dispose();
+                        ho_Region.Dispose();
+                        ho_RegionHysteresis.Dispose();
+                        ho_ObjectsConcat1.Dispose();
+                        ho_RegionUnion1.Dispose();
+                        ho_RegionClosing.Dispose();
+                        ho_RegionOpening1.Dispose();
+                        ho_ConnectedRegions1.Dispose();
+                        ho_ImageMedian.Dispose();
+                        ho_Region1.Dispose();
+                        ho_RegionClosing1.Dispose();
+                        ho_RegionOpening2.Dispose();
+                        ho_SelectedRegions.Dispose();
+
+                        return;
+                    }
+                    HOperatorSet.VectorAngleToRigid(hv_ModelProdRegionPosRCA.TupleSelect(0),
+                        hv_ModelProdRegionPosRCA.TupleSelect(1), hv_ModelProdRegionPosRCA.TupleSelect(
+                        2), hv_ProdRegionPosRCA.TupleSelect(0), hv_ProdRegionPosRCA.TupleSelect(
+                        1), hv_ProdRegionPosRCA.TupleSelect(2), out hv_HomMat2D);
+                    ho_TModelProdObject.Dispose();
+                    HOperatorSet.AffineTransRegion(ho_ModelProdObject, out ho_TModelProdObject,
+                        hv_HomMat2D, "nearest_neighbor");
+                    ho_RegionDifference.Dispose();
+                    HOperatorSet.Difference(ho_TModelProdObject, ho_ProdObject, out ho_RegionDifference
+                        );
+                    ho_RegionDifference1.Dispose();
+                    HOperatorSet.Difference(ho_ProdObject, ho_TModelProdObject, out ho_RegionDifference1
+                        );
+                    ho_ObjectsConcat.Dispose();
+                    HOperatorSet.ConcatObj(ho_RegionDifference, ho_RegionDifference1, out ho_ObjectsConcat
+                        );
+                    ho_RegionUnion.Dispose();
+                    HOperatorSet.Union1(ho_ObjectsConcat, out ho_RegionUnion);
+                    ho_RegionOpening.Dispose();
+                    HOperatorSet.OpeningCircle(ho_RegionUnion, out ho_RegionOpening, 10.5);
+                    //需要里面去除白色部分
+                    ho_ImageReduced1.Dispose();
+                    HOperatorSet.ReduceDomain(ho_GrayImage, ho_RegionOpening, out ho_ImageReduced1
+                        );
+                    ho_Region2.Dispose();
+                    HOperatorSet.Threshold(ho_ImageReduced1, out ho_Region2, 0, hv_DarkThrMin);
+                    ho_RegionClosing2.Dispose();
+                    HOperatorSet.ClosingCircle(ho_Region2, out ho_RegionClosing2, 5.5);
+                    ho_RegionFillUp.Dispose();
+                    HOperatorSet.FillUp(ho_RegionClosing2, out ho_RegionFillUp);
+                    ho_RegionOpening3.Dispose();
+                    HOperatorSet.OpeningCircle(ho_RegionFillUp, out ho_RegionOpening3, 5.5);
+                    ho_BengQueRegions1.Dispose();
+                    HOperatorSet.SelectShape(ho_RegionOpening3, out ho_BengQueRegions1, "area",
+                        "and", hv_BenQueAreaMin, 99999999);
+                    ho_RegionTrans1.Dispose();
+                    HOperatorSet.ShapeTrans(ho_BengQueRegions1, out ho_RegionTrans1, "rectangle2");
+                    ho_BengQueRegions.Dispose();
+                    HOperatorSet.SelectShape(ho_BengQueRegions1, out ho_BengQueRegions, (new HTuple("rect2_len1")).TupleConcat(
+                        "rect2_len2"), "and", hv_BQwidth.TupleConcat(hv_BQheight), (new HTuple(99999)).TupleConcat(
+                        99999));
+
+                    //拟合的矩形区域内是否有黑色或者高亮缺陷
+                    ho_RegionTrans.Dispose();
+                    HOperatorSet.ShapeTrans(ho_ProdObject, out ho_RegionTrans, "rectangle2");
+                    ho_RegionErosion.Dispose();
+                    HOperatorSet.ErosionRectangle1(ho_RegionTrans, out ho_RegionErosion, 20,
+                        20);
+                    ho_ImageReduced.Dispose();
+                    HOperatorSet.ReduceDomain(ho_GrayImage, ho_RegionErosion, out ho_ImageReduced
+                        );
+                    ho_ImageSMedian.Dispose();
+                    HOperatorSet.MedianSeparate(ho_ImageReduced, out ho_ImageSMedian, 10, 10,
+                        "mirrored");
+                    ho_Region.Dispose();
+                    HOperatorSet.FastThreshold(ho_ImageSMedian, out ho_Region, 0, hv_DarkThrMin,
+                        100);
+                    ho_RegionHysteresis.Dispose();
+                    HOperatorSet.HysteresisThreshold(ho_ImageSMedian, out ho_RegionHysteresis,
+                        hv_LightThrMax - 40, hv_LightThrMax, 100);
+                    ho_ObjectsConcat1.Dispose();
+                    HOperatorSet.ConcatObj(ho_Region, ho_RegionHysteresis, out ho_ObjectsConcat1
+                        );
+                    ho_RegionUnion1.Dispose();
+                    HOperatorSet.Union1(ho_ObjectsConcat1, out ho_RegionUnion1);
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingCircle(ho_RegionUnion1, out ho_RegionClosing, 13.5);
+                    ho_RegionOpening1.Dispose();
+                    HOperatorSet.OpeningCircle(ho_RegionClosing, out ho_RegionOpening1, 5.5);
+                    ho_ConnectedRegions1.Dispose();
+                    HOperatorSet.Connection(ho_RegionOpening1, out ho_ConnectedRegions1);
+                    ho_ZangWuRegions.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions1, out ho_ZangWuRegions, "area",
+                        "and", hv_ZangWuAreaMin, 9999999999);
+                    //两端颜色不均匀
+                    ho_ImageMedian.Dispose();
+                    HOperatorSet.MedianImage(ho_ImageSMedian, out ho_ImageMedian, "circle", 10,
+                        "mirrored");
+                    HOperatorSet.GrayHisto(ho_ImageMedian, ho_ImageMedian, out hv_AbsoluteHisto,
+                        out hv_RelativeHisto);
+                    HOperatorSet.HistoToThresh(hv_AbsoluteHisto, 5, out hv_MinThresh, out hv_MaxThresh);
+                    ho_Region1.Dispose();
+                    HOperatorSet.Threshold(ho_ImageMedian, out ho_Region1, hv_MinThresh, hv_MaxThresh);
+                    ho_RegionClosing1.Dispose();
+                    HOperatorSet.ClosingCircle(ho_Region1, out ho_RegionClosing1, 13.5);
+                    ho_RegionOpening2.Dispose();
+                    HOperatorSet.OpeningRectangle1(ho_RegionClosing1, out ho_RegionOpening2,
+                        30, 30);
+                    ho_SelectedRegions.Dispose();
+                    HOperatorSet.SelectShape(ho_RegionOpening2, out ho_SelectedRegions, "area",
+                        "and", 50000, 9999999999);
+                    HOperatorSet.CountObj(ho_SelectedRegions, out hv_Number);
+                    if ((int)(new HTuple(hv_Number.TupleGreater(1))) != 0)
+                    {
+                        ho_SeChaRegions.Dispose();
+                        HOperatorSet.CopyObj(ho_SelectedRegions, out ho_SeChaRegions, 1, 2);
+                    }
+                    else
+                    {
+                        ho_SeChaRegions.Dispose();
+                        HOperatorSet.GenEmptyObj(out ho_SeChaRegions);
+                    }
+
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+
+                }
+                ho_GrayImage.Dispose();
+                ho_TModelProdObject.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_RegionDifference1.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ImageReduced1.Dispose();
+                ho_Region2.Dispose();
+                ho_RegionClosing2.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening3.Dispose();
+                ho_BengQueRegions1.Dispose();
+                ho_RegionTrans1.Dispose();
+                ho_RegionTrans.Dispose();
+                ho_RegionErosion.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_ImageSMedian.Dispose();
+                ho_Region.Dispose();
+                ho_RegionHysteresis.Dispose();
+                ho_ObjectsConcat1.Dispose();
+                ho_RegionUnion1.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionOpening1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_ImageMedian.Dispose();
+                ho_Region1.Dispose();
+                ho_RegionClosing1.Dispose();
+                ho_RegionOpening2.Dispose();
+                ho_SelectedRegions.Dispose();
+
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_GrayImage.Dispose();
+                ho_TModelProdObject.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_RegionDifference1.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ImageReduced1.Dispose();
+                ho_Region2.Dispose();
+                ho_RegionClosing2.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening3.Dispose();
+                ho_BengQueRegions1.Dispose();
+                ho_RegionTrans1.Dispose();
+                ho_RegionTrans.Dispose();
+                ho_RegionErosion.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_ImageSMedian.Dispose();
+                ho_Region.Dispose();
+                ho_RegionHysteresis.Dispose();
+                ho_ObjectsConcat1.Dispose();
+                ho_RegionUnion1.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionOpening1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_ImageMedian.Dispose();
+                ho_Region1.Dispose();
+                ho_RegionClosing1.Dispose();
+                ho_RegionOpening2.Dispose();
+                ho_SelectedRegions.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+
+        public void GetProdRegion(HObject ho_Image, HObject ho_Rectangle, out HObject ho_ProdObject,
+                                 HTuple hv_DynThr, HTuple hv_HysThrMin, HTuple hv_HysThrMax, out HTuple hv_ProdRegionPosRCA,
+                                 out HTuple hv_IsProd, out HTuple hv_Exception)
+        {
+            // Local iconic variables 
+
+            HObject ho_GrayImage = null, ho_ImageReduced = null;
+            HObject ho_ImageMean = null, ho_RegionDynThresh = null, ho_ImageMedian = null;
+            HObject ho_ImageMean1 = null, ho_RegionHysteresis = null, ho_ObjectsConcat = null;
+            HObject ho_RegionUnion = null, ho_RegionFillUp = null, ho_RegionClosing = null;
+            HObject ho_RegionFillUp1 = null, ho_RegionOpening = null, ho_ConnectedRegions = null;
+            HObject ho_SelectedRegions = null, ho_Rectangle1 = null;
+
+            // Local control variables 
+
+            HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+            HTuple hv_Phi = new HTuple(), hv_Length1 = new HTuple();
+            HTuple hv_Length2 = new HTuple(), hv_ProdWidth = new HTuple();
+            HTuple hv_ProdHeight = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_ProdObject);
+            HOperatorSet.GenEmptyObj(out ho_GrayImage);
+            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+            HOperatorSet.GenEmptyObj(out ho_ImageMean);
+            HOperatorSet.GenEmptyObj(out ho_RegionDynThresh);
+            HOperatorSet.GenEmptyObj(out ho_ImageMedian);
+            HOperatorSet.GenEmptyObj(out ho_ImageMean1);
+            HOperatorSet.GenEmptyObj(out ho_RegionHysteresis);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp1);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_Rectangle1);
+            hv_ProdRegionPosRCA = new HTuple();
+            hv_IsProd = new HTuple();
+            try
+            {
+                try
+                {
+                    ho_ProdObject = null;
+                    hv_ProdRegionPosRCA = null;
+                    hv_IsProd = null;
+                    hv_Exception = null;
+                    //ho_ProdObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_ProdObject);
+                    ho_GrayImage.Dispose();
+                    HOperatorSet.Rgb1ToGray(ho_Image, out ho_GrayImage);
+                    ho_ImageReduced.Dispose();
+                    HOperatorSet.ReduceDomain(ho_GrayImage, ho_Rectangle, out ho_ImageReduced
+                        );
+                    ho_ImageMean.Dispose();
+                    HOperatorSet.MeanImage(ho_ImageReduced, out ho_ImageMean, 200, 200);
+                    ho_RegionDynThresh.Dispose();
+                    HOperatorSet.DynThreshold(ho_ImageReduced, ho_ImageMean, out ho_RegionDynThresh,
+                        hv_DynThr, "light");
+
+                    ho_ImageMedian.Dispose();
+                    HOperatorSet.MedianRect(ho_ImageReduced, out ho_ImageMedian, 15, 15);
+                    ho_ImageMean1.Dispose();
+                    HOperatorSet.MeanImage(ho_ImageMedian, out ho_ImageMean1, 9, 9);
+                    ho_RegionHysteresis.Dispose();
+                    HOperatorSet.HysteresisThreshold(ho_ImageMean1, out ho_RegionHysteresis,
+                        hv_HysThrMin, hv_HysThrMax, 200);
+
+                    ho_ObjectsConcat.Dispose();
+                    HOperatorSet.ConcatObj(ho_RegionHysteresis, ho_RegionDynThresh, out ho_ObjectsConcat
+                        );
+                    ho_RegionUnion.Dispose();
+                    HOperatorSet.Union1(ho_ObjectsConcat, out ho_RegionUnion);
+                    ho_RegionFillUp.Dispose();
+                    HOperatorSet.FillUp(ho_RegionUnion, out ho_RegionFillUp);
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingRectangle1(ho_RegionFillUp, out ho_RegionClosing, 10,
+                        10);
+                    ho_RegionFillUp1.Dispose();
+                    HOperatorSet.FillUp(ho_RegionClosing, out ho_RegionFillUp1);
+                    ho_RegionOpening.Dispose();
+                    HOperatorSet.OpeningRectangle1(ho_RegionFillUp1, out ho_RegionOpening, 50,
+                        50);
+                    ho_ConnectedRegions.Dispose();
+                    HOperatorSet.Connection(ho_RegionOpening, out ho_ConnectedRegions);
+                    ho_SelectedRegions.Dispose();
+                    HOperatorSet.SelectShapeStd(ho_ConnectedRegions, out ho_SelectedRegions,
+                        "max_area", 70);
+                    HOperatorSet.SmallestRectangle2(ho_SelectedRegions, out hv_Row, out hv_Column,
+                        out hv_Phi, out hv_Length1, out hv_Length2);
+                    ho_Rectangle1.Dispose();
+                    HOperatorSet.GenRectangle2(out ho_Rectangle1, hv_Row, hv_Column, hv_Phi,
+                        hv_Length1, hv_Length2);
+                    //判断产品长度
+                    hv_ProdWidth = 2 * hv_Length1;
+                    hv_ProdHeight = 2 * hv_Length2;
+                    if ((int)((new HTuple((new HTuple((new HTuple(hv_ProdWidth.TupleGreater(3000))).TupleAnd(
+                        new HTuple(hv_ProdWidth.TupleLess(5000))))).TupleAnd(new HTuple(hv_ProdHeight.TupleGreater(
+                        250))))).TupleAnd(new HTuple(hv_ProdHeight.TupleLess(450)))) != 0)
+                    {
+                        ho_ProdObject.Dispose();
+                        HOperatorSet.CopyObj(ho_SelectedRegions, out ho_ProdObject, 1, 1);
+                        hv_ProdRegionPosRCA = new HTuple();
+                        hv_ProdRegionPosRCA = hv_ProdRegionPosRCA.TupleConcat(hv_Row);
+                        hv_ProdRegionPosRCA = hv_ProdRegionPosRCA.TupleConcat(hv_Column);
+                        hv_ProdRegionPosRCA = hv_ProdRegionPosRCA.TupleConcat(hv_Phi);
+                        hv_IsProd = 1;
+                    }
+                    else if ((int)((new HTuple((new HTuple(hv_ProdWidth.TupleGreater(
+                        3000))).TupleAnd(new HTuple(hv_ProdWidth.TupleLess(5000))))).TupleAnd(
+                        new HTuple(hv_ProdHeight.TupleGreater(400)))) != 0)
+                    {
+                        ho_ProdObject.Dispose();
+                        HOperatorSet.GenEmptyObj(out ho_ProdObject);
+                        hv_ProdRegionPosRCA = new HTuple();
+                        hv_IsProd = 2;
+                    }
+                    else
+                    {
+                        ho_ProdObject.Dispose();
+                        HOperatorSet.GenEmptyObj(out ho_ProdObject);
+                        hv_ProdRegionPosRCA = new HTuple();
+                        hv_IsProd = 0;
+                    }
+
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+
+                }
+                ho_GrayImage.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_ImageMean.Dispose();
+                ho_RegionDynThresh.Dispose();
+                ho_ImageMedian.Dispose();
+                ho_ImageMean1.Dispose();
+                ho_RegionHysteresis.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp1.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_Rectangle1.Dispose();
+
+
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_GrayImage.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_ImageMean.Dispose();
+                ho_RegionDynThresh.Dispose();
+                ho_ImageMedian.Dispose();
+                ho_ImageMean1.Dispose();
+                ho_RegionHysteresis.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp1.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_Rectangle1.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+
+        public void NFaceCheck(HObject ho_Image, HObject ho_NModelRegion, out HObject ho_SubBenQueObject,
+                                out HObject ho_CeXiObject, out HObject ho_LieWenObject, out HObject ho_BigDarkObject,
+                                HTuple hv_NModelPos, HTuple hv_MaskMean, HTuple hv_DynThreshold, HTuple hv_CloseWidth,
+                                HTuple hv_CloseHeight, HTuple hv_BQAreaMin, HTuple hv_BQWidthHeight, HTuple hv_DiffValue,
+                                HTuple hv_LieWenNum, HTuple hv_stdWH, HTuple hv_HysthrMin, HTuple hv_HysthrMax,
+                                HTuple hv_DustAreaMin, HTuple hv_DustWidth, HTuple hv_DustHeight, out HTuple hv_IsProd,
+                                out HTuple hv_Error)
+        {
+            // Local iconic variables 
+
+            HObject ho_GrayImage = null, ho_Image1 = null;
+            HObject ho_Image2 = null, ho_Image3 = null, ho_ImageResult1 = null;
+            HObject ho_ImageResult2 = null, ho_ImageResult3 = null, ho_RegionAffineTrans = null;
+
+            // Local control variables 
+
+            HTuple hv_Exception = null;
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_SubBenQueObject);
+            HOperatorSet.GenEmptyObj(out ho_CeXiObject);
+            HOperatorSet.GenEmptyObj(out ho_LieWenObject);
+            HOperatorSet.GenEmptyObj(out ho_BigDarkObject);
+            HOperatorSet.GenEmptyObj(out ho_GrayImage);
+            HOperatorSet.GenEmptyObj(out ho_Image1);
+            HOperatorSet.GenEmptyObj(out ho_Image2);
+            HOperatorSet.GenEmptyObj(out ho_Image3);
+            HOperatorSet.GenEmptyObj(out ho_ImageResult1);
+            HOperatorSet.GenEmptyObj(out ho_ImageResult2);
+            HOperatorSet.GenEmptyObj(out ho_ImageResult3);
+            HOperatorSet.GenEmptyObj(out ho_RegionAffineTrans);
+            hv_IsProd = new HTuple();
+            hv_Error = new HTuple();
+            try
+            {
+                try
+                {
+                    ho_GrayImage.Dispose();
+                    HOperatorSet.Rgb1ToGray(ho_Image, out ho_GrayImage);
+                    ho_Image1.Dispose(); ho_Image2.Dispose(); ho_Image3.Dispose();
+                    HOperatorSet.Decompose3(ho_Image, out ho_Image1, out ho_Image2, out ho_Image3
+                        );
+                    ho_ImageResult1.Dispose(); ho_ImageResult2.Dispose(); ho_ImageResult3.Dispose();
+                    HOperatorSet.TransFromRgb(ho_Image1, ho_Image2, ho_Image3, out ho_ImageResult1,
+                        out ho_ImageResult2, out ho_ImageResult3, "hsi");
+
+                    //********************崩缺断料、侧吸产品 检测*********************
+                    ho_SubBenQueObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_SubBenQueObject);
+                    ho_CeXiObject.Dispose(); ho_SubBenQueObject.Dispose(); ho_RegionAffineTrans.Dispose();
+                    CheckNBengQue_COPY_1(ho_GrayImage, ho_NModelRegion, out ho_CeXiObject, out ho_SubBenQueObject,
+                        out ho_RegionAffineTrans, hv_MaskMean, hv_DynThreshold, hv_CloseWidth,
+                        hv_CloseHeight, hv_NModelPos, hv_BQAreaMin, hv_BQWidthHeight, out hv_IsProd,
+                        out hv_Exception);
+
+                    //********************裂纹检测************************* 观象智能
+
+                    ho_LieWenObject.Dispose();
+                    CheckLieWen(ho_GrayImage, out ho_LieWenObject, hv_DiffValue, hv_HysthrMin,
+                        hv_HysthrMax, hv_stdWH, hv_LieWenNum, out hv_Exception);
+                    //********************产品区域大缺陷*************************
+
+                    ho_BigDarkObject.Dispose();
+                    DarkRegionCheck(ho_GrayImage, out ho_BigDarkObject, hv_DustAreaMin, hv_DustWidth,
+                        hv_DustHeight, out hv_Exception);
+                    hv_Error = 0;
+
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                    hv_Error = 1;
+
+                }
+                ho_GrayImage.Dispose();
+                ho_Image1.Dispose();
+                ho_Image2.Dispose();
+                ho_Image3.Dispose();
+                ho_ImageResult1.Dispose();
+                ho_ImageResult2.Dispose();
+                ho_ImageResult3.Dispose();
+                ho_RegionAffineTrans.Dispose();
+
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_GrayImage.Dispose();
+                ho_Image1.Dispose();
+                ho_Image2.Dispose();
+                ho_Image3.Dispose();
+                ho_ImageResult1.Dispose();
+                ho_ImageResult2.Dispose();
+                ho_ImageResult3.Dispose();
+                ho_RegionAffineTrans.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+         
+        public void CheckNBengQue_COPY_1(HObject ho_GrayImage, HObject ho_NModelRegion,
+                                out HObject ho_CeXiObject, out HObject ho_SubBenQueObject, out HObject ho_RegionAffineTrans,
+                                HTuple hv_MaskMean, HTuple hv_DynThreshold, HTuple hv_CloseWidth, HTuple hv_CloseHeight,
+                                HTuple hv_NModelPos, HTuple hv_BQAreaMin, HTuple hv_BQWidthHeight, out HTuple hv_IsProd,
+                                out HTuple hv_Exception)
+        {
+
+
+
+
+            // Local iconic variables 
+
+            HObject ho_ImageClosing = null, ho_ImageMean = null;
+            HObject ho_RegionDynThresh = null, ho_RegionClosing = null;
+            HObject ho_RegionFillUp = null, ho_RegionOpening = null, ho_ConnectedRegions = null;
+            HObject ho_SelectedRegions = null, ho_RegionTrans = null, ho_RegionDifference2 = null;
+            HObject ho_RegionOpening2 = null, ho_ConnectedRegions2 = null;
+            HObject ho_SelectedRegions1 = null, ho_Rectangle = null, ho_RegionDifference = null;
+            HObject ho_RegionDifference1 = null, ho_ObjectsConcat = null;
+            HObject ho_ObjectsConcat1 = null, ho_RegionUnion = null, ho_RegionOpening1 = null;
+            HObject ho_ConnectedRegions1 = null;
+
+            // Local control variables 
+
+            HTuple hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
+            HTuple hv_Phi1 = new HTuple(), hv_Length11 = new HTuple();
+            HTuple hv_Length21 = new HTuple(), hv_Length = new HTuple();
+            HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+            HTuple hv_Phi = new HTuple(), hv_Length1 = new HTuple();
+            HTuple hv_Length2 = new HTuple(), hv_HomMat2D = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_CeXiObject);
+            HOperatorSet.GenEmptyObj(out ho_SubBenQueObject);
+            HOperatorSet.GenEmptyObj(out ho_RegionAffineTrans);
+            HOperatorSet.GenEmptyObj(out ho_ImageClosing);
+            HOperatorSet.GenEmptyObj(out ho_ImageMean);
+            HOperatorSet.GenEmptyObj(out ho_RegionDynThresh);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_RegionTrans);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference2);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening2);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions2);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_Rectangle);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference1);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat);
+            HOperatorSet.GenEmptyObj(out ho_ObjectsConcat1);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening1);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions1);
+            hv_IsProd = new HTuple();
+            hv_Exception = new HTuple();
+            try
+            {
+                try
+                {
+                    hv_IsProd = 1;
+                    ho_CeXiObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_CeXiObject);
+                    ho_SubBenQueObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_SubBenQueObject);
+                    ho_ImageClosing.Dispose();
+                    HOperatorSet.GrayClosingRect(ho_GrayImage, out ho_ImageClosing, 20, 20);
+                    ho_ImageMean.Dispose();
+                    HOperatorSet.MeanImage(ho_ImageClosing, out ho_ImageMean, hv_MaskMean, hv_MaskMean);
+                    ho_RegionDynThresh.Dispose();
+                    HOperatorSet.DynThreshold(ho_ImageClosing, ho_ImageMean, out ho_RegionDynThresh,
+                        hv_DynThreshold, "light");
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingRectangle1(ho_RegionDynThresh, out ho_RegionClosing,
+                        hv_CloseWidth, hv_CloseHeight);
+                    ho_RegionFillUp.Dispose();
+                    HOperatorSet.FillUp(ho_RegionClosing, out ho_RegionFillUp);
+                    ho_RegionOpening.Dispose();
+                    HOperatorSet.OpeningRectangle1(ho_RegionFillUp, out ho_RegionOpening, 50,
+                        50);
+                    ho_ConnectedRegions.Dispose();
+                    HOperatorSet.Connection(ho_RegionOpening, out ho_ConnectedRegions);
+                    ho_SelectedRegions.Dispose();
+                    HOperatorSet.SelectShapeStd(ho_ConnectedRegions, out ho_SelectedRegions,
+                        "max_area", 70);
+                    //判断是否有吸上产品
+                    ho_RegionTrans.Dispose();
+                    HOperatorSet.ShapeTrans(ho_SelectedRegions, out ho_RegionTrans, "convex");
+                    //拟合矩形与实际产品区域的差异
+                    ho_RegionDifference2.Dispose();
+                    HOperatorSet.Difference(ho_RegionTrans, ho_SelectedRegions, out ho_RegionDifference2
+                        );
+                    ho_RegionOpening2.Dispose();
+                    HOperatorSet.OpeningCircle(ho_RegionDifference2, out ho_RegionOpening2, 10.5);
+                    ho_ConnectedRegions2.Dispose();
+                    HOperatorSet.Connection(ho_RegionOpening2, out ho_ConnectedRegions2);
+                    ho_SelectedRegions1.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions2, out ho_SelectedRegions1, "area",
+                        "and", 20000, 9999999999999);
+
+                    HOperatorSet.SmallestRectangle2(ho_RegionTrans, out hv_Row1, out hv_Column1,
+                        out hv_Phi1, out hv_Length11, out hv_Length21);
+                    HOperatorSet.TupleLength(hv_Length11, out hv_Length);
+                    if ((int)(new HTuple(hv_Length.TupleGreater(0))) != 0)
+                    {
+                        if ((int)((new HTuple(hv_Length11.TupleLess(500))).TupleAnd(new HTuple(hv_Length21.TupleLess(
+                            50)))) != 0)
+                        {
+                            //没有物料
+                            hv_IsProd = 0;
+                            ho_ImageClosing.Dispose();
+                            ho_ImageMean.Dispose();
+                            ho_RegionDynThresh.Dispose();
+                            ho_RegionClosing.Dispose();
+                            ho_RegionFillUp.Dispose();
+                            ho_RegionOpening.Dispose();
+                            ho_ConnectedRegions.Dispose();
+                            ho_SelectedRegions.Dispose();
+                            ho_RegionTrans.Dispose();
+                            ho_RegionDifference2.Dispose();
+                            ho_RegionOpening2.Dispose();
+                            ho_ConnectedRegions2.Dispose();
+                            ho_SelectedRegions1.Dispose();
+                            ho_Rectangle.Dispose();
+                            ho_RegionDifference.Dispose();
+                            ho_RegionDifference1.Dispose();
+                            ho_ObjectsConcat.Dispose();
+                            ho_ObjectsConcat1.Dispose();
+                            ho_RegionUnion.Dispose();
+                            ho_RegionOpening1.Dispose();
+                            ho_ConnectedRegions1.Dispose();
+
+                            return;
+                        }
+
+                    }
+
+
+                    HOperatorSet.SmallestRectangle2(ho_SelectedRegions, out hv_Row, out hv_Column,
+                        out hv_Phi, out hv_Length1, out hv_Length2);
+                    ho_Rectangle.Dispose();
+                    HOperatorSet.GenRectangle2(out ho_Rectangle, hv_Row, hv_Column, hv_Phi, hv_Length1,
+                        hv_Length2);
+                    //判断是否侧吸，是侧吸需要人工介入。
+                    if ((int)(new HTuple(hv_Length2.TupleLess(90))) != 0)
+                    {
+                        ho_CeXiObject.Dispose();
+                        HOperatorSet.GenRectangle2(out ho_CeXiObject, hv_Row, hv_Column, hv_Phi,
+                            hv_Length1, hv_Length2);
+                    }
+                    else
+                    {
+                        ho_CeXiObject.Dispose();
+                        HOperatorSet.GenEmptyObj(out ho_CeXiObject);
+                    }
+
+                    HOperatorSet.VectorAngleToRigid(hv_NModelPos.TupleSelect(0), hv_NModelPos.TupleSelect(
+                        1), hv_NModelPos.TupleSelect(2), hv_Row, hv_Column, hv_Phi, out hv_HomMat2D);
+                    ho_RegionAffineTrans.Dispose();
+                    HOperatorSet.AffineTransRegion(ho_NModelRegion, out ho_RegionAffineTrans,
+                        hv_HomMat2D, "nearest_neighbor");
+                    //SUB缺陷检测
+                    ho_RegionDifference.Dispose();
+                    HOperatorSet.Difference(ho_RegionAffineTrans, ho_Rectangle, out ho_RegionDifference
+                        );
+                    ho_RegionDifference1.Dispose();
+                    HOperatorSet.Difference(ho_Rectangle, ho_RegionAffineTrans, out ho_RegionDifference1
+                        );
+                    ho_ObjectsConcat.Dispose();
+                    HOperatorSet.ConcatObj(ho_RegionDifference, ho_RegionDifference1, out ho_ObjectsConcat
+                        );
+                    ho_ObjectsConcat1.Dispose();
+                    HOperatorSet.ConcatObj(ho_ObjectsConcat, ho_SelectedRegions1, out ho_ObjectsConcat1
+                        );
+
+                    ho_RegionUnion.Dispose();
+                    HOperatorSet.Union1(ho_ObjectsConcat1, out ho_RegionUnion);
+                    ho_RegionOpening1.Dispose();
+                    HOperatorSet.OpeningCircle(ho_RegionUnion, out ho_RegionOpening1, 10.5);
+                    ho_ConnectedRegions1.Dispose();
+                    HOperatorSet.Connection(ho_RegionOpening1, out ho_ConnectedRegions1);
+                    ho_SubBenQueObject.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions1, out ho_SubBenQueObject, ((new HTuple("area")).TupleConcat(
+                        "width")).TupleConcat("height"), "and", ((hv_BQAreaMin.TupleConcat(hv_BQWidthHeight))).TupleConcat(
+                        hv_BQWidthHeight), ((new HTuple(999999999)).TupleConcat(99999)).TupleConcat(
+                        99999));
+
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+
+                }
+                ho_ImageClosing.Dispose();
+                ho_ImageMean.Dispose();
+                ho_RegionDynThresh.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_RegionTrans.Dispose();
+                ho_RegionDifference2.Dispose();
+                ho_RegionOpening2.Dispose();
+                ho_ConnectedRegions2.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_Rectangle.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_RegionDifference1.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_ObjectsConcat1.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionOpening1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_ImageClosing.Dispose();
+                ho_ImageMean.Dispose();
+                ho_RegionDynThresh.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_RegionTrans.Dispose();
+                ho_RegionDifference2.Dispose();
+                ho_RegionOpening2.Dispose();
+                ho_ConnectedRegions2.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_Rectangle.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_RegionDifference1.Dispose();
+                ho_ObjectsConcat.Dispose();
+                ho_ObjectsConcat1.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionOpening1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+        public void CheckLieWen(HObject ho_GrayImage, out HObject ho_LieWenObject, HTuple hv_DiffValue,
+                                HTuple hv_HysthrMin, HTuple hv_HysthrMax, HTuple hv_stdWH, HTuple hv_LieWenNum,
+                                out HTuple hv_Exception)
+        {
+            // Stack for temporary objects 
+            HObject[] OTemp = new HObject[20];
+
+            // Local iconic variables 
+
+            HObject ho_RegionHysteresis = null, ho_ConnectedRegions = null;
+            HObject ho_SelectedRegions1 = null, ho_RegionUnion = null, ho_RegionClosing = null;
+            HObject ho_RegionFillUp = null, ho_RegionOpening = null, ho_SelectedRegions = null;
+            HObject ho_Partitioned = null, ho_SelectedRegions2 = null, ho_RegionErosion = null;
+            HObject ho_ImageTexture = null, ho_ImageTexture1 = null, ho_ImageResult = null;
+            HObject ho_ImageReduced = null, ho_XiLieWenObj = null, ho_ImageClosing = null;
+            HObject ho_Partitioned1 = null, ho_RegionErosion1 = null;
+
+            // Local control variables 
+
+            HTuple hv_Value = new HTuple(), hv_Max = new HTuple();
+            HTuple hv_Min = new HTuple(), hv_DeltaValue = new HTuple();
+            HTuple hv_Value1 = new HTuple(), hv_Min1 = new HTuple();
+            HTuple hv_Max1 = new HTuple(), hv_DeltaLiangDuan = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_LieWenObject);
+            HOperatorSet.GenEmptyObj(out ho_RegionHysteresis);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+            HOperatorSet.GenEmptyObj(out ho_RegionOpening);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_Partitioned);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions2);
+            HOperatorSet.GenEmptyObj(out ho_RegionErosion);
+            HOperatorSet.GenEmptyObj(out ho_ImageTexture);
+            HOperatorSet.GenEmptyObj(out ho_ImageTexture1);
+            HOperatorSet.GenEmptyObj(out ho_ImageResult);
+            HOperatorSet.GenEmptyObj(out ho_ImageReduced);
+            HOperatorSet.GenEmptyObj(out ho_XiLieWenObj);
+            HOperatorSet.GenEmptyObj(out ho_ImageClosing);
+            HOperatorSet.GenEmptyObj(out ho_Partitioned1);
+            HOperatorSet.GenEmptyObj(out ho_RegionErosion1);
+            try
+            {
+                try
+                {
+                    //两端灰度差异大不均匀，判断是裂纹
+                    ho_LieWenObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_LieWenObject);
+                    ho_RegionHysteresis.Dispose();
+                    HOperatorSet.HysteresisThreshold(ho_GrayImage, out ho_RegionHysteresis, 60,
+                        100, 100);
+                    ho_ConnectedRegions.Dispose();
+                    HOperatorSet.Connection(ho_RegionHysteresis, out ho_ConnectedRegions);
+                    ho_SelectedRegions1.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions, out ho_SelectedRegions1, "area",
+                        "and", 5000, 999999999);
+                    ho_RegionUnion.Dispose();
+                    HOperatorSet.Union1(ho_SelectedRegions1, out ho_RegionUnion);
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingRectangle1(ho_RegionUnion, out ho_RegionClosing, 100,
+                        100);
+                    ho_RegionFillUp.Dispose();
+                    HOperatorSet.FillUp(ho_RegionClosing, out ho_RegionFillUp);
+                    ho_RegionOpening.Dispose();
+                    HOperatorSet.OpeningRectangle1(ho_RegionFillUp, out ho_RegionOpening, 100,
+                        100);
+                    ho_SelectedRegions.Dispose();
+                    HOperatorSet.SelectShapeStd(ho_RegionOpening, out ho_SelectedRegions, "max_area",
+                        70);
+                    //判断区域里面的颜色是否均匀，如果不均匀为断裂
+                    ho_Partitioned.Dispose();
+                    HOperatorSet.PartitionRectangle(ho_SelectedRegions, out ho_Partitioned, 300,
+                        500);
+                    ho_SelectedRegions2.Dispose();
+                    HOperatorSet.SelectShape(ho_Partitioned, out ho_SelectedRegions2, "area",
+                        "and", 20000, 9999999);
+                    HOperatorSet.GrayFeatures(ho_SelectedRegions2, ho_GrayImage, "mean", out hv_Value);
+                    HOperatorSet.TupleMax(hv_Value, out hv_Max);
+                    HOperatorSet.TupleMin(hv_Value, out hv_Min);
+                    hv_DeltaValue = ((hv_Max - hv_Min)).TupleAbs();
+                    if ((int)(new HTuple(hv_DeltaValue.TupleGreater(hv_DiffValue))) != 0)
+                    {
+                        //是裂纹
+                        ho_LieWenObject.Dispose();
+                        HOperatorSet.CopyObj(ho_SelectedRegions, out ho_LieWenObject, 1, 1);
+                    }
+
+                    ho_RegionErosion.Dispose();
+                    HOperatorSet.ErosionRectangle1(ho_SelectedRegions, out ho_RegionErosion,
+                        50, 20);
+                    ho_ImageTexture.Dispose();
+                    HOperatorSet.TextureLaws(ho_GrayImage, out ho_ImageTexture, "el", 4, 5);
+                    ho_ImageTexture1.Dispose();
+                    HOperatorSet.TextureLaws(ho_GrayImage, out ho_ImageTexture1, "le", 4, 5);
+                    ho_ImageResult.Dispose();
+                    HOperatorSet.AddImage(ho_ImageTexture, ho_ImageTexture1, out ho_ImageResult,
+                        1, 0);
+
+                    ho_ImageReduced.Dispose();
+                    HOperatorSet.ReduceDomain(ho_ImageResult, ho_RegionErosion, out ho_ImageReduced
+                        );
+                    //细长裂纹检测
+                    ho_XiLieWenObj.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_XiLieWenObj);
+                    ho_XiLieWenObj.Dispose();
+                    CheckXiTiaoLieWen(ho_ImageReduced, out ho_XiLieWenObj, hv_HysthrMin, hv_HysthrMax,
+                        hv_stdWH, hv_LieWenNum, out hv_Exception);
+                    {
+                        if(ho_XiLieWenObj != null)
+                        {
+                            HObject ExpTmpOutVar_0;
+                            HOperatorSet.ConcatObj(ho_XiLieWenObj, ho_LieWenObject, out ExpTmpOutVar_0);
+                            ho_LieWenObject.Dispose();
+                            ho_LieWenObject = ExpTmpOutVar_0;
+                        }
+                        else
+                        {
+                            HOperatorSet.GenEmptyObj(out ho_XiLieWenObj);
+                        }
+                    }
+
+                    //产品左右不均匀特征为裂纹产生
+                    ho_ImageClosing.Dispose();
+                    HOperatorSet.GrayClosingRect(ho_ImageReduced, out ho_ImageClosing, 5, 5);
+                    ho_Partitioned1.Dispose();
+                    HOperatorSet.PartitionRectangle(ho_SelectedRegions, out ho_Partitioned1,
+                        1500, 500);
+                    ho_RegionErosion1.Dispose();
+                    HOperatorSet.ErosionRectangle1(ho_Partitioned1, out ho_RegionErosion1, 21,
+                        21);
+                    HOperatorSet.GrayFeatures(ho_RegionErosion1, ho_ImageClosing, "mean", out hv_Value1);
+                    HOperatorSet.TupleMin(hv_Value1, out hv_Min1);
+                    HOperatorSet.TupleMax(hv_Value1, out hv_Max1);
+                    hv_DeltaLiangDuan = hv_Max1 - hv_Min1;
+                    if ((int)(new HTuple(hv_DeltaLiangDuan.TupleGreater(20))) != 0)
+                    {
+                        {
+                            HObject ExpTmpOutVar_0;
+                            HOperatorSet.ConcatObj(ho_LieWenObject, ho_SelectedRegions, out ExpTmpOutVar_0
+                                );
+                            ho_LieWenObject.Dispose();
+                            ho_LieWenObject = ExpTmpOutVar_0;
+                        }
+                    }
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+                }
+                ho_RegionHysteresis.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_Partitioned.Dispose();
+                ho_SelectedRegions2.Dispose();
+                ho_RegionErosion.Dispose();
+                ho_ImageTexture.Dispose();
+                ho_ImageTexture1.Dispose();
+                ho_ImageResult.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_XiLieWenObj.Dispose();
+                ho_ImageClosing.Dispose();
+                ho_Partitioned1.Dispose();
+                ho_RegionErosion1.Dispose();
+
+                return;
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_RegionHysteresis.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_RegionUnion.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionOpening.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_Partitioned.Dispose();
+                ho_SelectedRegions2.Dispose();
+                ho_RegionErosion.Dispose();
+                ho_ImageTexture.Dispose();
+                ho_ImageTexture1.Dispose();
+                ho_ImageResult.Dispose();
+                ho_ImageReduced.Dispose();
+                ho_XiLieWenObj.Dispose();
+                ho_ImageClosing.Dispose();
+                ho_Partitioned1.Dispose();
+                ho_RegionErosion1.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+        public void CheckXiTiaoLieWen(HObject ho_ImageReduced, out HObject ho_LieWenObject,
+                                 HTuple hv_HysthrMin, HTuple hv_HysthrMax, HTuple hv_stdWH, HTuple hv_LieWenNum,
+                                 out HTuple hv_Exception)
+        {
+            // Local iconic variables 
+
+            HObject ho_RegionHysteresis1 = null, ho_RegionClosing = null;
+            HObject ho_RegionClosing1 = null, ho_ConnectedRegions1 = null;
+            HObject ho_SelectedRegions2 = null, ho_SampleLieWenObject = null;
+            HObject ho_Rectangle = null;
+
+            // Local control variables 
+
+            HTuple hv_Row = new HTuple(), hv_Column = new HTuple();
+            HTuple hv_Phi = new HTuple(), hv_Length1 = new HTuple();
+            HTuple hv_Length2 = new HTuple(), hv_Length = new HTuple();
+            HTuple hv_dWH = new HTuple(), hv_Greater = new HTuple();
+            HTuple hv_Sum = new HTuple(), hv_Indices = new HTuple();
+            HTuple hv_Number = new HTuple();
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_LieWenObject);
+            HOperatorSet.GenEmptyObj(out ho_RegionHysteresis1);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing1);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions2);
+            HOperatorSet.GenEmptyObj(out ho_SampleLieWenObject);
+            HOperatorSet.GenEmptyObj(out ho_Rectangle);
+            try
+            {
+                try
+                {
+                    ho_LieWenObject = null;
+                    hv_Exception = null;
+                    ho_RegionHysteresis1.Dispose();
+                    HOperatorSet.HysteresisThreshold(ho_ImageReduced, out ho_RegionHysteresis1,
+                        hv_HysthrMin, hv_HysthrMax, 500);
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingCircle(ho_RegionHysteresis1, out ho_RegionClosing, 5.5);
+                    ho_RegionClosing1.Dispose();
+                    HOperatorSet.ClosingRectangle1(ho_RegionClosing, out ho_RegionClosing1, 5,
+                        20);
+                    ho_ConnectedRegions1.Dispose();
+                    HOperatorSet.Connection(ho_RegionClosing1, out ho_ConnectedRegions1);
+                    ho_SelectedRegions2.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions1, out ho_SelectedRegions2, (((
+                        (new HTuple("area")).TupleConcat("width")).TupleConcat("height")).TupleConcat(
+                        "rect2_len2")).TupleConcat("rect2_len1"), "and", ((((new HTuple(50)).TupleConcat(
+                        5)).TupleConcat(5)).TupleConcat(5)).TupleConcat(100), ((((new HTuple(99999999)).TupleConcat(
+                        99999999)).TupleConcat(99999999)).TupleConcat(99999999)).TupleConcat(
+                        99999999));
+                    //根据长宽比判断
+                    ho_SampleLieWenObject.Dispose();
+                    HOperatorSet.GenEmptyObj(out ho_SampleLieWenObject);
+                    HOperatorSet.SmallestRectangle2(ho_SelectedRegions2, out hv_Row, out hv_Column,
+                        out hv_Phi, out hv_Length1, out hv_Length2);
+
+                    HOperatorSet.TupleLength(hv_Length1, out hv_Length);
+
+                    if ((int)(new HTuple(hv_Length.TupleGreater(0))) != 0)
+                    {
+                        ho_Rectangle.Dispose();
+                        HOperatorSet.GenRectangle2(out ho_Rectangle, hv_Row, hv_Column, hv_Phi, hv_Length1,
+                            hv_Length2);
+                        hv_dWH = (1.0 * hv_Length1) / hv_Length2;
+                        HOperatorSet.TupleGreaterElem(hv_dWH, hv_stdWH, out hv_Greater);
+                        HOperatorSet.TupleSum(hv_Greater, out hv_Sum);
+                        if ((int)(new HTuple(hv_Sum.TupleGreater(0))) != 0)
+                        {
+                            HOperatorSet.TupleFind(hv_Greater, 1, out hv_Indices);
+                            ho_SampleLieWenObject.Dispose();
+                            HOperatorSet.SelectObj(ho_SelectedRegions2, out ho_SampleLieWenObject,
+                                hv_Indices + 1);
+                        }
+                    }
+
+                    //如果纹理太多，不是断裂
+                    HOperatorSet.CountObj(ho_SampleLieWenObject, out hv_Number);
+                    if ((int)(new HTuple(hv_Number.TupleGreater(hv_LieWenNum))) != 0)
+                    {
+
+                    }
+                    else if ((int)(new HTuple(hv_Number.TupleEqual(0))) != 0)
+                    {
+
+                    }
+                    else
+                    {
+                        ho_LieWenObject.Dispose();
+                        HOperatorSet.CopyObj(ho_SampleLieWenObject, out ho_LieWenObject, 1, 5);
+                    }
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+
+                }
+                ho_RegionHysteresis1.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionClosing1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_SelectedRegions2.Dispose();
+                ho_SampleLieWenObject.Dispose();
+                ho_Rectangle.Dispose();
+
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_RegionHysteresis1.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_RegionClosing1.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_SelectedRegions2.Dispose();
+                ho_SampleLieWenObject.Dispose();
+                ho_Rectangle.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+        public void DarkRegionCheck(HObject ho_GrayImage, out HObject ho_BigDarkObject,
+                                 HTuple hv_DustAreaMin, HTuple hv_DustWidth, HTuple hv_DustHeight, out HTuple hv_Exception)
+        {
+            // Local iconic variables 
+
+            HObject ho_RegionHysteresis = null, ho_RegionFillUp = null;
+            HObject ho_RegionClosing = null, ho_ConnectedRegions1 = null;
+            HObject ho_SelectedRegions1 = null, ho_RegionDifference = null;
+            HObject ho_ConnectedRegions = null, ho_SelectedRegions = null;
+            HObject ho_RegionUnion = null;
+            // Initialize local and output iconic variables 
+            HOperatorSet.GenEmptyObj(out ho_BigDarkObject);
+            HOperatorSet.GenEmptyObj(out ho_RegionHysteresis);
+            HOperatorSet.GenEmptyObj(out ho_RegionFillUp);
+            HOperatorSet.GenEmptyObj(out ho_RegionClosing);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions1);
+            HOperatorSet.GenEmptyObj(out ho_RegionDifference);
+            HOperatorSet.GenEmptyObj(out ho_ConnectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_SelectedRegions);
+            HOperatorSet.GenEmptyObj(out ho_RegionUnion);
+            try
+            {
+                try
+                {
+                    ho_BigDarkObject = null;
+                    hv_Exception = null;
+                    HOperatorSet.GenEmptyObj(out ho_BigDarkObject);
+                    ho_RegionHysteresis.Dispose();
+                    HOperatorSet.HysteresisThreshold(ho_GrayImage, out ho_RegionHysteresis, 100,
+                        150, 100);
+                    ho_RegionFillUp.Dispose();
+                    HOperatorSet.FillUp(ho_RegionHysteresis, out ho_RegionFillUp);
+                    ho_RegionClosing.Dispose();
+                    HOperatorSet.ClosingRectangle1(ho_RegionFillUp, out ho_RegionClosing, 200,
+                        100);
+                    ho_ConnectedRegions1.Dispose();
+                    HOperatorSet.Connection(ho_RegionClosing, out ho_ConnectedRegions1);
+                    ho_SelectedRegions1.Dispose();
+                    HOperatorSet.SelectShapeStd(ho_ConnectedRegions1, out ho_SelectedRegions1,
+                        "max_area", 70);
+
+                    ho_RegionDifference.Dispose();
+                    HOperatorSet.Difference(ho_SelectedRegions1, ho_RegionHysteresis, out ho_RegionDifference
+                        );
+                    ho_ConnectedRegions.Dispose();
+                    HOperatorSet.Connection(ho_RegionDifference, out ho_ConnectedRegions);
+                    //筛选缺陷
+                    ho_SelectedRegions.Dispose();
+                    HOperatorSet.SelectShape(ho_ConnectedRegions, out ho_SelectedRegions, ((new HTuple("area")).TupleConcat(
+                        "width")).TupleConcat("height"), "and", (((new HTuple(1000)).TupleConcat(
+                        hv_DustWidth))).TupleConcat(hv_DustHeight), ((new HTuple(999999999)).TupleConcat(
+                        99999)).TupleConcat(99999));
+                    ho_RegionUnion.Dispose();
+                    HOperatorSet.Union1(ho_SelectedRegions, out ho_RegionUnion);
+                    ho_BigDarkObject.Dispose();
+                    HOperatorSet.SelectShape(ho_RegionUnion, out ho_BigDarkObject, "area", "and",
+                        hv_DustAreaMin, 99999999);
+                }
+                // catch (Exception) 
+                catch (HalconException HDevExpDefaultException1)
+                {
+                    HDevExpDefaultException1.ToHTuple(out hv_Exception);
+
+                }
+                ho_RegionHysteresis.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_RegionUnion.Dispose();
+
+            }
+            catch (HalconException HDevExpDefaultException)
+            {
+                ho_RegionHysteresis.Dispose();
+                ho_RegionFillUp.Dispose();
+                ho_RegionClosing.Dispose();
+                ho_ConnectedRegions1.Dispose();
+                ho_SelectedRegions1.Dispose();
+                ho_RegionDifference.Dispose();
+                ho_ConnectedRegions.Dispose();
+                ho_SelectedRegions.Dispose();
+                ho_RegionUnion.Dispose();
+
+                throw HDevExpDefaultException;
+            }
+        }
+
     }
 
 }

@@ -24,17 +24,29 @@ namespace ProcessController
         [Description("上料X移动到安全位置")]
         StepLoadXMoveSafePos,
 
+        [Description("吸膜破真空")]
+        StepSuckFilmOff,
+
+        [Description("顶升模组到安全位")]
+        StepUpMoveSafePos,
+
         [Description("移XYR动到接料盘位置")]
         StepXYRMoveGetTrayPos,
         
         [Description("取产品位气缸松开")]
-        StepGetCylinderUnClamp,
-        
+        StepGetCylinderUnClamp, 
+
+        [Description("检查Map表是否录入")]
+        StepCheckMap,
+
         [Description("等待员工上料完成")]
         StepWaitLoadDone,
 
         [Description("取产品位气缸夹紧")]
         StepGetCylinderClamp,
+
+        [Description("检测气缸夹紧到位")]
+        StepCheckClamp,
 
         [Description("XY移动到大视野拍照位置")]
         StepXYMoveBigCameraPos,
@@ -84,11 +96,14 @@ namespace ProcessController
         [Description("顶针下降")]
         StepThimbleDownPos,
 
-        [Description("上料模组Z移动N面拍照位")]
-        StepLoadZMoveNSnapPos,
+        [Description("上料模组Z移动到安全位置1")]
+        StepLoadZMoveSafePos_1,
 
         [Description("上料模组X移动N面拍照位")]
         StepLoadXMoveNSnapPos,
+
+        [Description("上料模组Z移动N面拍照位")]
+        StepLoadZMoveNSnapPos,
 
         [Description("N面拍照执行算法")]
         StepNSnap,
@@ -126,6 +141,9 @@ namespace ProcessController
 
         [Description("移动到下料安全位")]
         StepUnLoadXYMoveSafePos,
+
+        [Description("检测模组移动到上料位")]
+        StepCheckMoveLoadPos,
 
         [Description("等待DDR开始检测产品")]
         StepWaitReadyDDRCheck,
@@ -170,7 +188,10 @@ namespace ProcessController
         StepUnLoadZMoveLoadPos,
 
         [Description("下料吸嘴吸真空")]
-        StepUnLoadSuctionVaccum, 
+        StepUnLoadSuctionVaccum,
+
+        [Description("下料Z移动到下料安全位1")]
+        StepUnLoadZMoveSafePos1,
 
         [Description("下料模组移动到放料位")]
         StepUnLoadMovePutPos,
@@ -193,6 +214,12 @@ namespace ProcessController
         [Description("等待大视野相机拍完")]
         StepWaitBigDone,
 
+        [Description("吸膜破真空")]
+        StepSuckFilmOff,
+
+        [Description("顶升模组到安全位")]
+        StepMoveSuckSafePos,
+
         [Description("XYR移动小视野中心位置")]
         StepXYMoveSmallCenterPos,
 
@@ -204,21 +231,39 @@ namespace ProcessController
 
         [Description("吸蓝膜")]
         StepSuckFilm,
+         
+        [Description("小视野入料判断")]
+        StepSmallJudge,
+
+        [Description("XYR移动到Bar条判定位置")]
+        StepXYMoveBarJudgePos,
 
         [Description("小视野相机拍照推算Bar条号")]
         StepSmallCameraSnapBar,
 
-        [Description("XYR移动到拍照抓取位置")]
-        StepXYMoveSmallGetPos,
+        [Description("推算Bar条号重新移动位置")]
+        StepBarNGMovePos,
 
         [Description("等待上料取产品完成")]
         StepWaitLoadDone,
+
+        [Description("XYR移动到拍照抓取位置")]
+        StepXYMoveSmallGetPos,
+
+        [Description("小视野入料判断2")]
+        StepSmallJudge_2,
 
         [Description("小视野相机定位产品OCR")]
         StepSmallCameraSnapOCR, 
 
         [Description("XYR移动到顶针上方位置")]
         StepXYRMoveSuckPos,
+
+        [Description("小视野拍照检测缺陷")]
+        StepAlgorithmSmall,
+
+        [Description("小视野拍照取完判断")]
+        StepSmallGetDone,
 
     }
 

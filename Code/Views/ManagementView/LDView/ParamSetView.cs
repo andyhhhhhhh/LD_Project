@@ -69,7 +69,6 @@ namespace ManagementView
                 cosModel.IsShieldDoor = chkIsShieldDoor.Checked;
                 cosModel.IsShieldDownCamera = chkIsShieldDownCamera.Checked;
                 cosModel.IsShieldUnClasp = chkIsShieldUnClamp.Checked;
-                cosModel.IsShieldCylinderUp = chkIsShieldCylinderUp.Checked;
                 cosModel.IsShieldOCR = chkIsShieldOCR.Checked;
                 cosModel.IsShieldMes = chkIsShieldMes.Checked;
 
@@ -78,6 +77,8 @@ namespace ManagementView
                 cosModel.VacuumDelayTime = Int32.Parse(txtVacuumDelayTime.sText);
                 cosModel.AxisInPlaceTimeOut = Int32.Parse(txtAxisInPlaceTimeOut.sText);
                 cosModel.VacuumBreakDelay = Int32.Parse(txtVacuumBreakDelay.sText);
+                cosModel.UpVacuumBreakDelay = Int32.Parse(txtUpVacuumBreakDelay.sText);
+                cosModel.BuzzerTime = Int32.Parse(txtBuzzerTime.sText);
                 cosModel.OperatorID = txtOperatorID.sText;
                 cosModel.CylinderDelay = Int32.Parse(txtCylinderDelay.sText);
                 cosModel.AxisInPlaceDelay = Int32.Parse(txtAxisInPlaceDelay.sText);
@@ -108,7 +109,6 @@ namespace ManagementView
                 chkIsShieldDoor.Checked = ldModel.IsShieldDoor;
                 chkIsShieldDownCamera.Checked = ldModel.IsShieldDownCamera;
                 chkIsShieldUnClamp.Checked = ldModel.IsShieldUnClasp;
-                chkIsShieldCylinderUp.Checked = ldModel.IsShieldCylinderUp;
                 chkIsShieldOCR.Checked = ldModel.IsShieldOCR;
                 chkIsShieldMes.Checked = ldModel.IsShieldMes;
                 
@@ -117,6 +117,8 @@ namespace ManagementView
                 txtVacuumDelayTime.sText = ldModel.VacuumDelayTime.ToString();
                 txtAxisInPlaceTimeOut.sText = ldModel.AxisInPlaceTimeOut.ToString();
                 txtVacuumBreakDelay.sText = ldModel.VacuumBreakDelay.ToString();
+                txtUpVacuumBreakDelay.sText = ldModel.UpVacuumBreakDelay.ToString();
+                txtBuzzerTime.sText = ldModel.BuzzerTime.ToString();
                 txtOperatorID.sText = ldModel.OperatorID.ToString();
                 txtCylinderDelay.sText = ldModel.CylinderDelay.ToString();
                 txtAxisInPlaceDelay.sText = ldModel.AxisInPlaceDelay.ToString();
@@ -205,7 +207,6 @@ namespace ManagementView
                
                 chkIsEmptyRun.Enabled = bEnable;
                 chkIsShieldDownCamera.Enabled = bEnable;
-                chkIsShieldCylinderUp.Enabled = bEnable;
                 chkIsShieldClasp.Enabled = bEnable;
                 chkIsShieldUnClamp.Enabled = bEnable;
                 chkIsShieldOCR.Enabled = bEnable;
@@ -215,6 +216,8 @@ namespace ManagementView
                 txtSnapTimeOut.Enabled = bEnable;
                 txtVacuumDelayTime.Enabled = bEnable;
                 txtVacuumBreakDelay.Enabled = bEnable;
+                txtUpVacuumBreakDelay.Enabled = bEnable;
+                txtBuzzerTime.Enabled = bEnable;
                 txtAxisInPlaceDelay.Enabled = bEnable;
                 txtCylinderDelay.Enabled = bEnable;
                 txtVacuumTimeOut.Enabled = bEnable;

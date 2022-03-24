@@ -532,6 +532,7 @@ namespace ManagementView.MotorView
                 m_selAxisModel.iInHomeOffset = long.Parse(txtiInHomeOffset.Text);
                 m_selAxisModel.homeIo = UInt32.Parse(txtHomeIO.Text);
                 m_selAxisModel.InPlaceOffSet = double.Parse(txtinplaceOffSet.Text);
+                m_selAxisModel.homeMode = Int32.Parse(txtHomeMode.Text);
             }
             catch (Exception ex)
             {
@@ -559,6 +560,7 @@ namespace ManagementView.MotorView
                 txtiInHomeOffset.Text = model.iInHomeOffset.ToString();
                 txtHomeIO.Text = model.homeIo.ToString();
                 txtinplaceOffSet.Text = model.InPlaceOffSet.ToString();
+                txtHomeMode.Text = model.homeMode.ToString();
             }
             catch (Exception ex)
             {
@@ -1188,7 +1190,7 @@ namespace ManagementView.MotorView
             }
         }
 
-        #endregion        
+        #endregion
 
         #region 导入导出数据
 

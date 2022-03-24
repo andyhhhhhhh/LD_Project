@@ -252,6 +252,11 @@ namespace SequenceTestModel
         public double InPlaceOffSet { get; set; }
 
         /// <summary>
+        /// 回零模式
+        /// </summary>
+        public int homeMode { get; set; }
+
+        /// <summary>
         /// 运动绝对位置
         /// </summary>
         public double pos { get; set; }
@@ -270,6 +275,8 @@ namespace SequenceTestModel
         /// 回零IO
         /// </summary>
         public uint homeIo { get; set; }
+
+        public double percentSpeed { get; set; }
 
         public AxisParamModel()
         {

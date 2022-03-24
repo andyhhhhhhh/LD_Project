@@ -55,6 +55,8 @@ namespace ManagementView
 
         CalibrationModel m_calibrationModel;
 
+        private OpenFileDialog OpenFileDialogImage = new OpenFileDialog();
+
         public CalibrationView()
         {
             InitializeComponent();
@@ -70,23 +72,16 @@ namespace ManagementView
                 {
                     m_calibrationModel = new CalibrationModel();
                 }
-
-                txtImageRow.sText = m_calibrationModel.TeachImageRow.ToString();
-                txtImageCol.sText = m_calibrationModel.TeachImageCol.ToString();
-                txtImageAng.sText = m_calibrationModel.TeachImageAng.ToString();
-
-                cmbSuck.Items.Clear();
-                cmbSuck.Items.Add("吸嘴1");
-                cmbSuck.Items.Add("吸嘴2");
-                cmbSuck.Items.Add("吸嘴3");
-                cmbSuck.SelectedIndex = 0;
+                 
+                tabControl1.SelectedTabIndex = 0;
             }
             catch (Exception ex)
             {
 
             }
         }
-
+        
+        #region 按钮操作
         /// <summary>
         /// 拍照
         /// </summary>
@@ -124,23 +119,104 @@ namespace ManagementView
         {
             try
             {
-                //执行算法 
-                var algorithmModel = XMLController.XmlControl.sequenceModelNew.algorithmModels.FirstOrDefault(x => x.Name == "上相机");
-                if (m_FuncAlgorithm == null)
-                {
-                    return;
-                }
-                var algorithmResult = m_FuncAlgorithm(m_hSmartWindow.Image, algorithmModel);
+                //执行算法
+                var algorithmResult = TestAlgorithm();
                 if (!algorithmResult.RunResult)
                 {
                     AddLog("执行算法失败");
                     return;
                 }
+            }
+            catch (Exception ex)
+            {
+                AddLog(ex.Message);
+            }
+        }
+         
+        private void btnDrawRegion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                m_hSmartWindow.AddRect2();
+            }
+            catch (Exception ex)
+            {
 
-                m_hSmartWindow.GetWindowHandle().SetColor("red");
-                m_hSmartWindow.GetWindowHandle().SetDraw("margin");
-                m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.ProXLDTrans);
-                m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.CenterCross);
+            }
+        }
+
+        private void btnCreateModel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                HObject ho_Rect, ho_ImageReduced, ho_ContoursAffinTrans;
+                HTuple hv_ModelID;
+                HTuple hv_Row, hv_Column, hv_Angle, hv_Score;
+                var listValue = m_hSmartWindow.GetRectArea();
+                HOperatorSet.GenRectangle2(out ho_Rect, listValue[0], listValue[1], listValue[2], listValue[3], listValue[4]);
+
+                HOperatorSet.ReduceDomain(m_hSmartWindow.Image, ho_Rect, out ho_ImageReduced);
+                HOperatorSet.CreateShapeModel(ho_ImageReduced, "auto", (new HTuple(m_calibrationModel.StartingAngle)).TupleRad()
+                                     , (new HTuple(m_calibrationModel.AngleExtent)).TupleRad(), "auto", "auto", "use_polarity", "auto", "auto", out hv_ModelID);
+
+                HOperatorSet.FindShapeModel(m_hSmartWindow.Image, hv_ModelID, (new HTuple(m_calibrationModel.StartingAngle)).TupleRad()
+                             , (new HTuple(m_calibrationModel.AngleExtent)).TupleRad(), m_calibrationModel.MinScore, 1, 0.5, "least_squares", (new HTuple(m_calibrationModel.PyramidLevel)).TupleConcat(m_calibrationModel.LastPyramidLevel),
+                             m_calibrationModel.Greediness, out hv_Row, out hv_Column, out hv_Angle, out hv_Score);
+
+                HSmartWindow.dev_display_shape_matching_results(hv_ModelID, "red", hv_Row, hv_Column, hv_Angle, 1, 1, 0, out ho_ContoursAffinTrans);
+
+                string modelPath = tabControl1.SelectedTabIndex == 0 ? "//BigCali_Mat2d.shm" : "///SmallCali_Mat2d.shm";
+                HOperatorSet.WriteShapeModel(hv_ModelID, GlobalCore.Global.Model3DPath + modelPath);
+                m_hSmartWindow.FitImageToWindow(m_hSmartWindow.Image, ho_ContoursAffinTrans);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private void btnLoadImage_Click(object sender, EventArgs e)
+        {
+            Stream inputStream = null;
+            this.OpenFileDialogImage.Filter = "All files (*.*)|*.*";
+            if (this.OpenFileDialogImage.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((inputStream = this.OpenFileDialogImage.OpenFile()) != null)
+                    {
+                        String strImageFile = this.OpenFileDialogImage.FileName;
+                        this.OpenFileDialogImage.InitialDirectory = strImageFile;
+                        HObject ho_Image;
+                        HOperatorSet.ReadImage(out ho_Image, strImageFile);
+                        m_hSmartWindow.FitImageToWindow(new HImage(ho_Image), null);
+                        AddLog("读入图像成功。");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    AddLog("打开图像失败!" + ex.Message + "");
+                }
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                switch (tabControl1.SelectedTabIndex)
+                {
+                    case 0:
+                        m_calibrationModel = advPropertyGrid1.SelectedObject as CalibrationModel;
+                        break;
+                    case 1:
+                        m_calibrationModel = advPropertyGrid2.SelectedObject as CalibrationModel;
+                        break;
+                    default:
+                        break;
+                }
+
+                MessageBox.Show("保存成功");
             }
             catch (Exception ex)
             {
@@ -172,9 +248,10 @@ namespace ManagementView
 
                 m_StartCal = true;
 
-                m_SaveMat2dPath = GlobalCore.Global.Model3DPath + "//Mat2d.tup";
+                string mat2dPath = tabControl1.SelectedTabIndex == 0 ? "//Big_Mat2d.tup" : "//Small_Mat2d.tup";
+                m_SaveMat2dPath = GlobalCore.Global.Model3DPath + mat2dPath;
 
-                Camera2DSetModel cameraModel = XMLController.XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == 0);
+                Camera2DSetModel cameraModel = XMLController.XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == tabControl1.SelectedTabIndex);
 
                 var algorithmModel = XMLController.XmlControl.sequenceModelNew.algorithmModels.FirstOrDefault(x => x.Name == cameraModel.Name);
 
@@ -182,11 +259,12 @@ namespace ManagementView
                 PointModel pointModel = station.PointModels.FirstOrDefault(x => x.Name == "九点标定起始点位");
                 double xStart = pointModel.Pos_X;
                 double yStart = pointModel.Pos_Y;
-                double xSpan = 4;
-                double ySpan = 3;
+                double xSpan = m_calibrationModel.XOffSet;
+                double ySpan = m_calibrationModel.YOffSet;
+                double uSpan = m_calibrationModel.UOffSet;
 
                 m_MotroContorl = MotorInstance.GetInstance();
-                NineCalibration(cameraModel, algorithmModel, m_SaveMat2dPath, xStart, yStart, xSpan, ySpan, false, true);
+                NineCalibration(cameraModel, algorithmModel, m_SaveMat2dPath, xStart, yStart, xSpan, ySpan, true, true);
             }
             catch (Exception ex)
             {
@@ -204,6 +282,54 @@ namespace ManagementView
         {
             m_StartCal = false;
         }
+
+        /// <summary>
+        /// 开始旋转标定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRotateCal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (m_StartCal)
+                {
+                    AddLog("程序已经在标定中...");
+                    return;
+                }
+
+                var result = MessageBox.Show("请确认是否开始旋转中心标定?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (result == DialogResult.No)
+                {
+                    MessageBox.Show("用户取消");
+                    return;
+                }
+
+                m_StartCal = true;
+
+                string tupName = tabControl1.SelectedTabIndex == 0 ? "BigRotate.tup" : "SmallRotate.tup";
+                m_RotatePath = GlobalCore.Global.Model3DPath + "//" + tupName;
+
+                m_MotroContorl = MotorInstance.GetInstance();
+
+                StationModel station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Up);
+                PointModel pointModel = station.PointModels.FirstOrDefault(x => x.Name == "安全位");
+                var resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                if (!resultModel.RunResult)
+                {
+                    return;
+                }
+
+                RotaryThread();
+            }
+            catch (Exception ex)
+            {
+                m_StartCal = false;
+                AddLog(ex.Message);
+            }
+        }
+         
+        #endregion
 
         /// <summary>
         /// 九点标定方法
@@ -281,17 +407,13 @@ namespace ManagementView
                         m_hSmartWindow.FitImageToWindow(ho_Image, null);
 
                         //执行算法
-                        var algorithmResult = m_FuncAlgorithm(ho_Image, algorithmModel);
+                        var algorithmResult = TestAlgorithm();
                         if (!algorithmResult.RunResult)
                         {
                             AddLog("执行算法失败");
                             m_StartCal = false;
                             return;
                         }
-                        m_hSmartWindow.GetWindowHandle().SetColor("red");
-                        m_hSmartWindow.GetWindowHandle().SetDraw("margin");
-                        m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.ProXLDTrans);
-                        m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.CenterCross);
 
                         //保存图片
                         string strPath = "D://CaliImage//" + cameraModel.Name;
@@ -314,7 +436,12 @@ namespace ManagementView
                     }
 
                     //保存标定文件
-                    SaveCoordinateTupleFiles(listCaliPosModel, cameraModel.Name, mat2dPath, isRowToX, isReleativeCal);
+                    SaveCoordinateTupleFiles(listCaliPosModel, cameraModel.Name, mat2dPath, isRowToX, isReleativeCal, false);
+
+                    //保存像素标定文件
+                    string strName = Path.GetFileNameWithoutExtension(mat2dPath);
+                    string pixMat2dPath = Path.GetDirectoryName(mat2dPath) + "//" + strName + "_Pix.tup";
+                    SaveCoordinateTupleFiles(listCaliPosModel, cameraModel.Name, pixMat2dPath, isRowToX, isReleativeCal, true);
                     m_StartCal = false;
                 }
                 catch (Exception ex)
@@ -334,7 +461,7 @@ namespace ManagementView
         /// <param name="mat2dPath">矩阵路径</param>
         /// <param name="isRowToX">Row 对应 X</param>
         /// <param name="isReleativeCal">是否为相对位置标定</param>
-        private void SaveCoordinateTupleFiles(List<CalibPositionModel> carlPositions, string cameraName, string mat2dPath, bool isRowToX, bool isReleativeCal)
+        private void SaveCoordinateTupleFiles(List<CalibPositionModel> carlPositions, string cameraName, string mat2dPath, bool isRowToX, bool isReleativeCal, bool isPixAbs)
         {
             try
             {
@@ -376,8 +503,17 @@ namespace ManagementView
                     {
                         machineX[i] = machineX[i] - machineX0;
                         machineY[i] = machineY[i] - machineY0;
-                        imgRow[i] = imgRow[i] - imgRow0;
-                        imgCol[i] = imgCol[i] - imgCol0;
+
+                        if(!isPixAbs)
+                        {
+                            imgRow[i] = imgRow[i] - imgRow0;
+                            imgCol[i] = imgCol[i] - imgCol0;
+                        }
+                        else
+                        {
+                            imgRow[i] = imgRow[i];
+                            imgCol[i] = imgCol[i];
+                        }
 
                         machineXPositionStr += machineX[i] + ",";
                         machineYPositionStr += machineY[i] + ",";
@@ -388,8 +524,7 @@ namespace ManagementView
 
                 AddLog(string.Format(cameraName + ": machineX:=[{0}] \r\n machineY:=[{1}] \r\n imageX:=[{2}] \r\n imageY:=[{3}]",
                     machineXPositionStr, machineYPositionStr, imgRowPositionStr, imgColPositionStr));
-
-
+                
                 //生成矩阵
                 HTuple Mat2D;
                 if (isRowToX)
@@ -420,7 +555,7 @@ namespace ManagementView
                 AddLog("标定坐标失败，请确保获取的坐标组均为有效值！" + ex.Message.ToString());
             }
         }
-
+        
         /// <summary>
         /// 显示Log
         /// </summary>
@@ -429,203 +564,24 @@ namespace ManagementView
         {
             logView1.LogMessage(strLog);
         }
-
-        private OpenFileDialog OpenFileDialogImage = new OpenFileDialog();
-        private void btnLoadImage_Click(object sender, EventArgs e)
-        {
-            Stream inputStream = null;
-            this.OpenFileDialogImage.Filter = "All files (*.*)|*.*";
-            if (this.OpenFileDialogImage.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    if ((inputStream = this.OpenFileDialogImage.OpenFile()) != null)
-                    {
-                        String strImageFile = this.OpenFileDialogImage.FileName;
-                        this.OpenFileDialogImage.InitialDirectory = strImageFile;
-                        HObject ho_Image;
-                        HOperatorSet.ReadImage(out ho_Image, strImageFile);
-                        m_hSmartWindow.FitImageToWindow(new HImage(ho_Image), null);
-                        AddLog("读入图像成功。");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AddLog("打开图像失败!" + ex.Message + "");
-                }
-            }
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cmbSuck.SelectedIndex == 0)
-                {
-                    m_calibrationModel.TeachImageRow = Double.Parse(txtImageRow.sText);
-                    m_calibrationModel.TeachImageCol = Double.Parse(txtImageCol.sText);
-                    m_calibrationModel.TeachImageAng = Double.Parse(txtImageAng.sText);
-                }
-                else if (cmbSuck.SelectedIndex == 1)
-                {
-                    m_calibrationModel.TeachImageRow_2 = Double.Parse(txtImageRow.sText);
-                    m_calibrationModel.TeachImageCol_2 = Double.Parse(txtImageCol.sText);
-                    m_calibrationModel.TeachImageAng_2 = Double.Parse(txtImageAng.sText);
-                }
-                else if (cmbSuck.SelectedIndex == 2)
-                {
-                    m_calibrationModel.TeachImageRow_3 = Double.Parse(txtImageRow.sText);
-                    m_calibrationModel.TeachImageCol_3 = Double.Parse(txtImageCol.sText);
-                    m_calibrationModel.TeachImageAng_3 = Double.Parse(txtImageAng.sText);
-                }
-
-                MessageBox.Show("保存成功");
-            }
-            catch (Exception ex)
-            {
-                AddLog(ex.Message);
-            }
-        }
-
-        private void btnGetImage_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //执行算法 
-                var algorithmModel = XMLController.XmlControl.sequenceModelNew.algorithmModels.FirstOrDefault(x => x.Name == "上相机");
-                var algorithmResult = m_FuncAlgorithm(m_hSmartWindow.Image, algorithmModel);
-                if (!algorithmResult.RunResult)
-                {
-                    AddLog("执行算法失败");
-                    return;
-                }
-
-                txtImageRow.sText = Math.Round(algorithmResult.CenterRow.D, 3).ToString();
-                txtImageCol.sText = Math.Round(algorithmResult.CenterColumn.D, 3).ToString();
-                txtImageAng.sText = Math.Round(algorithmResult.CenterPhi.D, 3).ToString();
-            }
-            catch (Exception ex)
-            {
-                AddLog(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// 吸嘴选择
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cmbSuck_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            { 
-                if (cmbSuck.SelectedIndex == 0)
-                {
-                    txtImageRow.sText = m_calibrationModel.TeachImageRow.ToString();
-                    txtImageCol.sText = m_calibrationModel.TeachImageCol.ToString();
-                    txtImageAng.sText = m_calibrationModel.TeachImageAng.ToString();
-                }
-                else if (cmbSuck.SelectedIndex == 1)
-                {
-                    txtImageRow.sText = m_calibrationModel.TeachImageRow_2.ToString();
-                    txtImageCol.sText = m_calibrationModel.TeachImageCol_2.ToString();
-                    txtImageAng.sText = m_calibrationModel.TeachImageAng_2.ToString();
-                }
-                else if (cmbSuck.SelectedIndex == 2)
-                {
-                    txtImageRow.sText = m_calibrationModel.TeachImageRow_3.ToString();
-                    txtImageCol.sText = m_calibrationModel.TeachImageCol_3.ToString();
-                    txtImageAng.sText = m_calibrationModel.TeachImageAng_3.ToString(); 
-                }
-
-                var station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
-                string strRelPos = "上相机相对位置" + (cmbSuck.SelectedIndex + 1).ToString();
-                var relPosModel = station.PointModels.FirstOrDefault(x => x.Name == strRelPos);
-                txtXOffSet.sText = relPosModel.Pos_X.ToString();
-                txtYOffSet.sText = relPosModel.Pos_Y.ToString();
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        #region 暂时无用 -- 求旋转中心
-        /// <summary>
-        /// 求旋转中心
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnGetRotateCenter_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (m_StartCal)
-                {
-                    AddLog("程序已经在标定中...");
-                    return;
-                }
-
-                var result = MessageBox.Show("请确认是否开始旋转中心标定?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result == DialogResult.No)
-                {
-                    MessageBox.Show("用户取消");
-                    return;
-                }
-
-                m_StartCal = true;
-
-                m_RotatePath = GlobalCore.Global.Model3DPath + "//" + cmbSuck.Text + "_Rotate.tup";
-
-
-                m_MotroContorl = MotorInstance.GetInstance();
-
-                StationModel station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Up);
-                PointModel pointModel = station.PointModels.FirstOrDefault(x => x.Name == "安全位");
-                var resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                if (!resultModel.RunResult)
-                {
-                    return;
-                }
-
-                station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
-                pointModel = station.PointModels.FirstOrDefault(x => x.Name == "吸嘴1下相机拍照位置");
-                resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                if (!resultModel.RunResult)
-                {
-                    return;
-                }
-
-                station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Up);
-                pointModel = station.PointModels.FirstOrDefault(x => x.Name == "吸嘴1下相机拍照位置");
-                resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
-                if (!resultModel.RunResult)
-                {
-                    return;
-                }
-                RotaryThread();
-            }
-            catch (Exception ex)
-            {
-                m_StartCal = false;
-                AddLog(ex.Message);
-            }
-        }
-
+                
+        #region 求旋转中心
+        
         private void RotaryThread()
         {
-            Camera2DSetModel cameraModel = XMLController.XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == 1);
+            Camera2DSetModel cameraModel = XMLController.XmlControl.sequenceModelNew.Camera2DSetModels.FirstOrDefault(x => x.Id == tabControl1.SelectedTabIndex);
             var algorithmModel = XMLController.XmlControl.sequenceModelNew.algorithmModels.FirstOrDefault(x => x.Name == cameraModel.Name);
             m_MotroContorl = MotorInstance.GetInstance();
 
-            var station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Camera);
-            var pointModel = station.PointModels.FirstOrDefault(x => x.Name == "吸嘴1下相机拍照位置");
+            var station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
+            var pointModel = station.PointModels.FirstOrDefault(x => x.Name == "旋转中心起始点位"); 
+            station.Axis_Z.pos = pointModel.Pos_Z;
 
             List<double> listX = new List<double>();
             List<double> listY = new List<double>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 8; i++)
             {
-                var resultModel = m_MotroContorl.Run(pointModel, MotorControlType.AxisMove);
+                  var resultModel = m_MotroContorl.Run(station.Axis_Z, MotorControlType.AxisMove);
                 if (!resultModel.RunResult)
                 {
                     return;
@@ -643,7 +599,7 @@ namespace ManagementView
                 m_hSmartWindow.FitImageToWindow(ho_Image, null);
 
                 //执行算法
-                var algorithmResult = m_FuncAlgorithm(ho_Image, algorithmModel);
+                var algorithmResult = TestAlgorithm();
                 if (!algorithmResult.RunResult)
                 {
                     AddLog("执行算法失败");
@@ -653,11 +609,7 @@ namespace ManagementView
                 listX.Add(algorithmResult.CenterRow);
                 listY.Add(algorithmResult.CenterColumn);
 
-                m_hSmartWindow.GetWindowHandle().SetColor("red");
-                m_hSmartWindow.GetWindowHandle().SetDraw("margin");
-                m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.ProXLDTrans);
-                m_hSmartWindow.GetWindowHandle().DispObj(algorithmResult.CenterCross);
-                pointModel.Pos_X += 30;
+                station.Axis_Z.pos += m_calibrationModel.UOffSet;
             }
 
             HObject ho_Contour1 = null;
@@ -676,6 +628,7 @@ namespace ManagementView
             hv_ModelParam = hv_ModelParam.TupleConcat(hv_Radius);
 
             AddLog(string.Format("X:{0} Y:{1} Radius:{2}", hv_RowX, hv_ColumnY, hv_Radius));
+            AddLog("旋转标定完成");
 
             HOperatorSet.WriteTuple(hv_ModelParam, m_RotatePath);
         }
@@ -696,83 +649,69 @@ namespace ManagementView
 
         #endregion
 
-        private void btnGetSuckCamera_Click(object sender, EventArgs e)
+        private void tabControl1_SelectedTabChanged(object sender, DevComponents.DotNetBar.TabStripTabChangedEventArgs e)
         {
             try
             {
-                var station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
-             
-                string strTeachPos = cmbSuck.Text + "上料示教";
-                var teachPosModel = station.PointModels.FirstOrDefault(x => x.Name == strTeachPos);
-
-                var result = MessageBox.Show("请确认是否运动到拍照位置?", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if (result == DialogResult.No)
+                if (m_calibrationModel == null)
                 {
-                    MessageBox.Show("用户取消");
-                    return;
+                    m_calibrationModel = new CalibrationModel();
                 }
 
-                double xValue = 0;
-                double yValue = 0;
-
-                m_MotroContorl = MotorInstance.GetInstance();
-                var resultModel =  m_MotroContorl.Run(station.Axis_X, MotorControlType.AxisGetPosition);
-                if(!resultModel.RunResult)
+                switch (tabControl1.SelectedTabIndex)
                 {
-                    xValue = Double.Parse(resultModel.ObjectResult.ToString());
-                    MessageBox.Show("获取X位置错误");
-                    return;
-                }
-                resultModel = m_MotroContorl.Run(station.Axis_Y, MotorControlType.AxisGetPosition);
-                if (!resultModel.RunResult)
-                {
-                    yValue = Double.Parse(resultModel.ObjectResult.ToString());
-                    MessageBox.Show("获取Y位置错误");
-                    return;
-                }
+                    case 0:
+                        advPropertyGrid1.SelectedObject = m_calibrationModel;
+                        break;
 
-                txtXOffSet.sText = (teachPosModel.Pos_X - xValue).ToString();
-                txtYOffSet.sText = (teachPosModel.Pos_Y - yValue).ToString();
+                    case 1:
+                        advPropertyGrid2.SelectedObject = m_calibrationModel;
+                        break;
+
+                    default:
+                        break;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 
-        private void btnSaveSuckCamera_Click(object sender, EventArgs e)
+        private AlgorithmResultModel TestAlgorithm()
         {
+            AlgorithmResultModel resultModel = new AlgorithmResultModel();
             try
             {
-                var result = MessageBox.Show("是否保存相对位置?", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
-                if(result == DialogResult.No)
-                {
-                    MessageBox.Show("用户取消");
-                    return;
-                }
+                HObject ho_ContoursAffinTrans;
+                HTuple hv_ModelID; 
+                HTuple hv_Row, hv_Column, hv_Angle, hv_Score;
 
-                var station = XMLController.XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
+                string modelPath = tabControl1.SelectedTabIndex == 0 ? "//BigCali_Mat2d.shm" : "///SmallCali_Mat2d.shm";
+                HOperatorSet.ReadShapeModel(GlobalCore.Global.Model3DPath + modelPath, out hv_ModelID);
 
-                string strRelPos = "上相机相对位置" + (cmbSuck.SelectedIndex + 1).ToString();
-                var relPosModel = station.PointModels.FirstOrDefault(x => x.Name == strRelPos);
+                HOperatorSet.FindShapeModel(m_hSmartWindow.Image, hv_ModelID, (new HTuple(m_calibrationModel.StartingAngle)).TupleRad()
+                             , (new HTuple(m_calibrationModel.AngleExtent)).TupleRad(), m_calibrationModel.MinScore, 1, 0.5, "least_squares", (new HTuple(m_calibrationModel.PyramidLevel)).TupleConcat(m_calibrationModel.LastPyramidLevel),
+                             m_calibrationModel.Greediness, out hv_Row, out hv_Column, out hv_Angle, out hv_Score);
 
-                double xValue = Double.Parse(txtXOffSet.sText);
-                double yValue = Double.Parse(txtYOffSet.sText);
+                HSmartWindow.dev_display_shape_matching_results(hv_ModelID, "red", hv_Row, hv_Column, hv_Angle, 1, 1, 0, out ho_ContoursAffinTrans);
+                
+                m_hSmartWindow.FitImageToWindow(m_hSmartWindow.Image, ho_ContoursAffinTrans);
 
-                if(xValue < 30 || xValue > 80 || yValue < -60 || yValue > 60)
-                {
-                    MessageBox.Show("数值有误，请确认!!");
-                    return;
-                }
+                resultModel.CenterRow = hv_Row;
+                resultModel.CenterColumn = hv_Column;
+                resultModel.CenterPhi = hv_Angle;
 
-                relPosModel.Pos_X = xValue;
-                relPosModel.Pos_Y = yValue;
+                resultModel.RunResult = hv_Row.Length > 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                resultModel.RunResult = false;
             }
+
+            return resultModel;
         }
+
     }
 
     /// <summary>

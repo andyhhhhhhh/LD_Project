@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panelEx1 = new DevComponents.DotNetBar.PanelEx();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
@@ -467,14 +467,14 @@
             this.Column1,
             this.Column2});
             this.dataPoint.ContextMenuStrip = this.pointContextMenuStrip;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 10F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataPoint.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微软雅黑", 10F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataPoint.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataPoint.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataPoint.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dataPoint.Location = new System.Drawing.Point(0, 0);
@@ -700,7 +700,7 @@
             // 
             this.groupPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel5.TabIndex = 0;
-            this.groupPanel5.Text = "步进距离(单位:um)";
+            this.groupPanel5.Text = "步进距离(单位:μm)";
             // 
             // radio_Continue
             // 
@@ -758,7 +758,7 @@
             // 
             this.groupPanel4.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel4.TabIndex = 0;
-            this.groupPanel4.Text = "目前位置(单位:um)";
+            this.groupPanel4.Text = "目前位置(单位:μm)";
             // 
             // txtU_Pos
             // 
@@ -926,7 +926,7 @@
             this.txtU_Distance.Name = "txtU_Distance";
             this.txtU_Distance.Size = new System.Drawing.Size(100, 26);
             this.txtU_Distance.TabIndex = 1;
-            this.txtU_Distance.Text = "0.1";
+            this.txtU_Distance.Text = "10";
             // 
             // txtX_Distance
             // 
@@ -941,7 +941,7 @@
             this.txtX_Distance.Name = "txtX_Distance";
             this.txtX_Distance.Size = new System.Drawing.Size(100, 26);
             this.txtX_Distance.TabIndex = 1;
-            this.txtX_Distance.Text = "0.1";
+            this.txtX_Distance.Text = "10";
             // 
             // lblU_Dis
             // 
@@ -982,7 +982,7 @@
             this.txtZ_Distance.Name = "txtZ_Distance";
             this.txtZ_Distance.Size = new System.Drawing.Size(100, 26);
             this.txtZ_Distance.TabIndex = 1;
-            this.txtZ_Distance.Text = "0.1";
+            this.txtZ_Distance.Text = "10";
             // 
             // lblY_Dis
             // 
@@ -1023,7 +1023,7 @@
             this.txtY_Distance.Name = "txtY_Distance";
             this.txtY_Distance.Size = new System.Drawing.Size(100, 26);
             this.txtY_Distance.TabIndex = 1;
-            this.txtY_Distance.Text = "0.1";
+            this.txtY_Distance.Text = "10";
             // 
             // groupStep
             // 

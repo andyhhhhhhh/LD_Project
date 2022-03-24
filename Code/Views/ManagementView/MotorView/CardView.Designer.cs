@@ -105,12 +105,21 @@
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.groupPanel4 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.dataIO = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new DevComponents.DotNetBar.Controls.DataGridViewTextBoxDropDownColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ioContextMenuStrip = new CCWin.SkinControl.SkinContextMenuStrip();
             this.OutPuttoolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.InPuttoolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupPanel3 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.txtiInHomeOffset = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.btnRefresh = new DevComponents.DotNetBar.ButtonX();
+            this.txtHomeMode = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txtHomeIO = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txtAAcc = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.txtinplaceOffSet = new DevComponents.DotNetBar.Controls.TextBoxX();
@@ -136,6 +145,7 @@
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
             this.labelX17 = new DevComponents.DotNetBar.LabelX();
             this.cmbhomeType = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.labelX26 = new DevComponents.DotNetBar.LabelX();
             this.labelX13 = new DevComponents.DotNetBar.LabelX();
             this.labelX12 = new DevComponents.DotNetBar.LabelX();
             this.cmblimitType = new DevComponents.DotNetBar.Controls.ComboBoxEx();
@@ -155,14 +165,6 @@
             this.elementStyle1 = new DevComponents.DotNetBar.ElementStyle();
             this.contextMenuBar1 = new DevComponents.DotNetBar.ContextMenuBar();
             this.node2 = new DevComponents.AdvTree.Node();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new DevComponents.DotNetBar.Controls.DataGridViewTextBoxDropDownColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelEx1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupPanel5.SuspendLayout();
@@ -1250,6 +1252,82 @@
             this.dataIO.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataIO_CellEnter);
             this.dataIO.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataIO_CellLeave);
             // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column1.DataPropertyName = "Id";
+            this.Column1.HeaderText = "Id";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 47;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.DataPropertyName = "cardIndex";
+            this.Column2.HeaderText = "卡";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 48;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column3.DataPropertyName = "extIndex";
+            this.Column3.HeaderText = "扩展";
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 58;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column4.DataPropertyName = "index";
+            this.Column4.HeaderText = "序号";
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 58;
+            // 
+            // Column5
+            // 
+            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column5.BackColor = System.Drawing.SystemColors.Window;
+            // 
+            // 
+            // 
+            this.Column5.BackgroundStyle.Class = "DataGridViewIpAddressBorder";
+            this.Column5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Column5.DataPropertyName = "enumIo";
+            this.Column5.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.Column5.HeaderText = "IO类型";
+            this.Column5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.Column5.Name = "Column5";
+            this.Column5.PasswordChar = '\0';
+            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Column5.Text = "";
+            this.Column5.Width = 71;
+            // 
+            // Column6
+            // 
+            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column6.DataPropertyName = "enumIoType";
+            this.Column6.HeaderText = "应用";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 58;
+            // 
+            // Column7
+            // 
+            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column7.DataPropertyName = "bReverse";
+            this.Column7.HeaderText = "取反";
+            this.Column7.Name = "Column7";
+            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Column7.Width = 58;
+            // 
+            // Column8
+            // 
+            this.Column8.DataPropertyName = "Name";
+            this.Column8.HeaderText = "名称";
+            this.Column8.Name = "Column8";
+            // 
             // ioContextMenuStrip
             // 
             this.ioContextMenuStrip.Arrow = System.Drawing.Color.Black;
@@ -1299,6 +1377,7 @@
             this.groupPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel3.Controls.Add(this.txtiInHomeOffset);
             this.groupPanel3.Controls.Add(this.btnRefresh);
+            this.groupPanel3.Controls.Add(this.txtHomeMode);
             this.groupPanel3.Controls.Add(this.txtHomeIO);
             this.groupPanel3.Controls.Add(this.txtAAcc);
             this.groupPanel3.Controls.Add(this.txtinplaceOffSet);
@@ -1324,6 +1403,7 @@
             this.groupPanel3.Controls.Add(this.labelX14);
             this.groupPanel3.Controls.Add(this.labelX17);
             this.groupPanel3.Controls.Add(this.cmbhomeType);
+            this.groupPanel3.Controls.Add(this.labelX26);
             this.groupPanel3.Controls.Add(this.labelX13);
             this.groupPanel3.Controls.Add(this.labelX12);
             this.groupPanel3.Controls.Add(this.cmblimitType);
@@ -1394,6 +1474,21 @@
             this.btnRefresh.TabIndex = 1;
             this.btnRefresh.Text = "刷新";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // txtHomeMode
+            // 
+            this.txtHomeMode.BackColor = System.Drawing.Color.White;
+            // 
+            // 
+            // 
+            this.txtHomeMode.Border.Class = "TextBoxBorder";
+            this.txtHomeMode.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtHomeMode.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.txtHomeMode.Location = new System.Drawing.Point(358, 273);
+            this.txtHomeMode.Name = "txtHomeMode";
+            this.txtHomeMode.Size = new System.Drawing.Size(100, 25);
+            this.txtHomeMode.TabIndex = 1;
+            this.txtHomeMode.Text = "0";
             // 
             // txtHomeIO
             // 
@@ -1584,7 +1679,7 @@
             this.labelX20.Name = "labelX20";
             this.labelX20.Size = new System.Drawing.Size(123, 23);
             this.labelX20.TabIndex = 0;
-            this.labelX20.Text = "加加速度mm2/s";
+            this.labelX20.Text = "加加速度μm/s³";
             // 
             // btnCancel
             // 
@@ -1637,7 +1732,7 @@
             this.labelX22.Name = "labelX22";
             this.labelX22.Size = new System.Drawing.Size(123, 23);
             this.labelX22.TabIndex = 0;
-            this.labelX22.Text = "原点偏移量mm";
+            this.labelX22.Text = "原点偏移量μm";
             // 
             // labelX16
             // 
@@ -1663,7 +1758,7 @@
             this.labelX19.Name = "labelX19";
             this.labelX19.Size = new System.Drawing.Size(123, 23);
             this.labelX19.TabIndex = 0;
-            this.labelX19.Text = "最大减速度mm/s";
+            this.labelX19.Text = "最大减速度μm/s²";
             // 
             // btnSave
             // 
@@ -1689,7 +1784,7 @@
             this.labelX21.Name = "labelX21";
             this.labelX21.Size = new System.Drawing.Size(123, 23);
             this.labelX21.TabIndex = 0;
-            this.labelX21.Text = "回原速度mm/s";
+            this.labelX21.Text = "回原速度um/s";
             // 
             // labelX18
             // 
@@ -1702,7 +1797,7 @@
             this.labelX18.Name = "labelX18";
             this.labelX18.Size = new System.Drawing.Size(123, 23);
             this.labelX18.TabIndex = 0;
-            this.labelX18.Text = "最大加速度mm/s";
+            this.labelX18.Text = "最大加速度μm/s²";
             // 
             // labelX14
             // 
@@ -1728,7 +1823,7 @@
             this.labelX17.Name = "labelX17";
             this.labelX17.Size = new System.Drawing.Size(123, 23);
             this.labelX17.TabIndex = 0;
-            this.labelX17.Text = "最大速度mm/s";
+            this.labelX17.Text = "最大速度μm/s";
             // 
             // cmbhomeType
             // 
@@ -1742,6 +1837,19 @@
             this.cmbhomeType.Size = new System.Drawing.Size(100, 25);
             this.cmbhomeType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cmbhomeType.TabIndex = 3;
+            // 
+            // labelX26
+            // 
+            // 
+            // 
+            // 
+            this.labelX26.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX26.Font = new System.Drawing.Font("微软雅黑", 10F);
+            this.labelX26.Location = new System.Drawing.Point(229, 274);
+            this.labelX26.Name = "labelX26";
+            this.labelX26.Size = new System.Drawing.Size(96, 23);
+            this.labelX26.TabIndex = 0;
+            this.labelX26.Text = "回零模式";
             // 
             // labelX13
             // 
@@ -1994,82 +2102,6 @@
             this.node2.Name = "node2";
             this.node2.Text = "contextMenuBar1";
             // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column1.DataPropertyName = "Id";
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 47;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column2.DataPropertyName = "cardIndex";
-            this.Column2.HeaderText = "卡";
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 48;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column3.DataPropertyName = "extIndex";
-            this.Column3.HeaderText = "扩展";
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 62;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column4.DataPropertyName = "index";
-            this.Column4.HeaderText = "序号";
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 62;
-            // 
-            // Column5
-            // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column5.BackColor = System.Drawing.SystemColors.Window;
-            // 
-            // 
-            // 
-            this.Column5.BackgroundStyle.Class = "DataGridViewIpAddressBorder";
-            this.Column5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.Column5.DataPropertyName = "enumIo";
-            this.Column5.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.Column5.HeaderText = "IO类型";
-            this.Column5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.Column5.Name = "Column5";
-            this.Column5.PasswordChar = '\0';
-            this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Column5.Text = "";
-            this.Column5.Width = 77;
-            // 
-            // Column6
-            // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column6.DataPropertyName = "enumIoType";
-            this.Column6.HeaderText = "应用";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 62;
-            // 
-            // Column7
-            // 
-            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.Column7.DataPropertyName = "bReverse";
-            this.Column7.HeaderText = "取反";
-            this.Column7.Name = "Column7";
-            this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Column7.Width = 62;
-            // 
-            // Column8
-            // 
-            this.Column8.DataPropertyName = "Name";
-            this.Column8.HeaderText = "名称";
-            this.Column8.Name = "Column8";
-            // 
             // CardView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -2225,5 +2257,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtHomeMode;
+        private DevComponents.DotNetBar.LabelX labelX26;
     }
 }

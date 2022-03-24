@@ -155,12 +155,6 @@
             this.panelDockContainer1 = new DevComponents.DotNetBar.PanelDockContainer();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
-            this.panelSetView = new DevComponents.DotNetBar.PanelEx();
-            this.tabItem3 = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
-            this.panelIndium = new DevComponents.DotNetBar.PanelEx();
-            this.tabItem2 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel1 = new DevComponents.DotNetBar.TabControlPanel();
             this.panelView = new DevComponents.DotNetBar.PanelEx();
             this.panel_16 = new System.Windows.Forms.Panel();
@@ -236,6 +230,12 @@
             this.panel_21V = new System.Windows.Forms.Panel();
             this.sPanelCamera = new CCWin.SkinControl.SkinPanel();
             this.tabItem1 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
+            this.panelSetView = new DevComponents.DotNetBar.PanelEx();
+            this.tabItem3 = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
+            this.panelDebug = new DevComponents.DotNetBar.PanelEx();
+            this.tabItem2 = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel6 = new DevComponents.DotNetBar.TabControlPanel();
             this.panelMap = new DevComponents.DotNetBar.PanelEx();
             this.tabItem6 = new DevComponents.DotNetBar.TabItem(this.components);
@@ -306,8 +306,6 @@
             this.tableLayoutPanel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).BeginInit();
             this.tabControl1.SuspendLayout();
-            this.tabControlPanel3.SuspendLayout();
-            this.tabControlPanel2.SuspendLayout();
             this.tabControlPanel1.SuspendLayout();
             this.panelView.SuspendLayout();
             this.panel_16.SuspendLayout();
@@ -324,6 +322,8 @@
             this.panel_4.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.tabControlPanel3.SuspendLayout();
+            this.tabControlPanel2.SuspendLayout();
             this.tabControlPanel6.SuspendLayout();
             this.tabControlPanel5.SuspendLayout();
             this.tabControlPanel4.SuspendLayout();
@@ -1848,9 +1848,9 @@
             // 
             this.tabControl1.BackColor = System.Drawing.Color.Transparent;
             this.tabControl1.CanReorderTabs = true;
+            this.tabControl1.Controls.Add(this.tabControlPanel2);
             this.tabControl1.Controls.Add(this.tabControlPanel1);
             this.tabControl1.Controls.Add(this.tabControlPanel3);
-            this.tabControl1.Controls.Add(this.tabControlPanel2);
             this.tabControl1.Controls.Add(this.tabControlPanel6);
             this.tabControl1.Controls.Add(this.tabControlPanel5);
             this.tabControl1.Controls.Add(this.tabControlPanel4);
@@ -1867,95 +1867,13 @@
             this.tabControl1.TabIndex = 1;
             this.tabControl1.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
             this.tabControl1.Tabs.Add(this.tabItem1);
-            this.tabControl1.Tabs.Add(this.tabItem2);
             this.tabControl1.Tabs.Add(this.tabItem3);
             this.tabControl1.Tabs.Add(this.tabItem4);
+            this.tabControl1.Tabs.Add(this.tabItem2);
             this.tabControl1.Tabs.Add(this.tabItem5);
             this.tabControl1.Tabs.Add(this.tabItem6);
             this.tabControl1.Text = "tabControl1";
             this.tabControl1.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tabControl1_SelectedTabChanged);
-            // 
-            // tabControlPanel3
-            // 
-            this.tabControlPanel3.Controls.Add(this.panelSetView);
-            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel3.Location = new System.Drawing.Point(0, 25);
-            this.tabControlPanel3.Name = "tabControlPanel3";
-            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel3.Size = new System.Drawing.Size(1002, 664);
-            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel3.Style.GradientAngle = 90;
-            this.tabControlPanel3.TabIndex = 3;
-            this.tabControlPanel3.TabItem = this.tabItem3;
-            // 
-            // panelSetView
-            // 
-            this.panelSetView.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelSetView.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelSetView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSetView.Location = new System.Drawing.Point(1, 1);
-            this.panelSetView.Margin = new System.Windows.Forms.Padding(0);
-            this.panelSetView.Name = "panelSetView";
-            this.panelSetView.Size = new System.Drawing.Size(1000, 662);
-            this.panelSetView.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelSetView.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.panelSetView.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.panelSetView.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelSetView.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelSetView.Style.GradientAngle = 90;
-            this.panelSetView.TabIndex = 0;
-            // 
-            // tabItem3
-            // 
-            this.tabItem3.AttachedControl = this.tabControlPanel3;
-            this.tabItem3.Name = "tabItem3";
-            this.tabItem3.Text = "参数设置";
-            // 
-            // tabControlPanel2
-            // 
-            this.tabControlPanel2.Controls.Add(this.panelIndium);
-            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel2.Location = new System.Drawing.Point(0, 25);
-            this.tabControlPanel2.Name = "tabControlPanel2";
-            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel2.Size = new System.Drawing.Size(1002, 664);
-            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-            this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
-            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
-            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel2.Style.GradientAngle = 90;
-            this.tabControlPanel2.TabIndex = 7;
-            this.tabControlPanel2.TabItem = this.tabItem2;
-            // 
-            // panelIndium
-            // 
-            this.panelIndium.CanvasColor = System.Drawing.SystemColors.Control;
-            this.panelIndium.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.panelIndium.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelIndium.Location = new System.Drawing.Point(1, 1);
-            this.panelIndium.Margin = new System.Windows.Forms.Padding(0);
-            this.panelIndium.Name = "panelIndium";
-            this.panelIndium.Size = new System.Drawing.Size(1000, 662);
-            this.panelIndium.Style.Alignment = System.Drawing.StringAlignment.Center;
-            this.panelIndium.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.panelIndium.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.panelIndium.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.panelIndium.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.panelIndium.Style.GradientAngle = 90;
-            this.panelIndium.TabIndex = 4;
-            // 
-            // tabItem2
-            // 
-            this.tabItem2.AttachedControl = this.tabControlPanel2;
-            this.tabItem2.Name = "tabItem2";
-            this.tabItem2.Text = "基础设定";
             // 
             // tabControlPanel1
             // 
@@ -2817,6 +2735,88 @@
             this.tabItem1.Name = "tabItem1";
             this.tabItem1.Text = "图像界面";
             // 
+            // tabControlPanel3
+            // 
+            this.tabControlPanel3.Controls.Add(this.panelSetView);
+            this.tabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel3.Location = new System.Drawing.Point(0, 25);
+            this.tabControlPanel3.Name = "tabControlPanel3";
+            this.tabControlPanel3.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel3.Size = new System.Drawing.Size(1002, 664);
+            this.tabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel3.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel3.Style.GradientAngle = 90;
+            this.tabControlPanel3.TabIndex = 3;
+            this.tabControlPanel3.TabItem = this.tabItem3;
+            // 
+            // panelSetView
+            // 
+            this.panelSetView.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelSetView.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelSetView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelSetView.Location = new System.Drawing.Point(1, 1);
+            this.panelSetView.Margin = new System.Windows.Forms.Padding(0);
+            this.panelSetView.Name = "panelSetView";
+            this.panelSetView.Size = new System.Drawing.Size(1000, 662);
+            this.panelSetView.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelSetView.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.panelSetView.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.panelSetView.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelSetView.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelSetView.Style.GradientAngle = 90;
+            this.panelSetView.TabIndex = 0;
+            // 
+            // tabItem3
+            // 
+            this.tabItem3.AttachedControl = this.tabControlPanel3;
+            this.tabItem3.Name = "tabItem3";
+            this.tabItem3.Text = "参数设置";
+            // 
+            // tabControlPanel2
+            // 
+            this.tabControlPanel2.Controls.Add(this.panelDebug);
+            this.tabControlPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel2.Location = new System.Drawing.Point(0, 25);
+            this.tabControlPanel2.Name = "tabControlPanel2";
+            this.tabControlPanel2.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel2.Size = new System.Drawing.Size(1002, 664);
+            this.tabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(253)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
+            this.tabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(157)))), ((int)(((byte)(188)))), ((int)(((byte)(227)))));
+            this.tabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(146)))), ((int)(((byte)(165)))), ((int)(((byte)(199)))));
+            this.tabControlPanel2.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel2.Style.GradientAngle = 90;
+            this.tabControlPanel2.TabIndex = 7;
+            this.tabControlPanel2.TabItem = this.tabItem2;
+            // 
+            // panelDebug
+            // 
+            this.panelDebug.CanvasColor = System.Drawing.SystemColors.Control;
+            this.panelDebug.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.panelDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDebug.Location = new System.Drawing.Point(1, 1);
+            this.panelDebug.Margin = new System.Windows.Forms.Padding(0);
+            this.panelDebug.Name = "panelDebug";
+            this.panelDebug.Size = new System.Drawing.Size(1000, 662);
+            this.panelDebug.Style.Alignment = System.Drawing.StringAlignment.Center;
+            this.panelDebug.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.panelDebug.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.panelDebug.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.panelDebug.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.panelDebug.Style.GradientAngle = 90;
+            this.panelDebug.TabIndex = 4;
+            // 
+            // tabItem2
+            // 
+            this.tabItem2.AttachedControl = this.tabControlPanel2;
+            this.tabItem2.Name = "tabItem2";
+            this.tabItem2.Text = "调试界面";
+            // 
             // tabControlPanel6
             // 
             this.tabControlPanel6.Controls.Add(this.panelMap);
@@ -3485,8 +3485,6 @@
             this.tableLayoutPanel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).EndInit();
             this.tabControl1.ResumeLayout(false);
-            this.tabControlPanel3.ResumeLayout(false);
-            this.tabControlPanel2.ResumeLayout(false);
             this.tabControlPanel1.ResumeLayout(false);
             this.panelView.ResumeLayout(false);
             this.panel_16.ResumeLayout(false);
@@ -3503,6 +3501,8 @@
             this.panel_4.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            this.tabControlPanel3.ResumeLayout(false);
+            this.tabControlPanel2.ResumeLayout(false);
             this.tabControlPanel6.ResumeLayout(false);
             this.tabControlPanel5.ResumeLayout(false);
             this.tabControlPanel4.ResumeLayout(false);
@@ -3786,7 +3786,7 @@
         private DevComponents.DotNetBar.TabItem tabItem6;
         private System.Windows.Forms.Timer timerUser;
         private DevComponents.DotNetBar.TabControlPanel tabControlPanel2;
-        private DevComponents.DotNetBar.PanelEx panelIndium;
+        private DevComponents.DotNetBar.PanelEx panelDebug;
         private DevComponents.DotNetBar.TabItem tabItem2;
         private DevComponents.DotNetBar.CheckBoxItem chkIsIngoreDoor;
         private DevComponents.DotNetBar.CheckBoxItem chkIsShieldMes;

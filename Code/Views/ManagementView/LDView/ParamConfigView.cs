@@ -85,6 +85,10 @@ namespace ManagementView
                 rangeModel.Name = txtName.Text;
                 
                 rangeModel.OcrNum = numOcrNum.Value;
+                rangeModel.OcrBinPath = loadFile25W.FilePath;
+                rangeModel.BaseRow = numbaseRow.Value;
+                rangeModel.BaseColumn = numbaseColumn.Value;
+                rangeModel.BaseAngle = numbaseAngle.Value;
 
                 OnConfirmEvent(null);
             }
@@ -101,6 +105,10 @@ namespace ManagementView
                 txtName.Text = rangeModel.Name;
                 
                 numOcrNum.Value = rangeModel.OcrNum;
+                loadFile25W.FilePath = rangeModel.OcrBinPath;
+                numbaseRow.Value = rangeModel.BaseRow;
+                numbaseColumn.Value = rangeModel.BaseColumn;
+                numbaseAngle.Value = rangeModel.BaseAngle;
             }
             catch (Exception ex)
             {
@@ -138,6 +146,10 @@ namespace ManagementView
                 ParamRangeModel rangeModel = new ParamRangeModel();
                 rangeModel.Name = txtName.Text;
                 rangeModel.OcrNum = numOcrNum.Value;
+                rangeModel.OcrBinPath = loadFile25W.FilePath;
+                rangeModel.BaseRow = numbaseRow.Value;
+                rangeModel.BaseColumn = numbaseColumn.Value;
+                rangeModel.BaseAngle = numbaseAngle.Value;
 
                 listModel.Add(rangeModel);
 
@@ -250,6 +262,6 @@ namespace ManagementView
                  
             }
         }
-
+         
     }
 }

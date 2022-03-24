@@ -58,6 +58,11 @@ namespace SequenceTestModel
         public const string Pos_ARCheck = "AR检测位";
         public const string Pos_HRCheck = "HR检测位";
 
+        public const string Pos_ARFixed = "AR定位";
+        public const string Pos_HRFixed = "HR定位";
+        public const string Pos_LoadFixed = "上料纠正位置";
+        public const string Pos_UnLoadFixed = "下料纠正位置";
+
         //下料模组
         public const string Pos_Take = "取料位";
         public const string Pos_Put_1 = "放料位1";

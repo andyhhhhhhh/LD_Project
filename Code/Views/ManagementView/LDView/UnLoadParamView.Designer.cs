@@ -32,8 +32,6 @@
             this.panelEx3 = new DevComponents.DotNetBar.PanelEx();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupPanel3 = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.eLight2 = new ManagementView.EditView.ELight();
-            this.eLight1 = new ManagementView.EditView.ELight();
             this.numProductColCount = new DevComponents.Editors.IntegerInput();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
             this.btnRefresh = new DevComponents.DotNetBar.ButtonX();
@@ -145,7 +143,7 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 662);
             this.tableLayoutPanel1.TabIndex = 11;
@@ -155,8 +153,6 @@
             this.groupPanel3.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel3.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.tableLayoutPanel1.SetColumnSpan(this.groupPanel3, 2);
-            this.groupPanel3.Controls.Add(this.eLight2);
-            this.groupPanel3.Controls.Add(this.eLight1);
             this.groupPanel3.Controls.Add(this.numProductColCount);
             this.groupPanel3.Controls.Add(this.btnSave);
             this.groupPanel3.Controls.Add(this.btnRefresh);
@@ -180,7 +176,7 @@
             this.groupPanel3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupPanel3.Location = new System.Drawing.Point(3, 3);
             this.groupPanel3.Name = "groupPanel3";
-            this.groupPanel3.Size = new System.Drawing.Size(994, 174);
+            this.groupPanel3.Size = new System.Drawing.Size(994, 194);
             // 
             // 
             // 
@@ -210,32 +206,6 @@
             this.groupPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel3.TabIndex = 13;
             this.groupPanel3.Text = "下料公用配置";
-            // 
-            // eLight2
-            // 
-            this.eLight2.BackColor = System.Drawing.SystemColors.Control;
-            this.eLight2.CloseText = "SB0000#";
-            this.eLight2.ComName = null;
-            this.eLight2.Location = new System.Drawing.Point(536, 110);
-            this.eLight2.LText = "下光源";
-            this.eLight2.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
-            this.eLight2.Name = "eLight2";
-            this.eLight2.OpenText = "SB0255#";
-            this.eLight2.Size = new System.Drawing.Size(95, 25);
-            this.eLight2.TabIndex = 10;
-            // 
-            // eLight1
-            // 
-            this.eLight1.BackColor = System.Drawing.SystemColors.Control;
-            this.eLight1.CloseText = "SA0000#";
-            this.eLight1.ComName = null;
-            this.eLight1.Location = new System.Drawing.Point(693, 110);
-            this.eLight1.LText = "上光源";
-            this.eLight1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.eLight1.Name = "eLight1";
-            this.eLight1.OpenText = "SA0255#";
-            this.eLight1.Size = new System.Drawing.Size(95, 25);
-            this.eLight1.TabIndex = 10;
             // 
             // numProductColCount
             // 
@@ -288,7 +258,7 @@
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnReset.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btnReset.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.btnReset.Location = new System.Drawing.Point(865, 97);
+            this.btnReset.Location = new System.Drawing.Point(865, 108);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(94, 38);
             this.btnReset.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -316,7 +286,7 @@
             // 
             this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX12.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX12.Location = new System.Drawing.Point(10, 108);
+            this.labelX12.Location = new System.Drawing.Point(10, 117);
             this.labelX12.Name = "labelX12";
             this.labelX12.Size = new System.Drawing.Size(87, 27);
             this.labelX12.TabIndex = 3;
@@ -329,7 +299,7 @@
             // 
             this.labelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX22.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX22.Location = new System.Drawing.Point(10, 61);
+            this.labelX22.Location = new System.Drawing.Point(10, 65);
             this.labelX22.Name = "labelX22";
             this.labelX22.Size = new System.Drawing.Size(87, 27);
             this.labelX22.TabIndex = 3;
@@ -391,7 +361,7 @@
             this.numProductColDis.DisplayFormat = "0.0000";
             this.numProductColDis.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.numProductColDis.Increment = 1D;
-            this.numProductColDis.Location = new System.Drawing.Point(333, 108);
+            this.numProductColDis.Location = new System.Drawing.Point(333, 118);
             this.numProductColDis.MinValue = 0D;
             this.numProductColDis.Name = "numProductColDis";
             this.numProductColDis.ShowUpDown = true;
@@ -405,7 +375,7 @@
             // 
             this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX11.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX11.Location = new System.Drawing.Point(246, 108);
+            this.labelX11.Location = new System.Drawing.Point(246, 117);
             this.labelX11.Name = "labelX11";
             this.labelX11.Size = new System.Drawing.Size(83, 27);
             this.labelX11.TabIndex = 3;
@@ -423,7 +393,7 @@
             this.numTrayColDis.DisplayFormat = "0.0000";
             this.numTrayColDis.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.numTrayColDis.Increment = 1D;
-            this.numTrayColDis.Location = new System.Drawing.Point(333, 61);
+            this.numTrayColDis.Location = new System.Drawing.Point(333, 66);
             this.numTrayColDis.MinValue = 0D;
             this.numTrayColDis.Name = "numTrayColDis";
             this.numTrayColDis.ShowUpDown = true;
@@ -442,7 +412,7 @@
             this.numProductRowDis.DisplayFormat = "0.0000";
             this.numProductRowDis.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.numProductRowDis.Increment = 4D;
-            this.numProductRowDis.Location = new System.Drawing.Point(106, 108);
+            this.numProductRowDis.Location = new System.Drawing.Point(106, 118);
             this.numProductRowDis.MinValue = 0D;
             this.numProductRowDis.Name = "numProductRowDis";
             this.numProductRowDis.ShowUpDown = true;
@@ -456,7 +426,7 @@
             // 
             this.labelX25.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX25.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX25.Location = new System.Drawing.Point(246, 61);
+            this.labelX25.Location = new System.Drawing.Point(246, 65);
             this.labelX25.Name = "labelX25";
             this.labelX25.Size = new System.Drawing.Size(83, 27);
             this.labelX25.TabIndex = 3;
@@ -474,7 +444,7 @@
             this.numTrayRowDis.DisplayFormat = "0.0000";
             this.numTrayRowDis.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.numTrayRowDis.Increment = 4D;
-            this.numTrayRowDis.Location = new System.Drawing.Point(106, 61);
+            this.numTrayRowDis.Location = new System.Drawing.Point(106, 66);
             this.numTrayRowDis.MinValue = 0D;
             this.numTrayRowDis.Name = "numTrayRowDis";
             this.numTrayRowDis.ShowUpDown = true;
@@ -488,7 +458,7 @@
             // 
             this.labelX26.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX26.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX26.Location = new System.Drawing.Point(464, 62);
+            this.labelX26.Location = new System.Drawing.Point(464, 65);
             this.labelX26.Name = "labelX26";
             this.labelX26.Size = new System.Drawing.Size(72, 27);
             this.labelX26.TabIndex = 3;
@@ -506,7 +476,7 @@
             this.numTrayYOffSet.DisplayFormat = "0.0000";
             this.numTrayYOffSet.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.numTrayYOffSet.Increment = 1D;
-            this.numTrayYOffSet.Location = new System.Drawing.Point(536, 62);
+            this.numTrayYOffSet.Location = new System.Drawing.Point(536, 66);
             this.numTrayYOffSet.Name = "numTrayYOffSet";
             this.numTrayYOffSet.ShowUpDown = true;
             this.numTrayYOffSet.Size = new System.Drawing.Size(95, 25);
@@ -537,7 +507,7 @@
             this.groupPanel1.Controls.Add(this.panelBlow);
             this.groupPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupPanel1.Location = new System.Drawing.Point(503, 183);
+            this.groupPanel1.Location = new System.Drawing.Point(503, 203);
             this.groupPanel1.Name = "groupPanel1";
             this.groupPanel1.Size = new System.Drawing.Size(494, 476);
             // 
@@ -608,7 +578,7 @@
             this.groupPanel2.Controls.Add(this.numFailProductCurrentRow);
             this.groupPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupPanel2.Location = new System.Drawing.Point(3, 183);
+            this.groupPanel2.Location = new System.Drawing.Point(3, 203);
             this.groupPanel2.Name = "groupPanel2";
             this.groupPanel2.Size = new System.Drawing.Size(494, 476);
             // 

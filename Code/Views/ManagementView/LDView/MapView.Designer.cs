@@ -34,6 +34,11 @@
             this.btnDel = new DevComponents.DotNetBar.ButtonX();
             this.btnEnter = new DevComponents.DotNetBar.ButtonX();
             this.btnCheckWafer = new DevComponents.DotNetBar.ButtonX();
+            this.loadMapPath = new ManagementView._3DViews.CommonView.LoadFileView();
+            this.cmbProduct = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.comboItem21 = new DevComponents.Editors.ComboItem();
+            this.comboItem22 = new DevComponents.Editors.ComboItem();
+            this.labelX7 = new DevComponents.DotNetBar.LabelX();
             this.cmbIndex = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.comboItem1 = new DevComponents.Editors.ComboItem();
             this.comboItem2 = new DevComponents.Editors.ComboItem();
@@ -69,11 +74,8 @@
             this.btnMapTest = new DevComponents.DotNetBar.ButtonX();
             this.btnUpdate = new DevComponents.DotNetBar.ButtonX();
             this.panelBlow = new DevComponents.DotNetBar.PanelEx();
-            this.labelX7 = new DevComponents.DotNetBar.LabelX();
-            this.cmbProduct = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.comboItem21 = new DevComponents.Editors.ComboItem();
-            this.comboItem22 = new DevComponents.Editors.ComboItem();
-            this.loadMapPath = new ManagementView._3DViews.CommonView.LoadFileView();
+            this.labelX8 = new DevComponents.DotNetBar.LabelX();
+            this.txtCurrentRow = new DevComponents.DotNetBar.Controls.TextBoxX();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupPanel1.SuspendLayout();
             this.groupPanel2.SuspendLayout();
@@ -98,7 +100,7 @@
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 135F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 402F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 365F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 662);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -187,6 +189,54 @@
             this.btnCheckWafer.TabIndex = 4;
             this.btnCheckWafer.Text = "检查Wafer";
             this.btnCheckWafer.Click += new System.EventHandler(this.btnCheckWafer_Click);
+            // 
+            // loadMapPath
+            // 
+            this.loadMapPath.FileFilter = null;
+            this.loadMapPath.FileName = "文件路径";
+            this.loadMapPath.FilePath = null;
+            this.loadMapPath.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loadMapPath.Location = new System.Drawing.Point(17, 63);
+            this.loadMapPath.Name = "loadMapPath";
+            this.loadMapPath.Size = new System.Drawing.Size(564, 28);
+            this.loadMapPath.TabIndex = 3;
+            this.loadMapPath.TextLength = 65;
+            // 
+            // cmbProduct
+            // 
+            this.cmbProduct.DisplayMember = "Text";
+            this.cmbProduct.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbProduct.FormattingEnabled = true;
+            this.cmbProduct.ItemHeight = 17;
+            this.cmbProduct.Items.AddRange(new object[] {
+            this.comboItem21,
+            this.comboItem22});
+            this.cmbProduct.Location = new System.Drawing.Point(388, 18);
+            this.cmbProduct.Name = "cmbProduct";
+            this.cmbProduct.Size = new System.Drawing.Size(97, 23);
+            this.cmbProduct.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cmbProduct.TabIndex = 2;
+            this.cmbProduct.Text = "25W";
+            // 
+            // comboItem21
+            // 
+            this.comboItem21.Text = "25W";
+            // 
+            // comboItem22
+            // 
+            this.comboItem22.Text = "28W";
+            // 
+            // labelX7
+            // 
+            // 
+            // 
+            // 
+            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX7.Location = new System.Drawing.Point(346, 18);
+            this.labelX7.Name = "labelX7";
+            this.labelX7.Size = new System.Drawing.Size(53, 23);
+            this.labelX7.TabIndex = 1;
+            this.labelX7.Text = "产品.";
             // 
             // cmbIndex
             // 
@@ -283,7 +333,7 @@
             // 
             this.txtWaferNo.Border.Class = "TextBoxBorder";
             this.txtWaferNo.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtWaferNo.Location = new System.Drawing.Point(79, 18);
+            this.txtWaferNo.Location = new System.Drawing.Point(84, 18);
             this.txtWaferNo.Name = "txtWaferNo";
             this.txtWaferNo.Size = new System.Drawing.Size(100, 23);
             this.txtWaferNo.TabIndex = 0;
@@ -404,6 +454,8 @@
             this.groupPanel3.Controls.Add(this.btnRefreshData);
             this.groupPanel3.Controls.Add(this.txtAlreadyCount);
             this.groupPanel3.Controls.Add(this.labelX4);
+            this.groupPanel3.Controls.Add(this.txtCurrentRow);
+            this.groupPanel3.Controls.Add(this.labelX8);
             this.groupPanel3.Controls.Add(this.txtGetCount);
             this.groupPanel3.Controls.Add(this.labelX3);
             this.groupPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -412,7 +464,7 @@
             this.groupPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel3.Name = "groupPanel3";
             this.tableLayoutPanel1.SetRowSpan(this.groupPanel3, 2);
-            this.groupPanel3.Size = new System.Drawing.Size(297, 260);
+            this.groupPanel3.Size = new System.Drawing.Size(297, 297);
             // 
             // 
             // 
@@ -450,7 +502,7 @@
             // 
             this.txtCurrentOcr.Border.Class = "TextBoxBorder";
             this.txtCurrentOcr.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtCurrentOcr.Location = new System.Drawing.Point(116, 99);
+            this.txtCurrentOcr.Location = new System.Drawing.Point(116, 151);
             this.txtCurrentOcr.Name = "txtCurrentOcr";
             this.txtCurrentOcr.Size = new System.Drawing.Size(100, 23);
             this.txtCurrentOcr.TabIndex = 0;
@@ -461,7 +513,7 @@
             // 
             // 
             this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX5.Location = new System.Drawing.Point(26, 99);
+            this.labelX5.Location = new System.Drawing.Point(26, 151);
             this.labelX5.Name = "labelX5";
             this.labelX5.Size = new System.Drawing.Size(97, 23);
             this.labelX5.TabIndex = 1;
@@ -471,7 +523,7 @@
             // 
             this.btnChangeRow.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btnChangeRow.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnChangeRow.Location = new System.Drawing.Point(141, 147);
+            this.btnChangeRow.Location = new System.Drawing.Point(141, 199);
             this.btnChangeRow.Name = "btnChangeRow";
             this.btnChangeRow.Size = new System.Drawing.Size(75, 23);
             this.btnChangeRow.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -483,7 +535,7 @@
             // 
             this.btnRefreshData.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.btnRefreshData.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnRefreshData.Location = new System.Drawing.Point(26, 147);
+            this.btnRefreshData.Location = new System.Drawing.Point(26, 199);
             this.btnRefreshData.Name = "btnRefreshData";
             this.btnRefreshData.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshData.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -498,7 +550,7 @@
             // 
             this.txtAlreadyCount.Border.Class = "TextBoxBorder";
             this.txtAlreadyCount.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtAlreadyCount.Location = new System.Drawing.Point(116, 61);
+            this.txtAlreadyCount.Location = new System.Drawing.Point(116, 107);
             this.txtAlreadyCount.Name = "txtAlreadyCount";
             this.txtAlreadyCount.Size = new System.Drawing.Size(100, 23);
             this.txtAlreadyCount.TabIndex = 0;
@@ -509,7 +561,7 @@
             // 
             // 
             this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX4.Location = new System.Drawing.Point(26, 61);
+            this.labelX4.Location = new System.Drawing.Point(26, 107);
             this.labelX4.Name = "labelX4";
             this.labelX4.Size = new System.Drawing.Size(97, 23);
             this.labelX4.TabIndex = 1;
@@ -522,7 +574,7 @@
             // 
             this.txtGetCount.Border.Class = "TextBoxBorder";
             this.txtGetCount.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.txtGetCount.Location = new System.Drawing.Point(116, 16);
+            this.txtGetCount.Location = new System.Drawing.Point(116, 63);
             this.txtGetCount.Name = "txtGetCount";
             this.txtGetCount.Size = new System.Drawing.Size(100, 23);
             this.txtGetCount.TabIndex = 0;
@@ -533,7 +585,7 @@
             // 
             // 
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX3.Location = new System.Drawing.Point(26, 16);
+            this.labelX3.Location = new System.Drawing.Point(26, 63);
             this.labelX3.Name = "labelX3";
             this.labelX3.Size = new System.Drawing.Size(97, 23);
             this.labelX3.TabIndex = 1;
@@ -549,10 +601,10 @@
             this.groupPanel4.Controls.Add(this.btnUpdate);
             this.groupPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupPanel4.Location = new System.Drawing.Point(703, 260);
+            this.groupPanel4.Location = new System.Drawing.Point(703, 297);
             this.groupPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel4.Name = "groupPanel4";
-            this.groupPanel4.Size = new System.Drawing.Size(297, 402);
+            this.groupPanel4.Size = new System.Drawing.Size(297, 365);
             // 
             // 
             // 
@@ -649,52 +701,29 @@
             this.panelBlow.Style.GradientAngle = 90;
             this.panelBlow.TabIndex = 1;
             // 
-            // labelX7
+            // labelX8
             // 
             // 
             // 
             // 
-            this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.labelX7.Location = new System.Drawing.Point(346, 18);
-            this.labelX7.Name = "labelX7";
-            this.labelX7.Size = new System.Drawing.Size(53, 23);
-            this.labelX7.TabIndex = 1;
-            this.labelX7.Text = "产品.";
+            this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX8.Location = new System.Drawing.Point(26, 19);
+            this.labelX8.Name = "labelX8";
+            this.labelX8.Size = new System.Drawing.Size(97, 23);
+            this.labelX8.TabIndex = 1;
+            this.labelX8.Text = "当前产品排";
             // 
-            // cmbProduct
+            // txtCurrentRow
             // 
-            this.cmbProduct.DisplayMember = "Text";
-            this.cmbProduct.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbProduct.FormattingEnabled = true;
-            this.cmbProduct.ItemHeight = 17;
-            this.cmbProduct.Items.AddRange(new object[] {
-            this.comboItem21,
-            this.comboItem22});
-            this.cmbProduct.Location = new System.Drawing.Point(388, 18);
-            this.cmbProduct.Name = "cmbProduct";
-            this.cmbProduct.Size = new System.Drawing.Size(97, 23);
-            this.cmbProduct.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cmbProduct.TabIndex = 2;
-            this.cmbProduct.Text = "25W";
             // 
-            // comboItem21
             // 
-            this.comboItem21.Text = "25W";
             // 
-            // comboItem22
-            // 
-            this.comboItem22.Text = "28W";
-            // 
-            // loadMapPath
-            // 
-            this.loadMapPath.FileFilter = null;
-            this.loadMapPath.FileName = null;
-            this.loadMapPath.FilePath = null;
-            this.loadMapPath.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.loadMapPath.Location = new System.Drawing.Point(17, 63);
-            this.loadMapPath.Name = "loadMapPath";
-            this.loadMapPath.Size = new System.Drawing.Size(564, 28);
-            this.loadMapPath.TabIndex = 3;
+            this.txtCurrentRow.Border.Class = "TextBoxBorder";
+            this.txtCurrentRow.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.txtCurrentRow.Location = new System.Drawing.Point(116, 19);
+            this.txtCurrentRow.Name = "txtCurrentRow";
+            this.txtCurrentRow.Size = new System.Drawing.Size(100, 23);
+            this.txtCurrentRow.TabIndex = 0;
             // 
             // MapView
             // 
@@ -762,5 +791,7 @@
         private DevComponents.Editors.ComboItem comboItem21;
         private DevComponents.Editors.ComboItem comboItem22;
         private DevComponents.DotNetBar.LabelX labelX7;
+        private DevComponents.DotNetBar.Controls.TextBoxX txtCurrentRow;
+        private DevComponents.DotNetBar.LabelX labelX8;
     }
 }

@@ -38,11 +38,12 @@ namespace MotionController
             context = ContextFactory.instance().createContext("zmotion");
             ContextFactory.EnableLog(false);
             long value = context.getHeartbeat();
-            bool bvalue = context.initialize();
+            string configPath = Environment.CurrentDirectory + "\\Config\\config.xml";
+            bool bvalue = context.initialize(configPath);
             if(!bvalue)
             {
-                Thread.Sleep(1000);
-                bvalue = context.initialize();
+                Thread.Sleep(3000);
+                bvalue = context.initialize(configPath);
             }
             for (uint i = 0; i < m_motor.Length; i++)
             {
@@ -53,7 +54,7 @@ namespace MotionController
             for (uint i = 0; i < m_io.Length; i++)
             {
                 //创建一个IO对象
-                m_io[i] = context.createDigtal(i + 1);
+                m_io[i] = context.createDigtal(i);
             }
 
             //设置急停IO
@@ -78,26 +79,14 @@ namespace MotionController
         /// <returns></returns>
         public bool AxisHome(ushort cardIndex, int axis, uint homeIo, float speed, float secondSpeed, int homeType, int limitType)
         {
-            if (homeType == 0)//普通回原--通过IO回零
+            if(limitType == 2)
             {
-                int mode = limitType == 0 ? 3 : 4;
-                return GetMotor(cardIndex, axis).findHomeByIO((uint)homeIo, speed, secondSpeed, mode);
+                return GetMotor(cardIndex, axis).findHomeByDriver(0, speed, secondSpeed, speed * 10, homeType);
             }
-            else if (homeType == 1)
+            else
             {
-                if (limitType != 2)
-                {
-                    //往限位方向寻零 碰到限位反方向寻零
-                    return GetMotor(cardIndex, axis).findHomeByDriver(0, speed, secondSpeed, speed * 10, 27);
-                }
-                else
-                {
-                    //无限位寻零
-                    return GetMotor(cardIndex, axis).findHomeByDriver(0, speed, secondSpeed, speed * 10, 21);
-                }
+                return GetMotor(cardIndex, axis).findHomeByIO(2, speed, secondSpeed, homeType);
             }
-
-            return true;
         }
 
         /// <summary>
@@ -231,7 +220,7 @@ namespace MotionController
             bool bok;
 
             var stat = GetMotor(cardIndex, axis).stat(out bok);
-            pval = Math.Round(stat.Mcs, 3);
+            pval = Math.Round(stat.Mcs, 2);
             return bok;
         }
 
@@ -246,7 +235,7 @@ namespace MotionController
             bool bok;
 
             var stat = GetMotor(cardIndex, axis).stat(out bok);
-            pval = Math.Round(stat.Acs, 3);
+            pval = Math.Round(stat.Acs, 2);
             return bok;
         }
 
@@ -259,7 +248,7 @@ namespace MotionController
         /// <returns></returns>
         public bool IOWriteOutBit(int cardIndex, uint ch, int value)
         {
-            return m_io[cardIndex].setOutBit(ch + 1, value == 1);
+            return m_io[cardIndex].setOutBit(ch, value == 1);
         }
 
         /// <summary>
@@ -271,7 +260,11 @@ namespace MotionController
         public int IOReadInBit(int cardIndex, uint ch)
         {
             bool bok;
-            bool breturn = m_io[cardIndex].getInBit(ch + 1, out bok);
+            if(m_io[cardIndex] == null)
+            {
+                return -1;
+            }
+            bool breturn = m_io[cardIndex].getInBit(ch, out bok);
             if (!bok)
             {
                 return -1;
@@ -296,7 +289,12 @@ namespace MotionController
         public int IOReadOutBit(int cardIndex, uint ch)
         {
             bool bok;
-            bool breturn = m_io[cardIndex].getOutBit(ch + 1, out bok);
+            if(m_io[cardIndex] == null)
+            {
+                return -1;
+            }
+
+            bool breturn = m_io[cardIndex].getOutBit(ch, out bok);
             if (!bok)
             {
                 return -1;
@@ -320,7 +318,14 @@ namespace MotionController
         /// <returns></returns>
         public AxisStatus GetAxisStatus(ushort cardIndex, int axis, out bool bok)
         {
+            bok = false;
             AxisStatus axisStatus = new AxisStatus();
+
+            if(GetMotor(cardIndex, axis) == null)
+            {
+                return axisStatus;
+            }
+
             MoterStat axisstat = GetMotor(cardIndex, axis).stat(out bok);
 
             if (bok)
@@ -333,8 +338,8 @@ namespace MotionController
                 axisStatus.nLimited = axisstat.nLimited;
                 axisStatus.planning = axisstat.planning;
                 axisStatus.reached = axisstat.reached;
-                axisStatus.Acs = (float)Math.Round(axisstat.Acs, 3);
-                axisStatus.Mcs = (float)Math.Round(axisstat.Mcs, 3);
+                axisStatus.Acs = (float)Math.Round(axisstat.Acs, 2);
+                axisStatus.Mcs = (float)Math.Round(axisstat.Mcs, 2);
                 axisStatus.ActVel = axisstat.ActVel;
                 axisStatus.ActTorque = axisstat.ActTorque;
                 //axisStatus.FollowingErr = axisstat.FollowingErr;

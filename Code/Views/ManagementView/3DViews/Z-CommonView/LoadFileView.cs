@@ -62,6 +62,18 @@ namespace ManagementView._3DViews.CommonView
             }
         }
 
+
+        public int _TextLength; 
+        public int TextLength
+        {
+            get { return _TextLength; }
+            set
+            {
+                _TextLength = value;
+                tableLayoutPanel1.ColumnStyles[0].Width = _TextLength < 60 ? 60 : value;
+            }
+        }
+
         public LoadFileView()
         {
             InitializeComponent();            

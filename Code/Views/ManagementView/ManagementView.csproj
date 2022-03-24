@@ -244,6 +244,12 @@
     <Compile Include="3DViews\Z-CheckFeature\GlobalVariableView.Designer.cs">
       <DependentUpon>GlobalVariableView.cs</DependentUpon>
     </Compile>
+    <Compile Include="CameraView\CheckAlgorithmView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CameraView\CheckAlgorithmView.Designer.cs">
+      <DependentUpon>CheckAlgorithmView.cs</DependentUpon>
+    </Compile>
     <Compile Include="CameraView\FixtureTeachView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -255,12 +261,6 @@
     </Compile>
     <Compile Include="CameraView\LDAlgorithmView.Designer.cs">
       <DependentUpon>LDAlgorithmView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CameraView\UnloadTeachView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CameraView\UnloadTeachView.Designer.cs">
-      <DependentUpon>UnloadTeachView.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraView\VisionView.cs">
       <SubType>UserControl</SubType>
@@ -442,6 +442,12 @@
     </Compile>
     <Compile Include="LDView\CountView.Designer.cs">
       <DependentUpon>CountView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LDView\DebugView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LDView\DebugView.Designer.cs">
+      <DependentUpon>DebugView.cs</DependentUpon>
     </Compile>
     <Compile Include="LDView\EnteringQRView.cs">
       <SubType>UserControl</SubType>
@@ -791,14 +797,14 @@
     <EmbeddedResource Include="3DViews\Z-CheckFeature\GlobalVariableView.resx">
       <DependentUpon>GlobalVariableView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CameraView\CheckAlgorithmView.resx">
+      <DependentUpon>CheckAlgorithmView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CameraView\FixtureTeachView.resx">
       <DependentUpon>FixtureTeachView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CameraView\LDAlgorithmView.resx">
       <DependentUpon>LDAlgorithmView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CameraView\UnloadTeachView.resx">
-      <DependentUpon>UnloadTeachView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CameraView\VisionView.resx">
       <DependentUpon>VisionView.cs</DependentUpon>
@@ -889,6 +895,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LDView\CountView.resx">
       <DependentUpon>CountView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LDView\DebugView.resx">
+      <DependentUpon>DebugView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LDView\EnteringQRView.resx">
       <DependentUpon>EnteringQRView.cs</DependentUpon>

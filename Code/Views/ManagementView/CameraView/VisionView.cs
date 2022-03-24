@@ -16,12 +16,11 @@ namespace ManagementView
     /// </summary>
     public partial class VisionView : UserControl
     {
-        Camera2DParamView m_CameraView = new Camera2DParamView();
-        //AlgorithmView m_algorithmView = new AlgorithmView();
-        LDAlgorithmView m_ldalgorithmView = new LDAlgorithmView();
-        CalibrationView m_calibrationView = new CalibrationView();
-        UnloadTeachView m_unloadTeachView = new UnloadTeachView();
-        FixtureTeachView m_fixtureView = new FixtureTeachView();
+        Camera2DParamView m_CameraView;
+        LDAlgorithmView m_ldalgorithmView;
+        CalibrationView m_calibrationView;
+        FixtureTeachView m_fixtureView;
+        CheckAlgorithmView m_checkView;
         public VisionView()
         {
             InitializeComponent();
@@ -33,20 +32,26 @@ namespace ManagementView
             {
                 tabControl1.SelectedTabIndex = 0;
 
+                m_CameraView = new Camera2DParamView();
+                m_ldalgorithmView = new LDAlgorithmView();
+                m_calibrationView = new CalibrationView();
+                m_fixtureView = new FixtureTeachView();
+                m_checkView = new CheckAlgorithmView();
+
                 CommHelper.LayoutChildFillView(panelCamera, m_CameraView);
                 CommHelper.LayoutChildFillView(panelAlgrithm, m_ldalgorithmView);
                 CommHelper.LayoutChildFillView(panelCalibration, m_calibrationView);
-                CommHelper.LayoutChildFillView(panelUnload, m_unloadTeachView);
                 CommHelper.LayoutChildFillView(panelFixture, m_fixtureView);
+                CommHelper.LayoutChildFillView(panelcheck, m_checkView);
 
                 m_calibrationView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
-                //m_calibrationView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
-                //m_algorithmView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
+                //m_calibrationView.m_FuncAlgorithm = m_ldalgorithmView.AlgorithmFunc; 
 
-                m_unloadTeachView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
-                //m_unloadTeachView.m_FuncAlgorithm = m_algorithmView.AlgorithmFunc;
+                m_ldalgorithmView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc; 
 
-                m_fixtureView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc; 
+                m_fixtureView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
+
+                m_checkView.m_FuncCameraSnap = m_CameraView.CameraSnapFunc;
             }
             catch (Exception ex)
             {

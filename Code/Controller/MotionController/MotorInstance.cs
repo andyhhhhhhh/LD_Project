@@ -160,7 +160,7 @@ namespace MotionController
                         {
                             if (axisModel != null)//单轴回零
                             {
-                                ireturn = m_motorControl.Motor_axis_home(axisModel.cardIndex, axisModel.axisIndex, axisModel.homeIo, (float)axisModel.homeVel, (float)axisModel.homeSecondVel, (int)axisModel.homeType, (int)axisModel.limitType);
+                                ireturn = m_motorControl.Motor_axis_home(axisModel.cardIndex, axisModel.axisIndex, axisModel.homeIo, (float)axisModel.homeVel, (float)axisModel.homeSecondVel, (int)axisModel.homeMode, (int)axisModel.limitType);
                             }
                             else if (stationModel != null)//多轴回零
                             {
@@ -187,7 +187,7 @@ namespace MotionController
                             {
                                 TSpeed pspeed = new TSpeed()
                                 {
-                                    vel = axisModel.vel,
+                                    vel = axisModel.maxVel * axisModel.percentSpeed,
                                     acc = axisModel.maxAcc,
                                     dec = axisModel.maxDec,
                                     aacc = axisModel.maxAacc
@@ -228,7 +228,7 @@ namespace MotionController
                             {
                                 TSpeed pspeed = new TSpeed()
                                 {
-                                    vel = axisModel.vel,
+                                    vel = axisModel.maxVel * axisModel.percentSpeed,
                                     acc = axisModel.maxAcc,
                                     dec = axisModel.maxDec,
                                     aacc = axisModel.maxAacc
@@ -301,9 +301,9 @@ namespace MotionController
                                 TSpeed pspeed = new TSpeed()
                                 {
                                     vel = axisModel.vel,
-                                    acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec,
-                                    aacc = axisModel.maxAacc
+                                    acc = axisModel.maxAcc * axisModel.percentSpeed,
+                                    dec = axisModel.maxDec * axisModel.percentSpeed,
+                                    aacc = axisModel.maxAacc * axisModel.percentSpeed
                                 };
                                 ireturn = m_motorControl.Motor_axis_move_offset(axisModel.cardIndex, axisModel.axisIndex, axisModel.relPos * axisModel.stepvalue, pspeed, 0);
                             } 
@@ -316,9 +316,9 @@ namespace MotionController
                                 TSpeed pspeed = new TSpeed()
                                 {
                                     vel = axisModel.vel,
-                                    acc = axisModel.maxAcc,
-                                    dec = axisModel.maxDec,
-                                    aacc = axisModel.maxAacc
+                                    acc = axisModel.maxAcc * axisModel.percentSpeed,
+                                    dec = axisModel.maxDec * axisModel.percentSpeed,
+                                    aacc = axisModel.maxAacc * axisModel.percentSpeed
                                 };
 
                                 ireturn = m_motorControl.Motor_axis_vmove(axisModel.cardIndex, axisModel.axisIndex, axisModel.dir, pspeed);
@@ -417,7 +417,7 @@ namespace MotionController
                             {
                                 foreach (var item in GetStationAxis(station))
                                 {
-                                    ireturn = m_motorControl.Motor_axis_stop(item.cardIndex, item.axisIndex, 0);
+                                    ireturn = m_motorControl.Motor_axis_stop(item.cardIndex, item.axisIndex, 1);
                                 }
                             }
                         }
@@ -529,6 +529,10 @@ namespace MotionController
                                 {
                                     ireturn = 0;
                                 }
+                                else
+                                {
+                                    ireturn = -1;
+                                }
                             }
                         }
                         break;
@@ -541,6 +545,10 @@ namespace MotionController
                                 if (value != -1)
                                 {
                                     ireturn = 0;
+                                }
+                                else
+                                {
+                                    ireturn = -1;
                                 }
                             }
                         }
@@ -555,6 +563,10 @@ namespace MotionController
                                 {
                                     ireturn = 0;
                                 }
+                                else
+                                {
+                                    ireturn = -1;
+                                }
                             }
                         }
                         break;
@@ -564,7 +576,8 @@ namespace MotionController
                             {
                                 foreach (var axis in item.AxisParamModels)
                                 {
-                                    ireturn = m_motorControl.Motor_axis_disable(axis.cardIndex, axis.axisIndex);
+                                    //ireturn = m_motorControl.Motor_axis_disable(axis.cardIndex, axis.axisIndex);
+                                    //Thread.Sleep(300);
                                 }
                             } 
                         }
@@ -577,7 +590,7 @@ namespace MotionController
             catch (Exception ex)
             {
                 resultModel.ErrorMessage = ex.Message;
-                resultModel.RunResult = false;
+                ireturn = -1;
             }
 
             resultModel.RunResult = ireturn == 0;
@@ -764,46 +777,41 @@ namespace MotionController
                 resultModel.RunResult = true;
 
                 //先回零带Z轴的模组
-                //List<StationModel> listModel = new List<StationModel>();
-                //StationModel stationZ = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Z);
-                //StationModel stationSphere1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Sphere1);
-                //StationModel stationSphere2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Sphere2);
-                //listModel.Add(stationZ);
-                //listModel.Add(stationSphere1);
-                //listModel.Add(stationSphere1);
+                List<StationModel> listModel = new List<StationModel>();
+                StationModel stationCamera = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Camera);
+                StationModel stationUp = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Up);
+                StationModel stationloadZ = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadZ);
+                StationModel stationuploadZ = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoadZ);
 
-                //List<AxisParamModel> listAxis = GetStationAxis(listModel);
+                listModel.Add(stationUp);
+                listModel.Add(stationCamera);
+                listModel.Add(stationloadZ);
+                listModel.Add(stationuploadZ);
+                listAxis = GetStationAxis(listModel);
 
-                //resultModel = AllAxisGoHome(listAxis);
-                //if(resultModel.RunResult)
-                //{
-                //    return resultModel;
-                //}
+                resultModel = AllAxisGoHome(listAxis);
+                if (!resultModel.RunResult)
+                {
+                    return resultModel;
+                }
 
                 //再回零不带Z轴的模组
-                //StationModel stationXY = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_XY);
-                //StationModel stationR1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R1);
-                //StationModel stationR2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R2);
-                //StationModel stationR3 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_R3);
-                //StationModel stationHorAng1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_HorAngle1);
-                //StationModel stationVelAng1 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_VelAngle1);
-                //StationModel stationHorAng2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_HorAngle2);
-                //StationModel stationVelAng2 = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_VelAngle2);
+                StationModel stationPre = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_PrePare);
+                StationModel stationLoadX = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_LoadX);
+                StationModel stationUpLoad = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_UnLoad);
+                StationModel stationCheck = XmlControl.controlCardModel.StationModels.FirstOrDefault(x => x.Name == MotionParam.Station_Check);
 
-                //List<StationModel> listModel2 = new List<StationModel>();
-                //listModel2.Add(stationXY);
-                //listModel2.Add(stationR1);
-                //listModel2.Add(stationR2);
-                //listModel2.Add(stationR3);
-                ////listModel2.Add(stationHorAng1);
-                ////listModel2.Add(stationVelAng1);
-                ////listModel2.Add(stationHorAng2);
-                ////listModel2.Add(stationVelAng2);
+                List<StationModel> listModel2 = new List<StationModel>();
+                listModel2.Add(stationPre);
+                listModel2.Add(stationLoadX);
+                listModel2.Add(stationUpLoad);
+                //listModel2.Add(stationCheck);
 
-                //listAxis = GetStationAxis(listModel2);
+                listAxis = GetStationAxis(listModel2);
 
-                //resultModel = AllAxisGoHome(listAxis);
-                 
+                listAxis.Add(stationCheck.Axis_X);
+
+                resultModel = AllAxisGoHome(listAxis);
 
                 return resultModel;
             }
@@ -852,7 +860,7 @@ namespace MotionController
                 int ivalue = 0;
                 Parallel.ForEach(listAxis, new Action<AxisParamModel>(axis =>
                 { 
-                    int ireturn = m_motorControl.Motor_axis_home(axis.cardIndex, (ushort)axis.Id, axis.homeIo, (float)axis.homeVel, (float)axis.homeSecondVel, (int)axis.homeType, (int)axis.limitType);
+                    int ireturn = m_motorControl.Motor_axis_home(axis.cardIndex, (ushort)axis.Id, axis.homeIo, (float)axis.homeVel, (float)axis.homeSecondVel, (int)axis.homeMode, (int)axis.limitType);
                     if (ireturn != 0)
                     {
                         ivalue = ireturn;
@@ -864,7 +872,7 @@ namespace MotionController
                     //查询轴是否在忙
                     error += WaitMoveFinish(axis);
                     if (!string.IsNullOrEmpty(error))
-                    { 
+                    {
                         ivalue = -1;
                     }
                 }));
@@ -1129,7 +1137,7 @@ namespace MotionController
             sp.Start();
             while (true)
             {
-                if (sp.ElapsedMilliseconds > 20000)
+                if (sp.ElapsedMilliseconds > 50000)
                 {
                     error = string.Format(p.aliasName + "等待到位超时");
                     break;

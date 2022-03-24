@@ -46,14 +46,20 @@
             this.labelX36 = new DevComponents.DotNetBar.LabelX();
             this.btnRefresh = new DevComponents.DotNetBar.ButtonX();
             this.btnSave = new DevComponents.DotNetBar.ButtonX();
+            this.txtBuzzerTime = new ManagementView.Comment.TextInput();
+            this.txtUpVacuumBreakDelay = new ManagementView.Comment.TextInput();
             this.txtVacuumBreakDelay = new ManagementView.Comment.TextInput();
             this.txtCylinderDelay = new ManagementView.Comment.TextInput();
+            this.labelX5 = new DevComponents.DotNetBar.LabelX();
             this.txtVacuumDelayTime = new ManagementView.Comment.TextInput();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.txtSnapTimeOut = new ManagementView.Comment.TextInput();
             this.labelX16 = new DevComponents.DotNetBar.LabelX();
             this.labelX34 = new DevComponents.DotNetBar.LabelX();
             this.labelX14 = new DevComponents.DotNetBar.LabelX();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
             this.labelX12 = new DevComponents.DotNetBar.LabelX();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.txtDeviceID = new ManagementView.Comment.TextInput();
             this.labelX15 = new DevComponents.DotNetBar.LabelX();
             this.labelX33 = new DevComponents.DotNetBar.LabelX();
@@ -61,15 +67,14 @@
             this.labelX11 = new DevComponents.DotNetBar.LabelX();
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.groupPanel2 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.chkIsShieldMes = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldOCR = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldDownCamera = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldDoor = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsEmptyRun = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.chkIsShieldCylinderUp = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldVacuum = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldUnClamp = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.chkIsShieldClasp = new DevComponents.DotNetBar.Controls.CheckBoxX();
-            this.chkIsShieldMes = new DevComponents.DotNetBar.Controls.CheckBoxX();
             this.panelEx1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupPanel5.SuspendLayout();
@@ -104,7 +109,7 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 662);
             this.tableLayoutPanel1.TabIndex = 8;
@@ -128,14 +133,20 @@
             this.groupPanel5.Controls.Add(this.labelX36);
             this.groupPanel5.Controls.Add(this.btnRefresh);
             this.groupPanel5.Controls.Add(this.btnSave);
+            this.groupPanel5.Controls.Add(this.txtBuzzerTime);
+            this.groupPanel5.Controls.Add(this.txtUpVacuumBreakDelay);
             this.groupPanel5.Controls.Add(this.txtVacuumBreakDelay);
             this.groupPanel5.Controls.Add(this.txtCylinderDelay);
+            this.groupPanel5.Controls.Add(this.labelX5);
             this.groupPanel5.Controls.Add(this.txtVacuumDelayTime);
+            this.groupPanel5.Controls.Add(this.labelX3);
             this.groupPanel5.Controls.Add(this.txtSnapTimeOut);
             this.groupPanel5.Controls.Add(this.labelX16);
             this.groupPanel5.Controls.Add(this.labelX34);
             this.groupPanel5.Controls.Add(this.labelX14);
+            this.groupPanel5.Controls.Add(this.labelX4);
             this.groupPanel5.Controls.Add(this.labelX12);
+            this.groupPanel5.Controls.Add(this.labelX1);
             this.groupPanel5.Controls.Add(this.txtDeviceID);
             this.groupPanel5.Controls.Add(this.labelX15);
             this.groupPanel5.Controls.Add(this.labelX33);
@@ -147,7 +158,7 @@
             this.groupPanel5.Location = new System.Drawing.Point(0, 0);
             this.groupPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel5.Name = "groupPanel5";
-            this.groupPanel5.Size = new System.Drawing.Size(1000, 160);
+            this.groupPanel5.Size = new System.Drawing.Size(1000, 200);
             // 
             // 
             // 
@@ -183,7 +194,7 @@
             this.txtAxisInPlaceTimeOut.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtAxisInPlaceTimeOut.IsMultiLine = false;
             this.txtAxisInPlaceTimeOut.IsPassword = false;
-            this.txtAxisInPlaceTimeOut.Location = new System.Drawing.Point(709, 53);
+            this.txtAxisInPlaceTimeOut.Location = new System.Drawing.Point(734, 68);
             this.txtAxisInPlaceTimeOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtAxisInPlaceTimeOut.Name = "txtAxisInPlaceTimeOut";
             this.txtAxisInPlaceTimeOut.Size = new System.Drawing.Size(90, 26);
@@ -197,7 +208,7 @@
             // 
             this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX9.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX9.Location = new System.Drawing.Point(635, 55);
+            this.labelX9.Location = new System.Drawing.Point(660, 70);
             this.labelX9.Name = "labelX9";
             this.labelX9.Size = new System.Drawing.Size(85, 23);
             this.labelX9.TabIndex = 3;
@@ -209,7 +220,7 @@
             this.txtVacuumTimeOut.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtVacuumTimeOut.IsMultiLine = false;
             this.txtVacuumTimeOut.IsPassword = false;
-            this.txtVacuumTimeOut.Location = new System.Drawing.Point(709, 5);
+            this.txtVacuumTimeOut.Location = new System.Drawing.Point(734, 11);
             this.txtVacuumTimeOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtVacuumTimeOut.Name = "txtVacuumTimeOut";
             this.txtVacuumTimeOut.Size = new System.Drawing.Size(90, 26);
@@ -223,7 +234,7 @@
             // 
             this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX10.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX10.Location = new System.Drawing.Point(801, 55);
+            this.labelX10.Location = new System.Drawing.Point(826, 70);
             this.labelX10.Name = "labelX10";
             this.labelX10.Size = new System.Drawing.Size(25, 22);
             this.labelX10.TabIndex = 3;
@@ -236,7 +247,7 @@
             // 
             this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX7.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX7.Location = new System.Drawing.Point(633, 7);
+            this.labelX7.Location = new System.Drawing.Point(658, 13);
             this.labelX7.Name = "labelX7";
             this.labelX7.Size = new System.Drawing.Size(70, 23);
             this.labelX7.TabIndex = 3;
@@ -248,7 +259,7 @@
             this.txtContinueNGCount.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtContinueNGCount.IsMultiLine = false;
             this.txtContinueNGCount.IsPassword = false;
-            this.txtContinueNGCount.Location = new System.Drawing.Point(78, 101);
+            this.txtContinueNGCount.Location = new System.Drawing.Point(78, 124);
             this.txtContinueNGCount.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtContinueNGCount.Name = "txtContinueNGCount";
             this.txtContinueNGCount.Size = new System.Drawing.Size(90, 26);
@@ -262,7 +273,7 @@
             // 
             this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX8.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX8.Location = new System.Drawing.Point(801, 7);
+            this.labelX8.Location = new System.Drawing.Point(826, 13);
             this.labelX8.Name = "labelX8";
             this.labelX8.Size = new System.Drawing.Size(25, 22);
             this.labelX8.TabIndex = 3;
@@ -275,7 +286,7 @@
             // 
             this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX18.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX18.Location = new System.Drawing.Point(4, 103);
+            this.labelX18.Location = new System.Drawing.Point(4, 126);
             this.labelX18.Name = "labelX18";
             this.labelX18.Size = new System.Drawing.Size(89, 23);
             this.labelX18.TabIndex = 47;
@@ -288,7 +299,7 @@
             // 
             this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX17.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX17.Location = new System.Drawing.Point(4, 56);
+            this.labelX17.Location = new System.Drawing.Point(4, 70);
             this.labelX17.Name = "labelX17";
             this.labelX17.Size = new System.Drawing.Size(69, 23);
             this.labelX17.TabIndex = 47;
@@ -300,7 +311,7 @@
             this.txtOperatorID.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtOperatorID.IsMultiLine = false;
             this.txtOperatorID.IsPassword = false;
-            this.txtOperatorID.Location = new System.Drawing.Point(78, 54);
+            this.txtOperatorID.Location = new System.Drawing.Point(78, 68);
             this.txtOperatorID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtOperatorID.Name = "txtOperatorID";
             this.txtOperatorID.Size = new System.Drawing.Size(90, 26);
@@ -313,7 +324,7 @@
             this.txtAxisInPlaceDelay.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtAxisInPlaceDelay.IsMultiLine = false;
             this.txtAxisInPlaceDelay.IsPassword = false;
-            this.txtAxisInPlaceDelay.Location = new System.Drawing.Point(505, 5);
+            this.txtAxisInPlaceDelay.Location = new System.Drawing.Point(530, 11);
             this.txtAxisInPlaceDelay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtAxisInPlaceDelay.Name = "txtAxisInPlaceDelay";
             this.txtAxisInPlaceDelay.Size = new System.Drawing.Size(90, 26);
@@ -327,7 +338,7 @@
             // 
             this.labelX35.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX35.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX35.Location = new System.Drawing.Point(596, 7);
+            this.labelX35.Location = new System.Drawing.Point(621, 13);
             this.labelX35.Name = "labelX35";
             this.labelX35.Size = new System.Drawing.Size(25, 22);
             this.labelX35.TabIndex = 7;
@@ -340,11 +351,11 @@
             // 
             this.labelX36.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX36.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX36.Location = new System.Drawing.Point(417, 7);
+            this.labelX36.Location = new System.Drawing.Point(417, 13);
             this.labelX36.Name = "labelX36";
             this.labelX36.Size = new System.Drawing.Size(108, 23);
             this.labelX36.TabIndex = 8;
-            this.labelX36.Text = "轴到位延迟:";
+            this.labelX36.Text = "轴到位延迟时间:";
             // 
             // btnRefresh
             // 
@@ -352,7 +363,7 @@
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefresh.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btnRefresh.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.btnRefresh.Location = new System.Drawing.Point(889, 3);
+            this.btnRefresh.Location = new System.Drawing.Point(889, 11);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(104, 38);
             this.btnRefresh.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -366,7 +377,7 @@
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
             this.btnSave.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.btnSave.Location = new System.Drawing.Point(889, 85);
+            this.btnSave.Location = new System.Drawing.Point(889, 112);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(104, 38);
             this.btnSave.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -374,13 +385,39 @@
             this.btnSave.Text = "保存参数";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // txtBuzzerTime
+            // 
+            this.txtBuzzerTime.BackColor = System.Drawing.Color.White;
+            this.txtBuzzerTime.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.txtBuzzerTime.IsMultiLine = false;
+            this.txtBuzzerTime.IsPassword = false;
+            this.txtBuzzerTime.Location = new System.Drawing.Point(734, 124);
+            this.txtBuzzerTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtBuzzerTime.Name = "txtBuzzerTime";
+            this.txtBuzzerTime.Size = new System.Drawing.Size(90, 26);
+            this.txtBuzzerTime.sText = "";
+            this.txtBuzzerTime.TabIndex = 4;
+            // 
+            // txtUpVacuumBreakDelay
+            // 
+            this.txtUpVacuumBreakDelay.BackColor = System.Drawing.Color.White;
+            this.txtUpVacuumBreakDelay.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.txtUpVacuumBreakDelay.IsMultiLine = false;
+            this.txtUpVacuumBreakDelay.IsPassword = false;
+            this.txtUpVacuumBreakDelay.Location = new System.Drawing.Point(530, 124);
+            this.txtUpVacuumBreakDelay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtUpVacuumBreakDelay.Name = "txtUpVacuumBreakDelay";
+            this.txtUpVacuumBreakDelay.Size = new System.Drawing.Size(90, 26);
+            this.txtUpVacuumBreakDelay.sText = "";
+            this.txtUpVacuumBreakDelay.TabIndex = 4;
+            // 
             // txtVacuumBreakDelay
             // 
             this.txtVacuumBreakDelay.BackColor = System.Drawing.Color.White;
             this.txtVacuumBreakDelay.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtVacuumBreakDelay.IsMultiLine = false;
             this.txtVacuumBreakDelay.IsPassword = false;
-            this.txtVacuumBreakDelay.Location = new System.Drawing.Point(288, 101);
+            this.txtVacuumBreakDelay.Location = new System.Drawing.Point(288, 124);
             this.txtVacuumBreakDelay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtVacuumBreakDelay.Name = "txtVacuumBreakDelay";
             this.txtVacuumBreakDelay.Size = new System.Drawing.Size(90, 26);
@@ -393,12 +430,25 @@
             this.txtCylinderDelay.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtCylinderDelay.IsMultiLine = false;
             this.txtCylinderDelay.IsPassword = false;
-            this.txtCylinderDelay.Location = new System.Drawing.Point(505, 53);
+            this.txtCylinderDelay.Location = new System.Drawing.Point(530, 68);
             this.txtCylinderDelay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtCylinderDelay.Name = "txtCylinderDelay";
             this.txtCylinderDelay.Size = new System.Drawing.Size(90, 26);
             this.txtCylinderDelay.sText = "";
             this.txtCylinderDelay.TabIndex = 4;
+            // 
+            // labelX5
+            // 
+            // 
+            // 
+            // 
+            this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX5.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX5.Location = new System.Drawing.Point(825, 126);
+            this.labelX5.Name = "labelX5";
+            this.labelX5.Size = new System.Drawing.Size(25, 22);
+            this.labelX5.TabIndex = 3;
+            this.labelX5.Text = "ms";
             // 
             // txtVacuumDelayTime
             // 
@@ -406,12 +456,25 @@
             this.txtVacuumDelayTime.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtVacuumDelayTime.IsMultiLine = false;
             this.txtVacuumDelayTime.IsPassword = false;
-            this.txtVacuumDelayTime.Location = new System.Drawing.Point(288, 53);
+            this.txtVacuumDelayTime.Location = new System.Drawing.Point(288, 68);
             this.txtVacuumDelayTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtVacuumDelayTime.Name = "txtVacuumDelayTime";
             this.txtVacuumDelayTime.Size = new System.Drawing.Size(90, 26);
             this.txtVacuumDelayTime.sText = "";
             this.txtVacuumDelayTime.TabIndex = 4;
+            // 
+            // labelX3
+            // 
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX3.Location = new System.Drawing.Point(621, 126);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(25, 22);
+            this.labelX3.TabIndex = 3;
+            this.labelX3.Text = "ms";
             // 
             // txtSnapTimeOut
             // 
@@ -419,7 +482,7 @@
             this.txtSnapTimeOut.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtSnapTimeOut.IsMultiLine = false;
             this.txtSnapTimeOut.IsPassword = false;
-            this.txtSnapTimeOut.Location = new System.Drawing.Point(288, 5);
+            this.txtSnapTimeOut.Location = new System.Drawing.Point(288, 11);
             this.txtSnapTimeOut.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtSnapTimeOut.Name = "txtSnapTimeOut";
             this.txtSnapTimeOut.Size = new System.Drawing.Size(90, 26);
@@ -433,7 +496,7 @@
             // 
             this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX16.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX16.Location = new System.Drawing.Point(379, 103);
+            this.labelX16.Location = new System.Drawing.Point(379, 126);
             this.labelX16.Name = "labelX16";
             this.labelX16.Size = new System.Drawing.Size(25, 22);
             this.labelX16.TabIndex = 3;
@@ -446,7 +509,7 @@
             // 
             this.labelX34.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX34.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX34.Location = new System.Drawing.Point(596, 55);
+            this.labelX34.Location = new System.Drawing.Point(621, 70);
             this.labelX34.Name = "labelX34";
             this.labelX34.Size = new System.Drawing.Size(25, 22);
             this.labelX34.TabIndex = 3;
@@ -459,11 +522,24 @@
             // 
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX14.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX14.Location = new System.Drawing.Point(379, 55);
+            this.labelX14.Location = new System.Drawing.Point(379, 70);
             this.labelX14.Name = "labelX14";
             this.labelX14.Size = new System.Drawing.Size(25, 22);
             this.labelX14.TabIndex = 3;
             this.labelX14.Text = "ms";
+            // 
+            // labelX4
+            // 
+            // 
+            // 
+            // 
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX4.Location = new System.Drawing.Point(660, 126);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(73, 23);
+            this.labelX4.TabIndex = 3;
+            this.labelX4.Text = "蜂鸣时间:";
             // 
             // labelX12
             // 
@@ -472,11 +548,24 @@
             // 
             this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX12.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX12.Location = new System.Drawing.Point(379, 7);
+            this.labelX12.Location = new System.Drawing.Point(379, 13);
             this.labelX12.Name = "labelX12";
             this.labelX12.Size = new System.Drawing.Size(25, 22);
             this.labelX12.TabIndex = 3;
             this.labelX12.Text = "ms";
+            // 
+            // labelX1
+            // 
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX1.Location = new System.Drawing.Point(417, 126);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(113, 23);
+            this.labelX1.TabIndex = 3;
+            this.labelX1.Text = "顶针破真空延迟:";
             // 
             // txtDeviceID
             // 
@@ -484,7 +573,7 @@
             this.txtDeviceID.Font = new System.Drawing.Font("微软雅黑", 9.75F);
             this.txtDeviceID.IsMultiLine = false;
             this.txtDeviceID.IsPassword = false;
-            this.txtDeviceID.Location = new System.Drawing.Point(78, 6);
+            this.txtDeviceID.Location = new System.Drawing.Point(78, 12);
             this.txtDeviceID.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtDeviceID.Name = "txtDeviceID";
             this.txtDeviceID.Size = new System.Drawing.Size(90, 26);
@@ -498,7 +587,7 @@
             // 
             this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX15.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX15.Location = new System.Drawing.Point(188, 103);
+            this.labelX15.Location = new System.Drawing.Point(188, 126);
             this.labelX15.Name = "labelX15";
             this.labelX15.Size = new System.Drawing.Size(113, 23);
             this.labelX15.TabIndex = 3;
@@ -511,7 +600,7 @@
             // 
             this.labelX33.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX33.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX33.Location = new System.Drawing.Point(417, 55);
+            this.labelX33.Location = new System.Drawing.Point(417, 70);
             this.labelX33.Name = "labelX33";
             this.labelX33.Size = new System.Drawing.Size(108, 23);
             this.labelX33.TabIndex = 3;
@@ -524,7 +613,7 @@
             // 
             this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX13.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX13.Location = new System.Drawing.Point(188, 56);
+            this.labelX13.Location = new System.Drawing.Point(188, 70);
             this.labelX13.Name = "labelX13";
             this.labelX13.Size = new System.Drawing.Size(113, 23);
             this.labelX13.TabIndex = 3;
@@ -537,7 +626,7 @@
             // 
             this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX11.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX11.Location = new System.Drawing.Point(188, 8);
+            this.labelX11.Location = new System.Drawing.Point(188, 14);
             this.labelX11.Name = "labelX11";
             this.labelX11.Size = new System.Drawing.Size(104, 23);
             this.labelX11.TabIndex = 3;
@@ -550,7 +639,7 @@
             // 
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX2.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX2.Location = new System.Drawing.Point(4, 8);
+            this.labelX2.Location = new System.Drawing.Point(4, 14);
             this.labelX2.Name = "labelX2";
             this.labelX2.Size = new System.Drawing.Size(62, 23);
             this.labelX2.TabIndex = 3;
@@ -565,16 +654,15 @@
             this.groupPanel2.Controls.Add(this.chkIsShieldDownCamera);
             this.groupPanel2.Controls.Add(this.chkIsShieldDoor);
             this.groupPanel2.Controls.Add(this.chkIsEmptyRun);
-            this.groupPanel2.Controls.Add(this.chkIsShieldCylinderUp);
             this.groupPanel2.Controls.Add(this.chkIsShieldVacuum);
             this.groupPanel2.Controls.Add(this.chkIsShieldUnClamp);
             this.groupPanel2.Controls.Add(this.chkIsShieldClasp);
             this.groupPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupPanel2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupPanel2.Location = new System.Drawing.Point(0, 160);
+            this.groupPanel2.Location = new System.Drawing.Point(0, 200);
             this.groupPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(1000, 502);
+            this.groupPanel2.Size = new System.Drawing.Size(1000, 482);
             // 
             // 
             // 
@@ -605,6 +693,20 @@
             this.groupPanel2.TabIndex = 8;
             this.groupPanel2.Text = "功能选择";
             // 
+            // chkIsShieldMes
+            // 
+            // 
+            // 
+            // 
+            this.chkIsShieldMes.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.chkIsShieldMes.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.chkIsShieldMes.Location = new System.Drawing.Point(14, 218);
+            this.chkIsShieldMes.Name = "chkIsShieldMes";
+            this.chkIsShieldMes.Size = new System.Drawing.Size(87, 24);
+            this.chkIsShieldMes.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.chkIsShieldMes.TabIndex = 5;
+            this.chkIsShieldMes.Text = "屏蔽MES";
+            // 
             // chkIsShieldOCR
             // 
             // 
@@ -612,7 +714,7 @@
             // 
             this.chkIsShieldOCR.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldOCR.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldOCR.Location = new System.Drawing.Point(17, 202);
+            this.chkIsShieldOCR.Location = new System.Drawing.Point(14, 179);
             this.chkIsShieldOCR.Name = "chkIsShieldOCR";
             this.chkIsShieldOCR.Size = new System.Drawing.Size(87, 24);
             this.chkIsShieldOCR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -626,7 +728,7 @@
             // 
             this.chkIsShieldDownCamera.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldDownCamera.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldDownCamera.Location = new System.Drawing.Point(17, 280);
+            this.chkIsShieldDownCamera.Location = new System.Drawing.Point(14, 257);
             this.chkIsShieldDownCamera.Name = "chkIsShieldDownCamera";
             this.chkIsShieldDownCamera.Size = new System.Drawing.Size(95, 24);
             this.chkIsShieldDownCamera.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -640,7 +742,7 @@
             // 
             this.chkIsShieldDoor.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldDoor.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldDoor.Location = new System.Drawing.Point(17, 319);
+            this.chkIsShieldDoor.Location = new System.Drawing.Point(14, 296);
             this.chkIsShieldDoor.Name = "chkIsShieldDoor";
             this.chkIsShieldDoor.Size = new System.Drawing.Size(93, 24);
             this.chkIsShieldDoor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -654,26 +756,12 @@
             // 
             this.chkIsEmptyRun.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsEmptyRun.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsEmptyRun.Location = new System.Drawing.Point(17, 7);
+            this.chkIsEmptyRun.Location = new System.Drawing.Point(14, 23);
             this.chkIsEmptyRun.Name = "chkIsEmptyRun";
             this.chkIsEmptyRun.Size = new System.Drawing.Size(77, 24);
             this.chkIsEmptyRun.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.chkIsEmptyRun.TabIndex = 5;
             this.chkIsEmptyRun.Text = "空跑模式";
-            // 
-            // chkIsShieldCylinderUp
-            // 
-            // 
-            // 
-            // 
-            this.chkIsShieldCylinderUp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.chkIsShieldCylinderUp.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldCylinderUp.Location = new System.Drawing.Point(17, 46);
-            this.chkIsShieldCylinderUp.Name = "chkIsShieldCylinderUp";
-            this.chkIsShieldCylinderUp.Size = new System.Drawing.Size(106, 24);
-            this.chkIsShieldCylinderUp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.chkIsShieldCylinderUp.TabIndex = 5;
-            this.chkIsShieldCylinderUp.Text = "屏蔽上升感应";
             // 
             // chkIsShieldVacuum
             // 
@@ -682,7 +770,7 @@
             // 
             this.chkIsShieldVacuum.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldVacuum.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldVacuum.Location = new System.Drawing.Point(17, 85);
+            this.chkIsShieldVacuum.Location = new System.Drawing.Point(14, 62);
             this.chkIsShieldVacuum.Name = "chkIsShieldVacuum";
             this.chkIsShieldVacuum.Size = new System.Drawing.Size(106, 24);
             this.chkIsShieldVacuum.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -696,7 +784,7 @@
             // 
             this.chkIsShieldUnClamp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldUnClamp.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldUnClamp.Location = new System.Drawing.Point(17, 163);
+            this.chkIsShieldUnClamp.Location = new System.Drawing.Point(14, 140);
             this.chkIsShieldUnClamp.Name = "chkIsShieldUnClamp";
             this.chkIsShieldUnClamp.Size = new System.Drawing.Size(106, 24);
             this.chkIsShieldUnClamp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -710,26 +798,12 @@
             // 
             this.chkIsShieldClasp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.chkIsShieldClasp.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldClasp.Location = new System.Drawing.Point(17, 124);
+            this.chkIsShieldClasp.Location = new System.Drawing.Point(14, 101);
             this.chkIsShieldClasp.Name = "chkIsShieldClasp";
             this.chkIsShieldClasp.Size = new System.Drawing.Size(106, 24);
             this.chkIsShieldClasp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.chkIsShieldClasp.TabIndex = 5;
             this.chkIsShieldClasp.Text = "屏蔽夹紧气缸";
-            // 
-            // chkIsShieldMes
-            // 
-            // 
-            // 
-            // 
-            this.chkIsShieldMes.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.chkIsShieldMes.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.chkIsShieldMes.Location = new System.Drawing.Point(17, 241);
-            this.chkIsShieldMes.Name = "chkIsShieldMes";
-            this.chkIsShieldMes.Size = new System.Drawing.Size(87, 24);
-            this.chkIsShieldMes.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.chkIsShieldMes.TabIndex = 5;
-            this.chkIsShieldMes.Text = "屏蔽MES";
             // 
             // ParamSetView
             // 
@@ -789,7 +863,12 @@
         private Comment.TextInput txtContinueNGCount;
         private DevComponents.DotNetBar.LabelX labelX18;
         private DevComponents.DotNetBar.Controls.CheckBoxX chkIsShieldUnClamp;
-        private DevComponents.DotNetBar.Controls.CheckBoxX chkIsShieldCylinderUp;
         private DevComponents.DotNetBar.Controls.CheckBoxX chkIsShieldMes;
+        private Comment.TextInput txtUpVacuumBreakDelay;
+        private DevComponents.DotNetBar.LabelX labelX3;
+        private DevComponents.DotNetBar.LabelX labelX1;
+        private Comment.TextInput txtBuzzerTime;
+        private DevComponents.DotNetBar.LabelX labelX5;
+        private DevComponents.DotNetBar.LabelX labelX4;
     }
 }

@@ -13,12 +13,15 @@ namespace ManagementView
 {
     public partial class MapView : UserControl
     {
-
         public delegate bool Del_AddMap(int index, string path, string waferName, string productType, bool bcheck);
         public Del_AddMap m_DelAddMap;
 
         public delegate void Del_DeleteMap(int index);
-        public Del_DeleteMap m_DelDeleteMap;
+        public Del_DeleteMap m_DelDeleteMap; 
+
+        public delegate bool Del_ChangeRow();
+        public Del_ChangeRow m_DelChangeRow;
+
         public MapView()
         {
             InitializeComponent();
@@ -26,8 +29,7 @@ namespace ManagementView
 
         private void MapView_Load(object sender, EventArgs e)
         {
-            UpdateData();
-             
+            RefreshData();
         }
 
         private void UpdateData()
@@ -168,26 +170,39 @@ namespace ManagementView
             }
         }
 
+        /// <summary>
+        /// 刷新数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRefreshData_Click(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        /// <summary>
+        /// 手动换排
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnChangeRow_Click(object sender, EventArgs e)
         {
             try
             {
-                LDModel ldModel = XMLController.XmlControl.sequenceModelNew.LDModel;
-                MapModel mapModel = ldModel.mapModel;
-                txtAlreadyCount.Text = mapModel.GetCount.ToString();
-                txtCurrentOcr.Text = mapModel.CurrentOcr;
-                txtGetCount.Text = mapModel.BarCount.ToString();
-                txtSetBar.Text = mapModel.BarSet;
+                var result = MessageBox.Show("是否确认要手动换排?", "询问", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.No)
+                {
+                    MessageBox.Show("用户取消");
+                    return;
+                }
+
+                bool bvalue = m_DelChangeRow();
+                MessageBox.Show("手动换排" + (bvalue ? "成功" : "失败"));
             }
             catch (Exception ex)
             {
-                 
+                MessageBox.Show(ex.Message);
             }
-        }
-
-        private void btnChangeRow_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -226,6 +241,29 @@ namespace ManagementView
             catch (Exception ex)
             {
                  
+            }
+        }
+
+        public void RefreshData()
+        {
+            try
+            {
+                LDModel ldModel = XMLController.XmlControl.sequenceModelNew.LDModel;
+                MapModel mapModel = ldModel.mapModel;
+                BeginInvoke(new Action(() =>
+                {
+                    txtAlreadyCount.Text = mapModel.GetCount.ToString();
+                    txtCurrentOcr.Text = mapModel.CurrentOcr;
+                    txtGetCount.Text = mapModel.BarCount.ToString();
+                    txtSetBar.Text = mapModel.BarSet;
+                    txtCurrentRow.Text = mapModel.CurrentRow.ToString();
+                    UpdateData();
+                }));
+
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

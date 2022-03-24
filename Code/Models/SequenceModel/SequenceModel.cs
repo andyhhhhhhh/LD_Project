@@ -180,6 +180,18 @@ namespace SequenceTestModel
         /// </summary>
         [XmlElement("smallFixedPosModel")]
         public SmallFixedPosModel smallFixedPosModel { get; set; }
+        
+        /// <summary>
+        /// P面算法参数
+        /// </summary>
+        [XmlElement("algorithmModelP")]
+        public AlgorithmModelP algorithmModelP { get; set; }
+
+        /// <summary>
+        /// N面算法参数
+        /// </summary>
+        [XmlElement("algorithmModelN")]
+        public AlgorithmModelN algorithmModelN { get; set; }
 
         public SequenceModel()
         {
@@ -207,6 +219,8 @@ namespace SequenceTestModel
             bigFixedAlgorithmModel = new BigFixedAlgorithmModel();
             smallJudgePosModel = new SmallJudgePosModel();
             smallFixedPosModel = new SmallFixedPosModel();
+            algorithmModelP = new AlgorithmModelP();
+            algorithmModelN = new AlgorithmModelN();
         }
 
         public SequenceModel Clone()

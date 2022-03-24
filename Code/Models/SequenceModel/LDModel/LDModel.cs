@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace SequenceTestModel
 {
@@ -33,7 +34,7 @@ namespace SequenceTestModel
         public bool IsShieldClamp { get; set; }
 
         /// <summary>
-        /// 屏蔽下相机
+        /// 屏蔽推送气缸
         /// </summary>
         public bool IsShieldUnClasp { get; set; }
 
@@ -49,11 +50,6 @@ namespace SequenceTestModel
         /// 屏蔽下相机
         /// </summary>
         public bool IsShieldDownCamera { get; set; }
-        /// <summary>
-        /// 屏蔽上升气缸感应
-        /// </summary>
-
-        public bool IsShieldCylinderUp { get; set; }
 
         /// <summary>
         /// 屏蔽OCR
@@ -99,6 +95,14 @@ namespace SequenceTestModel
         /// 破真空延迟时间
         /// </summary>
         public int VacuumBreakDelay { get; set; }
+        /// <summary>
+        /// 顶针破真空延迟时间
+        /// </summary>
+        public int UpVacuumBreakDelay { get; set; }
+        /// <summary>
+        /// 蜂鸣器时间
+        /// </summary>
+        public int BuzzerTime { get; set; }
         /// <summary>
         /// 气缸动作延迟时间
         /// </summary>
@@ -352,6 +356,27 @@ namespace SequenceTestModel
         /// </summary>
         public int OcrNum { get; set; }
 
+
+        /// <summary>
+        /// 基准图Row
+        /// </summary>
+        public double BaseRow { get; set; }
+
+        /// <summary>
+        /// 基准图Column
+        /// </summary>
+        public double BaseColumn { get; set; }
+
+        /// <summary>
+        /// 基准图Angle
+        /// </summary>
+        public double BaseAngle { get; set; }
+
+        /// <summary>
+        /// OCR训练路径
+        /// </summary>
+        public string OcrBinPath { get; set; } 
+
     }
 
     /// <summary>
@@ -387,11 +412,17 @@ namespace SequenceTestModel
         /// bar条设置
         /// </summary>
         public string BarSet { get; set; }
-
+        /// <summary>
+        /// 当前产品排
+        /// </summary>
+        public int CurrentRow { get; set; }
+        
         public List<SetMap> ListMap { get; set; }
 
         public MapModel()
         {
+            CurrentOcr = "";
+            BarSet = "";
             ListMap = new List<SetMap>();
         }
 
@@ -404,6 +435,7 @@ namespace SequenceTestModel
             /// <summary>
             /// Wafer是否有效
             /// </summary>
+            [XmlIgnore]
             public bool IsEffective { get; set; }
 
             /// <summary>
@@ -469,6 +501,21 @@ namespace SequenceTestModel
         A_10004,
 
         /// <summary>
+        /// 夹紧气缸未到位，请检查料盘是否放好！！
+        /// </summary>
+        A_10005,
+
+        /// <summary>
+        /// Map表无数据，请录入Map表！！
+        /// </summary>
+        A_10006,
+
+        /// <summary>
+        /// 视野中连续无产品，请确认是否安全！！
+        /// </summary>
+        A_10007,
+
+        /// <summary>
         /// 大视野相机入料拍照执行算法失败，请检查图像或者参数！！
         /// </summary>
         A_20001 = 20001,
@@ -512,6 +559,11 @@ namespace SequenceTestModel
         /// HR检测拍照执行算法失败！！
         /// </summary>
         A_20009,
+
+        /// <summary>
+        /// 小视野入料缺陷算法失败！！
+        /// </summary>
+        A_20010,
 
         /// <summary>
         /// 吸蓝膜失败，请检查真空！！

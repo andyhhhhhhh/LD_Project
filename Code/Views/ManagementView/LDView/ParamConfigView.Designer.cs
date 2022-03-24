@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.groupPanel5 = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.numbaseAngle = new DevComponents.Editors.DoubleInput();
+            this.numbaseColumn = new DevComponents.Editors.DoubleInput();
+            this.numbaseRow = new DevComponents.Editors.DoubleInput();
+            this.labelX4 = new DevComponents.DotNetBar.LabelX();
+            this.labelX3 = new DevComponents.DotNetBar.LabelX();
+            this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.numOcrNum = new DevComponents.Editors.IntegerInput();
             this.labelX1 = new DevComponents.DotNetBar.LabelX();
             this.btnRefresh = new DevComponents.DotNetBar.ButtonX();
@@ -43,7 +49,11 @@
             this.btnDelProduct = new DevComponents.DotNetBar.ButtonX();
             this.btnNewProduct = new DevComponents.DotNetBar.ButtonX();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.loadFile25W = new ManagementView._3DViews.CommonView.LoadFileView();
             this.groupPanel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseAngle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseColumn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseRow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numOcrNum)).BeginInit();
             this.panelEx1.SuspendLayout();
             this.panelEx2.SuspendLayout();
@@ -55,6 +65,13 @@
             // 
             this.groupPanel5.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel5.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.groupPanel5.Controls.Add(this.numbaseAngle);
+            this.groupPanel5.Controls.Add(this.numbaseColumn);
+            this.groupPanel5.Controls.Add(this.numbaseRow);
+            this.groupPanel5.Controls.Add(this.loadFile25W);
+            this.groupPanel5.Controls.Add(this.labelX4);
+            this.groupPanel5.Controls.Add(this.labelX3);
+            this.groupPanel5.Controls.Add(this.labelX2);
             this.groupPanel5.Controls.Add(this.numOcrNum);
             this.groupPanel5.Controls.Add(this.labelX1);
             this.groupPanel5.Controls.Add(this.btnRefresh);
@@ -94,6 +111,96 @@
             this.groupPanel5.TabIndex = 8;
             this.groupPanel5.Text = "范围设置";
             // 
+            // numbaseAngle
+            // 
+            // 
+            // 
+            // 
+            this.numbaseAngle.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.numbaseAngle.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.numbaseAngle.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.numbaseAngle.DisplayFormat = "0.000000";
+            this.numbaseAngle.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.numbaseAngle.Increment = 1D;
+            this.numbaseAngle.Location = new System.Drawing.Point(112, 176);
+            this.numbaseAngle.Name = "numbaseAngle";
+            this.numbaseAngle.ShowUpDown = true;
+            this.numbaseAngle.Size = new System.Drawing.Size(137, 25);
+            this.numbaseAngle.TabIndex = 12;
+            // 
+            // numbaseColumn
+            // 
+            // 
+            // 
+            // 
+            this.numbaseColumn.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.numbaseColumn.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.numbaseColumn.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.numbaseColumn.DisplayFormat = "0.00";
+            this.numbaseColumn.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.numbaseColumn.Increment = 1D;
+            this.numbaseColumn.Location = new System.Drawing.Point(112, 125);
+            this.numbaseColumn.Name = "numbaseColumn";
+            this.numbaseColumn.ShowUpDown = true;
+            this.numbaseColumn.Size = new System.Drawing.Size(137, 25);
+            this.numbaseColumn.TabIndex = 12;
+            // 
+            // numbaseRow
+            // 
+            // 
+            // 
+            // 
+            this.numbaseRow.BackgroundStyle.Class = "DateTimeInputBackground";
+            this.numbaseRow.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.numbaseRow.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2;
+            this.numbaseRow.DisplayFormat = "0.00";
+            this.numbaseRow.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.numbaseRow.Increment = 1D;
+            this.numbaseRow.Location = new System.Drawing.Point(112, 80);
+            this.numbaseRow.Name = "numbaseRow";
+            this.numbaseRow.ShowUpDown = true;
+            this.numbaseRow.Size = new System.Drawing.Size(137, 25);
+            this.numbaseRow.TabIndex = 12;
+            // 
+            // labelX4
+            // 
+            // 
+            // 
+            // 
+            this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX4.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX4.Location = new System.Drawing.Point(14, 174);
+            this.labelX4.Name = "labelX4";
+            this.labelX4.Size = new System.Drawing.Size(93, 27);
+            this.labelX4.TabIndex = 7;
+            this.labelX4.Text = "基准Angle:";
+            // 
+            // labelX3
+            // 
+            // 
+            // 
+            // 
+            this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX3.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX3.Location = new System.Drawing.Point(14, 125);
+            this.labelX3.Name = "labelX3";
+            this.labelX3.Size = new System.Drawing.Size(93, 27);
+            this.labelX3.TabIndex = 7;
+            this.labelX3.Text = "基准Column:";
+            // 
+            // labelX2
+            // 
+            // 
+            // 
+            // 
+            this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX2.Font = new System.Drawing.Font("微软雅黑", 9.75F);
+            this.labelX2.Location = new System.Drawing.Point(14, 79);
+            this.labelX2.Name = "labelX2";
+            this.labelX2.Size = new System.Drawing.Size(93, 27);
+            this.labelX2.TabIndex = 7;
+            this.labelX2.Text = "基准Row:";
+            // 
             // numOcrNum
             // 
             // 
@@ -107,7 +214,7 @@
             this.numOcrNum.Location = new System.Drawing.Point(112, 34);
             this.numOcrNum.Name = "numOcrNum";
             this.numOcrNum.ShowUpDown = true;
-            this.numOcrNum.Size = new System.Drawing.Size(95, 25);
+            this.numOcrNum.Size = new System.Drawing.Size(137, 25);
             this.numOcrNum.TabIndex = 10;
             // 
             // labelX1
@@ -117,7 +224,7 @@
             // 
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.Font = new System.Drawing.Font("微软雅黑", 9.75F);
-            this.labelX1.Location = new System.Drawing.Point(13, 33);
+            this.labelX1.Location = new System.Drawing.Point(14, 33);
             this.labelX1.Name = "labelX1";
             this.labelX1.Size = new System.Drawing.Size(93, 27);
             this.labelX1.TabIndex = 7;
@@ -329,6 +436,18 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 479);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
+            // loadFile25W
+            // 
+            this.loadFile25W.FileFilter = null;
+            this.loadFile25W.FileName = "OCR训练路径:";
+            this.loadFile25W.FilePath = null;
+            this.loadFile25W.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.loadFile25W.Location = new System.Drawing.Point(11, 220);
+            this.loadFile25W.Name = "loadFile25W";
+            this.loadFile25W.Size = new System.Drawing.Size(706, 28);
+            this.loadFile25W.TabIndex = 11;
+            this.loadFile25W.TextLength = 100;
+            // 
             // ParamConfigView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -338,6 +457,9 @@
             this.Size = new System.Drawing.Size(915, 479);
             this.Load += new System.EventHandler(this.ParamConfigView_Load);
             this.groupPanel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseAngle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseColumn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numbaseRow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numOcrNum)).EndInit();
             this.panelEx1.ResumeLayout(false);
             this.panelEx2.ResumeLayout(false);
@@ -364,5 +486,12 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private DevComponents.DotNetBar.LabelX labelX1;
         private DevComponents.Editors.IntegerInput numOcrNum;
+        private _3DViews.CommonView.LoadFileView loadFile25W;
+        private DevComponents.DotNetBar.LabelX labelX4;
+        private DevComponents.DotNetBar.LabelX labelX3;
+        private DevComponents.DotNetBar.LabelX labelX2;
+        private DevComponents.Editors.DoubleInput numbaseAngle;
+        private DevComponents.Editors.DoubleInput numbaseColumn;
+        private DevComponents.Editors.DoubleInput numbaseRow;
     }
 }
